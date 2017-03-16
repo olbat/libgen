@@ -4,14 +4,18 @@ require "compiler/crystal/syntax"
 require "compiler/crystal/tools/formatter"
 
 class LibGenerator::Generator
-  def self.generate(definitions : Array(LibGenerator::Definition))
+  def self.generate(
+    lib_name : String,
+    definitions : Array(LibGenerator::Definition),
+    output : IO = STDOUT,
+  )
     counter = LibGenerator::NodeCounter.new
-    definitions.each do |de|
-      nodes = CrystalLib::Parser.parse(de.c_includes)
-      prefix_matcher = CrystalLib::PrefixMatcher.new(de.prefixes, false)
-      de.ast = CrystalLib::PrefixImporter.import(nodes, prefix_matcher)\
+    definitions.each do |d|
+      nodes = CrystalLib::Parser.parse(d.c_includes.not_nil!)
+      prefix_matcher = CrystalLib::PrefixMatcher.new(d.prefixes.not_nil!, false)
+      d.ast = CrystalLib::PrefixImporter.import(nodes, prefix_matcher)\
         .as(Crystal::Expressions)
-      de.ast.accept(LibGenerator::NodeCountVisitor.new(counter))
+      d.ast.accept(LibGenerator::NodeCountVisitor.new(counter))
     end
 
     common_nodes = counter.select{|_,c| c > 1 }.map{|n,_| n }
@@ -22,29 +26,32 @@ class LibGenerator::Generator
     transformers << LibGenerator::FunRenamerTransformer.new(/_\d+$/, "")
     transformers << LibGenerator::ExpressionsSorterTransformer.new
 
-    definitions.each do |de|
+    definitions.each do |d|
       transformers.each do |tr|
-        de.ast = de.ast.transform(tr).as(Crystal::Expressions)
+        d.ast = d.ast.transform(tr).as(Crystal::Expressions)
       end
-      print(de)
+      generate(lib_name, d, output)
     end
 
     unless common_nodes.empty?
-      common_nodes = Crystal::Expressions.new(common_nodes)
+      common_def = LibGenerator::Definition.new(
+        description: "Common definitions of the #{lib_name} lib",
+        ast: Crystal::Expressions.new(common_nodes),
+      )
       transformers.delete_at(0)
       transformers.each do |tr|
-        common_nodes = common_nodes.transform(tr).as(Crystal::Expressions)
+        common_def.ast = common_def.ast.transform(tr).as(Crystal::Expressions)
       end
-      libnode = Crystal::LibDef.new("LibICU", common_nodes)
-      libnode.doc = "Common definitions of the LibICU lib"
-      source = IO::Memory.new
-      libnode.to_s(source, emit_doc: true)
-      puts Crystal.format(source.to_s)
+      generate(lib_name, common_def, output)
     end
   end
 
-  def self.print(definition : LibGenerator::Definition, io : IO = STDOUT)
-    libnode = Crystal::LibDef.new(definition.lib_name, definition.ast)
+  def self.generate(
+    lib_name : String,
+    definition : LibGenerator::Definition,
+    io : IO = STDOUT
+  )
+    libnode = Crystal::LibDef.new(lib_name, definition.ast)
     libnode.doc = definition.description
     source = IO::Memory.new
     libnode.to_s(source, emit_doc: true)
