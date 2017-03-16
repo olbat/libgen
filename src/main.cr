@@ -1,15 +1,16 @@
 require "./lib_generator/**"
 
 LibGenerator::Generator.generate(
+  lib_name: "LibICU",
   definitions: [
     LibGenerator::Definition.new(
-      lib_name: "LibICU", includes: ["unicode/ucsdet.h"], prefixes: ["ucsdet_"]
+      includes: ["unicode/ucsdet.h"], prefixes: ["ucsdet_"]
     ),
     LibGenerator::Definition.new(
-      lib_name: "LibICU", includes: ["unicode/udat.h"], prefixes: ["udat_"]
+      includes: ["unicode/udat.h"], prefixes: ["udat_"]
     ),
     LibGenerator::Definition.new(
-      lib_name: "LibICU", includes: ["unicode/ucurr.h"], prefixes: ["ucurr_"]
+      includes: ["unicode/ucurr.h"], prefixes: ["ucurr_"]
     ),
   ]
 )

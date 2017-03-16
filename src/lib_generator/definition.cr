@@ -4,30 +4,27 @@ require "json"
 
 class LibGenerator::Definition
   # crystal_lib
-  getter prefixes : Array(String)
-  getter includes : Array(String)
+  getter prefixes : Array(String)?
+  getter includes : Array(String)?
   getter flags :  Array(String)?
   # generator
-  getter lib_name : String
   getter description : String?
   getter ldflags : Hash(String, String)? #libname: -flag
   property! filename : String
   property! ast : Crystal::ASTNode
 
   YAML.mapping({
-    prefixes: { type: Array(String) },
-    includes: { type: Array(String) },
+    prefixes: { type: Array(String), nilable: true },
+    includes: { type: Array(String), nilable: true },
     flags: { type: Array(String), nilable: true },
-    lib_name: { type: String },
     description: { type: String, nilable: true },
     ldflags: { type: Hash(String, String), nilable: true },
   })
 
   JSON.mapping({
-    prefixes: { type: Array(String) },
-    includes: { type: Array(String) },
+    prefixes: { type: Array(String), nilable: true },
+    includes: { type: Array(String), nilable: true },
     flags: { type: Array(String), nilable: true },
-    lib_name: { type: String },
     description: { type: String, nilable: true },
     ldflags: { type: Hash(String, String), nilable: true },
   })
@@ -37,12 +34,14 @@ class LibGenerator::Definition
   #end
 
   def initialize(
-    @prefixes : Array(String), @includes : Array(String), @lib_name : String,
-    @flags = @description = @ldflags = @filename = @ast = nil
+    @prefixes = nil, @includes = nil, @flags = nil,
+    @description = nil, @ldflags = nil, @filename = nil, @ast = nil
   )
   end
 
   def c_includes
-    @includes.map{|i| "#include <#{i}>" }.join("\n")
+    if includes = @includes
+      includes.map{|i| "#include <#{i}>" }.join("\n")
+    end
   end
 end
