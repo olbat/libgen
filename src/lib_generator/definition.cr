@@ -2,6 +2,7 @@ require "compiler/crystal/syntax"
 require "yaml"
 require "json"
 
+# TODO: create a class with just description, ldflags and ast and extend it ?
 class LibGenerator::Definition
   # crystal_lib
   getter includes : Array(String)?
@@ -9,8 +10,7 @@ class LibGenerator::Definition
   getter flags :  Array(String)?
   # generator
   getter description : String?
-  getter ldflags : Hash(String, String)? #libname: -flag
-  property! filename : String
+  getter ldflags : Hash(String, String)? #libname: -flag ?
   property! ast : Crystal::ASTNode
 
   YAML.mapping({
@@ -30,12 +30,12 @@ class LibGenerator::Definition
   })
 
   # TODO: to be implemented
-  #def self.from_ast(ast : Crystal::ASTNode)
+  #def self.from_crystal(ast : Crystal::ASTNode)
   #end
 
   def initialize(
     @prefixes = nil, @includes = nil, @flags = nil,
-    @description = nil, @ldflags = nil, @filename = nil, @ast = nil
+    @description = nil, @ldflags = nil, @ast = nil
   )
   end
 
