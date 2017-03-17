@@ -1,8 +1,10 @@
 require "./lib_generator/**"
 
-LibGenerator::Generator.generate(
-  lib_name: "LibICU",
-  output_dir: "icu",
+output_dir = "icu"
+lib_name = "LibICU"
+
+sources = LibGenerator::Generator.generate(
+  lib_name: lib_name,
   definitions: {
     "ucsdet.cr" => LibGenerator::Definition.new(
       includes: ["unicode/ucsdet.h"], prefixes: ["ucsdet_"]
@@ -19,3 +21,12 @@ LibGenerator::Generator.generate(
     LibGenerator::ExpressionsSorterTransformer.new,
   ],
 )
+
+# TODO: catch possible Errno ?
+Dir.mkdir_p(output_dir, mode = 0o755) unless Dir.exists?(output_dir)
+
+sources.each do |filename, source|
+  File.open(File.join(output_dir, filename), "w") do |io|
+    io.puts(source)
+  end
+end

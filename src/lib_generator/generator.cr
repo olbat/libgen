@@ -8,10 +8,11 @@ class LibGenerator::Generator
 
   def self.generate(
     lib_name : String,
-    output_dir : String,
     definitions : Hash(String, LibGenerator::Definition),
     transformers : Array(Crystal::Transformer) = [] of Crystal::Transformer,
   )
+    ret = {} of String => String
+
     counter = LibGenerator::NodeCounter.new
 
     definitions.each do |_, d|
@@ -43,7 +44,7 @@ class LibGenerator::Generator
       transformers.each do |tr|
         d.ast = d.ast.transform(tr).as(Crystal::Expressions)
       end
-      generate(lib_name, output_dir, filename, d)
+      ret[filename] = generate(lib_name, d)
     end
 
     unless common_nodes.empty?
@@ -56,14 +57,14 @@ class LibGenerator::Generator
       transformers.each do |tr|
         common_def.ast = common_def.ast.transform(tr).as(Crystal::Expressions)
       end
-      generate(lib_name, output_dir, COMMON_FILENAME, common_def)
+      ret[COMMON_FILENAME] = generate(lib_name, common_def)
     end
+
+    ret
   end
 
   def self.generate(
     lib_name : String,
-    output_dir : String,
-    filename : String,
     definition : LibGenerator::Definition,
   )
     # generate a Crystal lib with it's attributes
@@ -72,10 +73,7 @@ class LibGenerator::Generator
     libnode.doc = definition.description
     source = IO::Memory.new
 
-    # TODO: create the directory if necessary and check if the file is writable
-    File.open(File.join(output_dir, filename), "w") do |io|
-      libnode.to_s(source, emit_doc: true)
-      io.puts(Crystal.format(source.to_s))
-    end
+    libnode.to_s(source, emit_doc: true)
+    Crystal.format(source.to_s)
   end
 end
