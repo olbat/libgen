@@ -4,15 +4,17 @@ require "compiler/crystal/syntax"
 require "compiler/crystal/tools/formatter"
 
 class LibGenerator::Generator
+  COMMON_FILENAME = "common.cr"
+
   def self.generate(
     lib_name : String,
-    definitions : Array(LibGenerator::Definition),
+    output_dir : String,
+    definitions : Hash(String, LibGenerator::Definition),
     transformers : Array(Crystal::Transformer) = [] of Crystal::Transformer,
-    output : IO = STDOUT,
   )
     counter = LibGenerator::NodeCounter.new
 
-    definitions.each do |d|
+    definitions.each do |_, d|
       # parse and transform the C headers using CrystalLib
       nodes = CrystalLib::Parser.parse(d.c_includes.not_nil!)
       prefix_matcher = CrystalLib::PrefixMatcher.new(d.prefixes.not_nil!, false)
@@ -28,16 +30,20 @@ class LibGenerator::Generator
 
     # if there is some common nodes, add a transformer to remove them: they will
     # be grouped in a common definition/file
-    transformers.unshift(
-      LibGenerator::NodeRemoverTransformer.new(common_nodes)
-    ) unless common_nodes.empty?
+    unless common_nodes.empty?
+      raise ArgumentError.new("The #{COMMON_FILENAME} filename is reserved "\
+        "for the lib") if definitions.has_key?(COMMON_FILENAME)
+      transformers.unshift(
+        LibGenerator::NodeRemoverTransformer.new(common_nodes)
+      )
+    end
 
     # transform (sanitize, ...) each definition and generate the Crystal code
-    definitions.each do |d|
+    definitions.each do |filename, d|
       transformers.each do |tr|
         d.ast = d.ast.transform(tr).as(Crystal::Expressions)
       end
-      generate(lib_name, d, output)
+      generate(lib_name, output_dir, filename, d)
     end
 
     unless common_nodes.empty?
@@ -50,21 +56,26 @@ class LibGenerator::Generator
       transformers.each do |tr|
         common_def.ast = common_def.ast.transform(tr).as(Crystal::Expressions)
       end
-      generate(lib_name, common_def, output)
+      generate(lib_name, output_dir, COMMON_FILENAME, common_def)
     end
   end
 
   def self.generate(
     lib_name : String,
+    output_dir : String,
+    filename : String,
     definition : LibGenerator::Definition,
-    io : IO = STDOUT
   )
     # generate a Crystal lib with it's attributes
     # TODO: generate the lib's attributes
     libnode = Crystal::LibDef.new(lib_name, definition.ast)
     libnode.doc = definition.description
     source = IO::Memory.new
-    libnode.to_s(source, emit_doc: true)
-    io.puts(Crystal.format(source.to_s))
+
+    # TODO: create the directory if necessary and check if the file is writable
+    File.open(File.join(output_dir, filename), "w") do |io|
+      libnode.to_s(source, emit_doc: true)
+      io.puts(Crystal.format(source.to_s))
+    end
   end
 end
