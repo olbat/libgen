@@ -1,0 +1,6 @@
+---
+description: Currencies
+includes:
+- unicode/ucurr.h
+prefixes:
+- ucurr_

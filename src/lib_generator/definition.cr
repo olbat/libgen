@@ -4,8 +4,8 @@ require "json"
 
 class LibGenerator::Definition
   # crystal_lib
-  getter prefixes : Array(String)?
   getter includes : Array(String)?
+  getter prefixes : Array(String)?
   getter flags :  Array(String)?
   # generator
   getter description : String?
@@ -14,16 +14,16 @@ class LibGenerator::Definition
   property! ast : Crystal::ASTNode
 
   YAML.mapping({
-    prefixes: { type: Array(String), nilable: true },
     includes: { type: Array(String), nilable: true },
+    prefixes: { type: Array(String), nilable: true },
     flags: { type: Array(String), nilable: true },
     description: { type: String, nilable: true },
     ldflags: { type: Hash(String, String), nilable: true },
   })
 
   JSON.mapping({
-    prefixes: { type: Array(String), nilable: true },
     includes: { type: Array(String), nilable: true },
+    prefixes: { type: Array(String), nilable: true },
     flags: { type: Array(String), nilable: true },
     description: { type: String, nilable: true },
     ldflags: { type: Hash(String, String), nilable: true },
