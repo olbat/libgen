@@ -12,5 +12,9 @@ LibGenerator::Generator.generate(
     LibGenerator::Definition.new(
       includes: ["unicode/ucurr.h"], prefixes: ["ucurr_"]
     ),
-  ]
+  ],
+  transformers: [
+    LibGenerator::FunRenamerTransformer.new(/_\d+$/, ""),
+    LibGenerator::ExpressionsSorterTransformer.new,
+  ],
 )
