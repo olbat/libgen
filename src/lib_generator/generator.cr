@@ -1,8 +1,12 @@
+# FIXME: use the shard
 require "../crystal_lib/src/clang"
 require "../crystal_lib/src/crystal_lib"
+
 require "compiler/crystal/syntax"
 require "compiler/crystal/tools/formatter"
 
+# TODO: singleton? + split generate in several methods ?
+#       (get_common_nodes, transform, ...)
 class LibGenerator::Generator
   COMMON_FILENAME = "common.cr"
 
@@ -16,7 +20,7 @@ class LibGenerator::Generator
     counter = LibGenerator::NodeCounter.new
 
     definitions.each do |_, d|
-      # parse and transform the C headers using CrystalLib
+      # parse and transform the C headers to Crystal AST using CrystalLib
       nodes = CrystalLib::Parser.parse(d.c_includes.not_nil!)
       prefix_matcher = CrystalLib::PrefixMatcher.new(d.prefixes.not_nil!, false)
       d.ast = CrystalLib::PrefixImporter.import(nodes, prefix_matcher)\
@@ -32,6 +36,7 @@ class LibGenerator::Generator
     # if there is some common nodes, add a transformer to remove them: they will
     # be grouped in a common definition/file
     unless common_nodes.empty?
+      # TODO: use a more specific error class ?
       raise ArgumentError.new("The #{COMMON_FILENAME} filename is reserved "\
         "for the lib") if definitions.has_key?(COMMON_FILENAME)
       transformers.unshift(
@@ -47,6 +52,7 @@ class LibGenerator::Generator
       ret[filename] = generate(lib_name, d)
     end
 
+    # TODO: handle common_nodes definition with the other ones
     unless common_nodes.empty?
       # generate the Crystal code including common definitions
       common_def = LibGenerator::Definition.new(
