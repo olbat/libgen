@@ -1,0 +1,6 @@
+---
+description: Charset detection
+includes:
+- unicode/ucsdet.h
+prefixes:
+- ucsdet_

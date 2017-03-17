@@ -1,0 +1,6 @@
+---
+description: Date and Time Formatting
+includes:
+- unicode/udat.h
+prefixes:
+- udat_
