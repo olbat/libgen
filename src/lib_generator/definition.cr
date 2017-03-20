@@ -1,3 +1,6 @@
+# FIXME: use the shard
+require "../crystal_lib/src/clang"
+require "../crystal_lib/src/crystal_lib"
 require "compiler/crystal/syntax"
 require "yaml"
 require "json"
@@ -10,8 +13,6 @@ class LibGenerator::Definition
   getter flags :  Array(String)?
   # generator
   getter description : String?
-  getter ldflags : Hash(String, String)? #libname: -flag ?
-  property! ast : Crystal::ASTNode
 
   YAML.mapping({
     includes: { type: Array(String), nilable: true },
@@ -35,13 +36,18 @@ class LibGenerator::Definition
 
   def initialize(
     @prefixes = nil, @includes = nil, @flags = nil,
-    @description = nil, @ldflags = nil, @ast = nil
+    @description = nil, @ldflags = nil
   )
   end
 
-  def c_includes
-    if includes = @includes
-      includes.map{|i| "#include <#{i}>" }.join("\n")
-    end
+  def gen_crystal_ast : Crystal::ASTNode
+    includes = @includes.not_nil!
+    c_includes = includes.map{|i| "#include <#{i}>" }.join("\n")
+
+    nodes = CrystalLib::Parser.parse(c_includes)
+    prefix_matcher = CrystalLib::PrefixMatcher.new(@prefixes.not_nil!, false)
+
+    CrystalLib::PrefixImporter.import(nodes, prefix_matcher)\
+      .as(Crystal::Expressions)
   end
 end
