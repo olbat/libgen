@@ -32,13 +32,15 @@ ARGV[1..-2].each do |filepath|
   definitions[filename] = definition
 end
 
+transformers = [
+  LibGenerator::FunRenamerTransformer.new(/_\d+$/, ""),
+  LibGenerator::ExpressionsSorterTransformer.new,
+]
+
 sources = LibGenerator::Generator.generate(
   lib_name: lib_name,
   definitions: definitions,
-  transformers: [
-    LibGenerator::FunRenamerTransformer.new(/_\d+$/, ""),
-    LibGenerator::ExpressionsSorterTransformer.new,
-  ],
+  transformers: transformers,
 )
 
 # TODO: catch possible Errno ?

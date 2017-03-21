@@ -1,21 +1,17 @@
 require "compiler/crystal/syntax"
 require "compiler/crystal/tools/formatter"
 
-# TODO: singleton? + split generate in several methods ?
-#       (get_common_nodes, transform, ...)
 class LibGenerator::Generator
-  COMMON_FILENAME = "common.cr"
-
   class Library
     getter definition : LibGenerator::Definition
     getter transformers : Array(Crystal::Transformer)
     property! ast : Crystal::ASTNode
-    property! src : String
+    property! source : String
 
     def initialize(
       @definition : LibGenerator::Definition,
       @transformers = [] of Crystal::Transformer,
-      @ast = nil, @src = nil,
+      @ast = nil, @source = nil,
     )
     end
 
@@ -27,15 +23,37 @@ class LibGenerator::Generator
     end
 
     def generate(lib_name : String) : String
-      # TODO: generate attributes
-      libnode = Crystal::LibDef.new(lib_name, @ast)
-      libnode.doc = @definition.description
+      ast = Crystal::Expressions.new([
+        generate_attributes() || Crystal::Nop.new,
+        generate_lib(lib_name).tap{|l| l.doc = @definition.description }
+      ])
       source = IO::Memory.new
+      ast.to_s(source, emit_doc: true)
+      @source = Crystal.format(source.to_s)
+    end
 
-      libnode.to_s(source, emit_doc: true)
-      @src = Crystal.format(source.to_s)
+    def generate_attributes : Crystal::Attribute | Nil
+      if (ldflags = @definition.ldflags)
+        if ldflags.is_a?(Hash)
+          ldflags = "`command -v pkg-config > /dev/null "\
+            "&& pkg-config --libs #{ldflags.keys.join(" ")}"\
+            "|| printf %s '#{ldflags.values.join(" ")}'`"
+        end
+
+        Crystal::Attribute.new("Link",
+          named_args: [ Crystal::NamedArgument.new("ldflags",
+            Crystal::StringLiteral.new(ldflags)) ])
+      end
+    end
+
+    def generate_lib(lib_name : String) : Crystal::LibDef
+      Crystal::LibDef.new(lib_name, @ast).tap do |ln|
+        ln.doc = @definition.description
+      end
     end
   end
+
+  COMMON_FILENAME = "common.cr"
 
   getter lib_name : String
   getter libs : Hash(String, Library)
@@ -71,7 +89,7 @@ class LibGenerator::Generator
     transform_libs()
     generate_libs()
 
-    @libs.map{|fn, li| { fn, li.src } }.to_h
+    @libs.map{|fn, li| { fn, li.source } }.to_h
   end
 
   def parse_libs
