@@ -40,7 +40,7 @@ class LibGenerator::Definition
   )
   end
 
-  def gen_crystal_ast : Crystal::ASTNode
+  def parse_lib : Crystal::ASTNode
     includes = @includes.not_nil!
     c_includes = includes.map{|i| "#include <#{i}>" }.join("\n")
 
