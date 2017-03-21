@@ -10,10 +10,12 @@ class LibGenerator::Generator
     getter definition : LibGenerator::Definition
     getter transformers : Array(Crystal::Transformer)
     property! ast : Crystal::ASTNode
+    property! src : String
 
     def initialize(
-      @definition : LibGenerator::Definition, @ast : Crystal::ASTNode,
-      @transformers = [] of Crystal::Transformer
+      @definition : LibGenerator::Definition,
+      @transformers = [] of Crystal::Transformer,
+      @ast = nil, @src = nil,
     )
     end
 
@@ -31,7 +33,27 @@ class LibGenerator::Generator
       source = IO::Memory.new
 
       libnode.to_s(source, emit_doc: true)
-      Crystal.format(source.to_s)
+      @src = Crystal.format(source.to_s)
+    end
+  end
+
+  getter lib_name : String
+  getter libs : Hash(String, Library)
+  getter transformers : Array(Crystal::Transformer)
+
+  def initialize(
+    @lib_name : String,
+    definitions : Hash(String, LibGenerator::Definition),
+    @transformers : Array(Crystal::Transformer) = [] of Crystal::Transformer,
+  )
+    @libs = {} of String => Library
+
+    definitions.each do |fn, de|
+      # TODO: use a more specific error class ?
+      raise ArgumentError.new("The #{COMMON_FILENAME} filename is reserved") \
+        if fn == COMMON_FILENAME
+      @libs[fn] = Library.new(definition: de)
+      @libs[fn].transformers.concat(transformers)
     end
   end
 
@@ -40,45 +62,66 @@ class LibGenerator::Generator
     definitions : Hash(String, LibGenerator::Definition),
     transformers : Array(Crystal::Transformer) = [] of Crystal::Transformer,
   )
-    ret = {} of String => String
-    libs = {} of String => Library
+    self.new(lib_name, definitions, transformers).generate()
+  end
 
-    counter = LibGenerator::NodeCounter.new
+  def generate : Hash(String, String)
+    parse_libs()
+    group_common_nodes()
+    transform_libs()
+    generate_libs()
 
-    definitions.each do |fn, de|
-      libs[fn] = Library.new(definition: de, ast: de.gen_crystal_ast)
-      libs[fn].transformers.concat(transformers)
-      libs[fn].ast.accept(LibGenerator::NodeCountVisitor.new(counter))
+    @libs.map{|fn, li| { fn, li.src } }.to_h
+  end
+
+  def parse_libs
+    @libs.each do |fn, de|
+      de.ast = de.definition.parse_lib()
     end
+    self
+  end
 
-    # extract the AST nodes that several definitions have in common
-    common_nodes = counter.select{|_,c| c > 1 }.map{|n,_| n }
+  def transform_libs
+    @libs.each do |filename, li|
+      li.transform()
+    end
+  end
 
-    # if there is some common nodes, add a transformer to remove them: they will
-    # be grouped in a common definition/file
-    unless common_nodes.empty?
-      # TODO: use a more specific error class ?
-      raise ArgumentError.new("The #{COMMON_FILENAME} filename is reserved "\
-        "for the lib") if definitions.has_key?(COMMON_FILENAME)
+  def generate_libs
+    @libs.each do |filename, li|
+      li.generate(@lib_name)
+    end
+  end
 
+  def extract_common_nodes : Array(Crystal::ASTNode)
+    # extract common AST nodes using a visitor
+    counter = LibGenerator::NodeCounter.new
+    @libs.each do |fn, li|
+      li.ast.accept(LibGenerator::NodeCountVisitor.new(counter))
+    end
+    counter.select{|_,c| c > 1 }.map{|n,_| n }
+  end
+
+  def group_common_nodes
+    # if there is some common AST nodes in the libs, add a transformer
+    # to remove them: they will be grouped in a common definition/file
+    unless (common_nodes = extract_common_nodes()).empty?
+      libs = @libs
+
+      # delete the common AST nodes from every libs
       nrt = LibGenerator::NodeRemoverTransformer.new(common_nodes.dup)
       libs.each{|_, li| li.transformers.unshift(nrt) }
 
+      # create a lib containing only common AST nodes
       libs[COMMON_FILENAME] = Library.new(
         definition: LibGenerator::Definition.new(
           description: "Common definitions of the #{lib_name} lib",
         ),
         ast: Crystal::Expressions.new(common_nodes),
-        transformers: transformers.dup,
+        transformers: @transformers.dup,
       )
     end
 
-    # transform (sanitize, ...) each definition and generate the Crystal code
-    libs.each do |filename, li|
-      li.transform
-      ret[filename] = li.generate(lib_name)
-    end
-
-    ret
+    self
   end
 end
