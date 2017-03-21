@@ -4,3 +4,5 @@ includes:
 - unicode/ucsdet.h
 prefixes:
 - ucsdet_
+ldflags:
+  icu-i18n: "-licui18n -licuuc -licudata"
