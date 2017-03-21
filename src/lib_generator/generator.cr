@@ -53,9 +53,8 @@ class LibGenerator::Generator
     end
   end
 
-  COMMON_FILENAME = "common.cr"
-
   getter lib_name : String
+  getter common_filename : String
   getter libs : Hash(String, Library)
   getter transformers : Array(Crystal::Transformer)
 
@@ -63,13 +62,14 @@ class LibGenerator::Generator
     @lib_name : String,
     definitions : Hash(String, LibGenerator::Definition),
     @transformers : Array(Crystal::Transformer) = [] of Crystal::Transformer,
+    @common_filename : String = "common.cr",
   )
     @libs = {} of String => Library
 
     definitions.each do |fn, de|
       # TODO: use a more specific error class ?
-      raise ArgumentError.new("The #{COMMON_FILENAME} filename is reserved") \
-        if fn == COMMON_FILENAME
+      raise ArgumentError.new("The #{@common_filename} filename is reserved") \
+        if fn == common_filename
       @libs[fn] = Library.new(definition: de)
       @libs[fn].transformers.concat(transformers)
     end
@@ -79,8 +79,9 @@ class LibGenerator::Generator
     lib_name : String,
     definitions : Hash(String, LibGenerator::Definition),
     transformers : Array(Crystal::Transformer) = [] of Crystal::Transformer,
+    common_filename : String = "common.cr",
   )
-    self.new(lib_name, definitions, transformers).generate()
+    self.new(lib_name, definitions, transformers, common_filename).generate()
   end
 
   def generate : Hash(String, String)
@@ -131,9 +132,9 @@ class LibGenerator::Generator
       libs.each{|_, li| li.transformers.unshift(nrt) }
 
       # create a lib containing only common AST nodes
-      libs[COMMON_FILENAME] = Library.new(
+      libs[@common_filename] = Library.new(
         definition: LibGenerator::Definition.new(
-          description: "Common definitions of the #{lib_name} lib",
+          description: "Common definitions of the #{@lib_name} lib",
         ),
         ast: Crystal::Expressions.new(common_nodes),
         transformers: @transformers.dup,
