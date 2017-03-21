@@ -1,13 +1,11 @@
 require "./lib_generator/**"
 
-abort "usage: #{$0} <lib_name> <definition_files...> <output_dir>"\
-  unless ARGV.size > 2
+abort "usage: #{$0} <lib_name> <definition_files...>" unless ARGV.size > 1
 
 lib_name = ARGV[0]
-output_dir = ARGV[-1]
 definitions = {} of String => LibGenerator::Definition
 
-ARGV[1..-2].each do |filepath|
+ARGV[1..-1].each do |filepath|
   abort "Error: cannot read #{filepath}" unless File.readable?(filepath)
 
   extname = File.extname(filepath)
@@ -37,13 +35,17 @@ transformers = [
   LibGenerator::ExpressionsSorterTransformer.new,
 ]
 
+output_name = lib_name.underscore
+
 sources = LibGenerator::Generator.generate(
   lib_name: lib_name,
   definitions: definitions,
   transformers: transformers,
+  common_filename: "#{output_name}.cr",
 )
 
 # TODO: catch possible Errno ?
+output_dir = File.join("src", output_name)
 Dir.mkdir_p(output_dir, mode = 0o755) unless Dir.exists?(output_dir)
 
 sources.each do |filename, source|
