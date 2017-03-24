@@ -12,14 +12,12 @@ class LibGenerator::Definition
   getter flags :  Array(String)?
   # generator
   getter description : String?
-  getter ldflags : Hash(String, String) | String | Nil
 
   YAML.mapping({
     includes: { type: Array(String), nilable: true },
     prefixes: { type: Array(String), nilable: true },
     flags: { type: Array(String), nilable: true },
     description: { type: String, nilable: true },
-    ldflags: { type: Hash(String, String) | String, nilable: true },
   })
 
   JSON.mapping({
@@ -27,7 +25,6 @@ class LibGenerator::Definition
     prefixes: { type: Array(String), nilable: true },
     flags: { type: Array(String), nilable: true },
     description: { type: String, nilable: true },
-    ldflags: { type: Hash(String, String) | String, nilable: true },
   })
 
   # TODO: to be implemented
@@ -35,8 +32,7 @@ class LibGenerator::Definition
   #end
 
   def initialize(
-    @prefixes = nil, @includes = nil, @flags = nil,
-    @description = nil, @ldflags = nil
+    @prefixes = nil, @includes = nil, @flags = nil, @description = nil
   )
   end
 

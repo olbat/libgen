@@ -1,0 +1,4 @@
+---
+name: LibICU
+ldflags: "-licuio -licui18n -liculx -licule -licuuc -licudata"
+packages: "icu-uc icu-i18n icu-io icu-lx icu-le"

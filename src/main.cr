@@ -1,8 +1,10 @@
 require "./lib_generator/**"
 
-abort "usage: #{$0} <lib_name> <definition_files...>" unless ARGV.size > 1
+abort "usage: #{$0} <lib_file> <definition_files...>" unless ARGV.size > 1
 
-lib_name = ARGV[0]
+abort "Error: cannot read #{ARGV[0]}" unless File.readable?(ARGV[0])
+library = LibGenerator::Library.from_yaml(File.read(ARGV[0]))
+
 definitions = {} of String => LibGenerator::Definition
 
 ARGV[1..-1].each do |filepath|
@@ -35,10 +37,10 @@ transformers = [
   LibGenerator::ExpressionsSorterTransformer.new,
 ]
 
-output_name = lib_name.underscore
+output_name = library.name.underscore
 
 sources = LibGenerator::Generator.generate(
-  lib_name: lib_name,
+  library: library,
   definitions: definitions,
   transformers: transformers,
   common_filename: "#{output_name}.cr",
