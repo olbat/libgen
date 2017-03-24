@@ -6,6 +6,7 @@ class LibGenerator::Generator
     getter library : LibGenerator::Library
     getter definition : LibGenerator::Definition
     getter transformers : Array(Crystal::Transformer)
+    property! requires : Array(String)
     property! ast : Crystal::ASTNode
     property! source : String
 
@@ -13,6 +14,7 @@ class LibGenerator::Generator
       @library : LibGenerator::Library,
       @definition : LibGenerator::Definition,
       @transformers = [] of Crystal::Transformer,
+      @requires = [] of String,
       @ast = nil, @source = nil,
     )
     end
@@ -27,7 +29,8 @@ class LibGenerator::Generator
     def generate : String
       ast = Crystal::Expressions.new([
         generate_attributes() || Crystal::Nop.new,
-        generate_lib.tap{|l| l.doc = @definition.description }
+        generate_lib.tap{|l| l.doc = @definition.description },
+        generate_requires() || Crystal::Nop.new,
       ])
       source = IO::Memory.new
       ast.to_s(source, emit_doc: true)
@@ -45,6 +48,14 @@ class LibGenerator::Generator
     def generate_lib : Crystal::LibDef
       Crystal::LibDef.new(@library.name, @ast).tap do |ln|
         ln.doc = @definition.description
+      end
+    end
+
+    def generate_requires : Crystal::Expressions | Nil
+      if (requires = @requires)
+        Crystal::Expressions.new(
+          requires.map{|fn| Crystal::Require.new(fn).as(Crystal::ASTNode) }
+        )
       end
     end
   end
@@ -118,25 +129,30 @@ class LibGenerator::Generator
   end
 
   def group_common_nodes
+    libs = @libs
+    ast = Crystal::Expressions.new
+
     # if there is some common AST nodes in the libs, add a transformer
     # to remove them: they will be grouped in a common definition/file
     unless (common_nodes = extract_common_nodes()).empty?
-      libs = @libs
-
       # delete the common AST nodes from every libs
       nrt = LibGenerator::NodeRemoverTransformer.new(common_nodes.dup)
       libs.each{|_, li| li.transformers.unshift(nrt) }
 
-      # create a lib containing only common AST nodes
-      libs[@common_filename] = Lib.new(
-        library: @library,
-        definition: LibGenerator::Definition.new(
-          description: "Common definitions of the #{@library.name} lib",
-        ),
-        ast: Crystal::Expressions.new(common_nodes),
-        transformers: @transformers.dup,
-      )
+      ast.expressions = common_nodes
     end
+
+
+    # create a lib containing only common AST nodes
+    libs[@common_filename] = Lib.new(
+      library: @library,
+      definition: LibGenerator::Definition.new(
+        description: "Common definitions of the #{@library.name} lib",
+      ),
+      ast: ast,
+      transformers: @transformers.dup,
+      requires: libs.keys.map{|fn| File.join(".", fn) },
+    )
 
     self
   end
