@@ -1,14 +1,19 @@
 require "./lib_generator/**"
 
-abort "usage: #{$0} <lib_file> <definition_files...>" unless ARGV.size > 1
+abort "usage: #{$0} [<lib_file>]" if ARGV.size > 1 || ARGV[0]? == "-h"
 
-abort "Error: cannot read #{ARGV[0]}" unless File.readable?(ARGV[0])
-library = LibGenerator::Library.from_yaml(File.read(ARGV[0]))
+lib_file = ARGV[0]? || "lib.yml"
+abort "Error: cannot read #{lib_file}" unless File.readable?(lib_file)
+library = LibGenerator::Library.from_yaml(File.read(lib_file))
 
 definitions = {} of String => LibGenerator::Definition
 
-ARGV[1..-1].each do |filepath|
+inc_files = Dir[library.includes]
+abort "Error: no include file" if inc_files.empty?
+
+inc_files.each do |filepath|
   abort "Error: cannot read #{filepath}" unless File.readable?(filepath)
+  puts "loading definition from #{filepath}"
 
   extname = File.extname(filepath)
   filename = "#{File.basename(filepath, extname)}.cr"
@@ -51,7 +56,7 @@ output_dir = File.join("src", output_name)
 Dir.mkdir_p(output_dir, mode = 0o755) unless Dir.exists?(output_dir)
 
 sources.each do |filename, source|
-  File.open(File.join(output_dir, filename), "w") do |io|
-    io.puts(source)
-  end
+  filepath = File.join(output_dir, filename)
+  puts "generate #{filepath}"
+  File.open(filepath, "w"){|io| io.puts(source) }
 end
