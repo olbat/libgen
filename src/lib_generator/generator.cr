@@ -2,13 +2,15 @@ require "compiler/crystal/syntax"
 require "compiler/crystal/tools/formatter"
 
 class LibGenerator::Generator
-  class Library
+  class Lib
+    getter library : LibGenerator::Library
     getter definition : LibGenerator::Definition
     getter transformers : Array(Crystal::Transformer)
     property! ast : Crystal::ASTNode
     property! source : String
 
     def initialize(
+      @library : LibGenerator::Library,
       @definition : LibGenerator::Definition,
       @transformers = [] of Crystal::Transformer,
       @ast = nil, @source = nil,
@@ -22,10 +24,10 @@ class LibGenerator::Generator
       self
     end
 
-    def generate(lib_name : String) : String
+    def generate : String
       ast = Crystal::Expressions.new([
         generate_attributes() || Crystal::Nop.new,
-        generate_lib(lib_name).tap{|l| l.doc = @definition.description }
+        generate_lib.tap{|l| l.doc = @definition.description }
       ])
       source = IO::Memory.new
       ast.to_s(source, emit_doc: true)
@@ -33,55 +35,49 @@ class LibGenerator::Generator
     end
 
     def generate_attributes : Crystal::Attribute | Nil
-      if (ldflags = @definition.ldflags)
-        if ldflags.is_a?(Hash)
-          ldflags = "`command -v pkg-config > /dev/null "\
-            "&& pkg-config --libs #{ldflags.keys.join(" ")}"\
-            "|| printf %s '#{ldflags.values.join(" ")}'`"
-        end
-
+      if (ldflags = @library.generate_ldflags)
         Crystal::Attribute.new("Link",
           named_args: [ Crystal::NamedArgument.new("ldflags",
             Crystal::StringLiteral.new(ldflags)) ])
       end
     end
 
-    def generate_lib(lib_name : String) : Crystal::LibDef
-      Crystal::LibDef.new(lib_name, @ast).tap do |ln|
+    def generate_lib : Crystal::LibDef
+      Crystal::LibDef.new(@library.name, @ast).tap do |ln|
         ln.doc = @definition.description
       end
     end
   end
 
-  getter lib_name : String
+  getter library : LibGenerator::Library
   getter common_filename : String
-  getter libs : Hash(String, Library)
+  getter libs : Hash(String, Lib)
   getter transformers : Array(Crystal::Transformer)
 
   def initialize(
-    @lib_name : String,
+    @library : LibGenerator::Library,
     definitions : Hash(String, LibGenerator::Definition),
     @transformers : Array(Crystal::Transformer) = [] of Crystal::Transformer,
     @common_filename : String = "common.cr",
   )
-    @libs = {} of String => Library
+    @libs = {} of String => Lib
 
     definitions.each do |fn, de|
       # TODO: use a more specific error class ?
       raise ArgumentError.new("The #{@common_filename} filename is reserved") \
         if fn == common_filename
-      @libs[fn] = Library.new(definition: de)
+      @libs[fn] = Lib.new(library: @library, definition: de)
       @libs[fn].transformers.concat(transformers)
     end
   end
 
   def self.generate(
-    lib_name : String,
+    library : LibGenerator::Library,
     definitions : Hash(String, LibGenerator::Definition),
     transformers : Array(Crystal::Transformer) = [] of Crystal::Transformer,
     common_filename : String = "common.cr",
   )
-    self.new(lib_name, definitions, transformers, common_filename).generate()
+    self.new(library, definitions, transformers, common_filename).generate()
   end
 
   def generate : Hash(String, String)
@@ -108,7 +104,7 @@ class LibGenerator::Generator
 
   def generate_libs
     @libs.each do |filename, li|
-      li.generate(@lib_name)
+      li.generate
     end
   end
 
@@ -132,9 +128,10 @@ class LibGenerator::Generator
       libs.each{|_, li| li.transformers.unshift(nrt) }
 
       # create a lib containing only common AST nodes
-      libs[@common_filename] = Library.new(
+      libs[@common_filename] = Lib.new(
+        library: @library,
         definition: LibGenerator::Definition.new(
-          description: "Common definitions of the #{@lib_name} lib",
+          description: "Common definitions of the #{@library.name} lib",
         ),
         ast: Crystal::Expressions.new(common_nodes),
         transformers: @transformers.dup,
