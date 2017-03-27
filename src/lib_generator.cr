@@ -44,21 +44,18 @@ module LibGenerator
       LibGenerator::ExpressionsSorterTransformer.new,
     ]
 
-    output_name = library.name.underscore
-
     sources = LibGenerator::Generator.generate(
       library: library,
       definitions: definitions,
       transformers: transformers,
-      common_filename: "#{output_name}.cr",
     )
 
     # TODO: catch possible Errno ?
-    output_dir = File.join("src", output_name)
-    Dir.mkdir_p(output_dir, mode = 0o755) unless Dir.exists?(output_dir)
+    destdir = library.destdir
+    Dir.mkdir_p(destdir, mode = 0o755) unless Dir.exists?(destdir)
 
     sources.each do |filename, source|
-      filepath = File.join(output_dir, filename)
+      filepath = File.join(destdir, filename)
       puts "generate #{filepath}"
       File.open(filepath, "w"){|io| io.puts(source) }
     end

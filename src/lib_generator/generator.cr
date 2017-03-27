@@ -69,8 +69,9 @@ class LibGenerator::Generator
     @library : LibGenerator::Library,
     definitions : Hash(String, LibGenerator::Definition),
     @transformers : Array(Crystal::Transformer) = [] of Crystal::Transformer,
-    @common_filename : String = "common.cr",
   )
+    @common_filename = "#{File.basename(@library.destdir)}.cr"
+
     @libs = {} of String => Lib
 
     definitions.each do |fn, de|
@@ -86,9 +87,8 @@ class LibGenerator::Generator
     library : LibGenerator::Library,
     definitions : Hash(String, LibGenerator::Definition),
     transformers : Array(Crystal::Transformer) = [] of Crystal::Transformer,
-    common_filename : String = "common.cr",
   )
-    self.new(library, definitions, transformers, common_filename).generate()
+    self.new(library, definitions, transformers).generate()
   end
 
   def generate : Hash(String, String)
