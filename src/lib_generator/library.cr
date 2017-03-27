@@ -13,6 +13,7 @@ class LibGenerator::Library
     ldflags: { type: String },
     includes: { type: Array(String) },
     packages: { type: String, nilable: true },
+    destdir: { type: String, nilable: true },
   })
 
   JSON.mapping({
@@ -20,7 +21,12 @@ class LibGenerator::Library
     ldflags: { type: String },
     includes: { type: Array(String) },
     packages: { type: String, nilable: true },
+    destdir: { type: String, nilable: true },
   })
+
+  def destdir : String
+    @destdir ||= File.join("src", "#{@name.downcase}.cr")
+  end
 
   def generate_ldflags : String
     ldflags = @ldflags
