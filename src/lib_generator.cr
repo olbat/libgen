@@ -40,7 +40,9 @@ module LibGenerator
     end
 
     transformers = [
-      LibGenerator::FunRenamerTransformer.new(/_\d+$/, ""),
+      LibGenerator::NodeRenamerTransformer.new({
+        "*" => { pattern: /_\d+$/, replacement: "" }
+      }),
       LibGenerator::ExpressionsSorterTransformer.new,
     ]
 
