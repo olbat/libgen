@@ -6,12 +6,22 @@ module LibGenerator
 
     lib_file = ARGV[0]? || "lib.yml"
     abort "Error: cannot read #{lib_file}" unless File.readable?(lib_file)
+    puts "loading library from #{lib_file}"
     library = LibGenerator::Library.from_yaml(File.read(lib_file))
+
+    lib_dir = File.dirname(lib_file)
+    if lib_dir != "." && lib_dir != Dir.current
+      puts "moving to #{lib_dir}/"
+      Dir.cd(lib_dir)
+    end
 
     definitions = {} of String => LibGenerator::Definition
 
+
+    abort "Error: files to include" if library.includes.empty?
     inc_files = Dir[library.includes]
-    abort "Error: no include file" if inc_files.empty?
+    abort "Error: file not found #{library.includes.join(", ")}"\
+      if inc_files.empty?
 
     inc_files.each do |filepath|
       abort "Error: cannot read #{filepath}" unless File.readable?(filepath)
