@@ -1,6 +1,6 @@
 require "compiler/crystal/syntax"
 
-class LibGenerator::NodeRemoverTransformer < Crystal::Transformer
+class LibGenerator::RemoveTransformer < Crystal::Transformer
   def initialize(@nodes_to_remove : Array(Crystal::ASTNode))
   end
 

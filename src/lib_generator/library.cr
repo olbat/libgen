@@ -6,7 +6,7 @@ class LibGenerator::Library
   getter ldflags : String
   getter includes : Array(String)
   getter packages : String?
-  getter rewrite : LibGenerator::RewriterTransformer?
+  getter rewrite : LibGenerator::RewriteTransformer?
 
   YAML.mapping({
     name: { type: String },
@@ -14,7 +14,7 @@ class LibGenerator::Library
     includes: { type: Array(String) },
     packages: { type: String, nilable: true },
     destdir: { type: String, nilable: true },
-    rewrite: { type: LibGenerator::RewriterTransformer, nilable: true },
+    rewrite: { type: LibGenerator::RewriteTransformer, nilable: true },
   })
 
   JSON.mapping({
@@ -23,7 +23,7 @@ class LibGenerator::Library
     includes: { type: Array(String) },
     packages: { type: String, nilable: true },
     destdir: { type: String, nilable: true },
-    rewrite: { type: LibGenerator::RewriterTransformer, nilable: true },
+    rewrite: { type: LibGenerator::RewriteTransformer, nilable: true },
   })
 
   def destdir : String

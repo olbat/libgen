@@ -50,7 +50,7 @@ module LibGenerator
     end
 
     transformers = [] of Crystal::Transformer
-    transformers << LibGenerator::ExpressionsSorterTransformer.new
+    transformers << LibGenerator::SortTransformer.new
     library.rewrite.try{|t| transformers << t }
 
     sources = LibGenerator::Generator.generate(

@@ -136,7 +136,7 @@ class LibGenerator::Generator
     # to remove them: they will be grouped in a common definition/file
     unless (common_nodes = extract_common_nodes()).empty?
       # delete the common AST nodes from every libs
-      nrt = LibGenerator::NodeRemoverTransformer.new(common_nodes.dup)
+      nrt = LibGenerator::RemoveTransformer.new(common_nodes.dup)
       libs.each{|_, li| li.transformers.unshift(nrt) }
 
       ast.expressions = common_nodes
