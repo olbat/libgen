@@ -49,12 +49,9 @@ module LibGenerator
       definitions[filename] = definition
     end
 
-    transformers = [
-      LibGenerator::NodeRenamerTransformer.new({
-        "*" => { pattern: /_\d+$/, replacement: "" }
-      }),
-      LibGenerator::ExpressionsSorterTransformer.new,
-    ]
+    transformers = [] of Crystal::Transformer
+    transformers << LibGenerator::ExpressionsSorterTransformer.new
+    library.rewrite.try{|t| transformers << t }
 
     sources = LibGenerator::Generator.generate(
       library: library,

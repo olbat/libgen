@@ -5,3 +5,8 @@ packages: "icu-uc icu-i18n icu-io icu-lx icu-le"
 includes:
 - include/*.yml
 destdir: src/lib_icu/
+rewrite:
+  rules:
+    FunDef:
+    - pattern: _\d+$
+      replacement: ""
