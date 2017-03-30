@@ -4,20 +4,36 @@ module LibGenerator
   def self.run
     abort "usage: #{$0} [<lib_file>]" if ARGV.size > 1 || ARGV[0]? == "-h"
 
+    # parse the library description file
     lib_file = ARGV[0]? || "lib.yml"
     abort "Error: cannot read #{lib_file}" unless File.readable?(lib_file)
     puts "loading library from #{lib_file}"
-    library = LibGenerator::Library.from_yaml(File.read(lib_file))
+    library = nil
+    begin
+      case (extname = File.extname(lib_file))
+      when ".yml", ".yaml"
+        library = LibGenerator::Library.from_yaml(File.read(lib_file))
+      when ".json"
+        library = LibGenerator::Library.from_json(File.read(lib_file))
+      else
+        abort "Error: #{lib_file} unsupported file format #{extname}"
+      end
+    rescue ex : YAML::ParseException | JSON::ParseException | ArgumentError
+      abort "Error: invalid library format #{lib_file} (#{ex.message})"
+    end
+    # FIXME: ugly hack, figure out why library has the Nil compile type here
+    abort "Error: invalid library description" unless library
 
+    # change dir if necessary (paths in the lib description are relative to
+    # the lib file)
     lib_dir = File.dirname(lib_file)
     if lib_dir != "." && lib_dir != Dir.current
       puts "moving to #{lib_dir}/"
       Dir.cd(lib_dir)
     end
 
+    # parse definition files
     definitions = {} of String => LibGenerator::Definition
-
-
     abort "Error: files to include" if library.includes.empty?
     inc_files = Dir[library.includes]
     abort "Error: file not found #{library.includes.join(", ")}"\
@@ -37,12 +53,12 @@ module LibGenerator
         when ".json"
           definition = LibGenerator::Definition.from_json(File.read(filepath))
         when ".cr"
-          abort "Error: #{filepath} importing definitions from Crystal code "\
-            "is not supported yet"
+          abort "Error: #{filepath} importing definitions from Crystal code \
+            is not supported yet"
         else
           abort "Error: #{filepath} unsupported file format #{extname}"
         end
-      rescue ex : YAML::ParseException | JSON::ParseException
+      rescue ex : YAML::ParseException | JSON::ParseException | ArgumentError
         abort "Error: #{filepath} invalid definition format (#{ex.message})"
       end
 
@@ -53,14 +69,16 @@ module LibGenerator
     transformers << LibGenerator::SortTransformer.new
     library.rename.try{|t| transformers << t }
 
+    # generate the Crystal code
     sources = LibGenerator::Generator.generate(
       library: library,
       definitions: definitions,
       transformers: transformers,
     )
 
-    # TODO: catch possible Errno ?
+    # write Crystal source files
     destdir = library.destdir
+    # TODO: catch possible Errno ?
     Dir.mkdir_p(destdir, mode = 0o755) unless Dir.exists?(destdir)
 
     sources.each do |filename, source|
