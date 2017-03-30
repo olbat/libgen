@@ -51,7 +51,7 @@ module LibGenerator
 
     transformers = [] of Crystal::Transformer
     transformers << LibGenerator::SortTransformer.new
-    library.rewrite.try{|t| transformers << t }
+    library.rename.try{|t| transformers << t }
 
     sources = LibGenerator::Generator.generate(
       library: library,

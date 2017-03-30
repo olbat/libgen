@@ -8,7 +8,7 @@ def Regex.new(jpp : JSON::PullParser)
   new jpp.read_string
 end
 
-class LibGenerator::RewriteTransformer < Crystal::Transformer
+class LibGenerator::RenameTransformer < Crystal::Transformer
   getter rules : Hash(String,
     Array(NamedTuple(pattern: Regex, replacement: String)))
 
