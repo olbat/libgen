@@ -43,7 +43,11 @@ class LibGenerator::Definition
     nodes = CrystalLib::Parser.parse(c_includes)
     prefix_matcher = CrystalLib::PrefixMatcher.new(@prefixes.not_nil!, false)
 
-    CrystalLib::PrefixImporter.import(nodes, prefix_matcher)\
-      .as(Crystal::Expressions)
+    CrystalLib::PrefixImporter.import(nodes, prefix_matcher).tap do |ast|
+      if ast.is_a?(Crystal::Nop)
+        raise ArgumentError.new("Nothing to import from #{includes.join(", ")} \
+          #{@description.try{|d| "(#{d})" } }")
+      end
+    end
   end
 end
