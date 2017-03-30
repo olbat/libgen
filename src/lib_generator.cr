@@ -70,15 +70,18 @@ module LibGenerator
     library.rename.try{|t| transformers << t }
 
     # generate the Crystal code
-    sources = LibGenerator::Generator.generate(
-      library: library,
-      definitions: definitions,
-      transformers: transformers,
-    )
+    begin
+      sources = LibGenerator::Generator.generate(
+        library: library,
+        definitions: definitions,
+        transformers: transformers,
+      )
+    rescue ex : ArgumentError
+      abort "Error: #{ex.message}"
+    end
 
     # write Crystal source files
     destdir = library.destdir
-    # TODO: catch possible Errno ?
     Dir.mkdir_p(destdir, mode = 0o755) unless Dir.exists?(destdir)
 
     sources.each do |filename, source|
