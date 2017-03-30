@@ -1,0 +1,6 @@
+--- # the common file will be created even if this definition doesn't exist
+description: Common definitions
+includes:
+- unicode/uchar.h
+prefixes:
+- u_
