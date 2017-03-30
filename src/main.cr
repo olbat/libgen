@@ -1,3 +1,3 @@
-require "./lib_generator.cr"
+require "./lib_generator"
 
 LibGenerator.run
