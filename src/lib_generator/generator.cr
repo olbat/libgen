@@ -75,9 +75,6 @@ class LibGenerator::Generator
     @libs = {} of String => Lib
 
     definitions.each do |fn, de|
-      # TODO: use a more specific error class ?
-      raise ArgumentError.new("The #{@common_filename} filename is reserved") \
-        if fn == common_filename
       @libs[fn] = Lib.new(library: @library, definition: de)
       @libs[fn].transformers.concat(transformers)
     end
@@ -123,14 +120,13 @@ class LibGenerator::Generator
     # extract common AST nodes using a visitor
     counter = LibGenerator::NodeCounter.new
     @libs.each do |fn, li|
-      li.ast.accept(LibGenerator::NodeCountVisitor.new(counter))
+      li.ast.accept(LibGenerator::CountVisitor.new(counter))
     end
     counter.select{|_,c| c > 1 }.map{|n,_| n }
   end
 
   def group_common_nodes
     libs = @libs
-    ast = Crystal::Expressions.new
 
     # if there is some common AST nodes in the libs, add a transformer
     # to remove them: they will be grouped in a common definition/file
@@ -138,21 +134,29 @@ class LibGenerator::Generator
       # delete the common AST nodes from every libs
       nrt = LibGenerator::RemoveTransformer.new(common_nodes.dup)
       libs.each{|_, li| li.transformers.unshift(nrt) }
-
-      ast.expressions = common_nodes
     end
 
 
-    # create a lib containing only common AST nodes
-    libs[@common_filename] = Lib.new(
-      library: @library,
-      definition: LibGenerator::Definition.new(
-        description: "Common definitions of the #{@library.name} lib",
-      ),
-      ast: ast,
-      transformers: @transformers.dup,
-      requires: libs.keys.map{|fn| File.join(".", fn) },
-    )
+    # if the common_filename file has already been defined, modify it
+    if (common_def = libs[@common_filename]?)
+      common_def.ast.accept(LibGenerator::DoublonVisitor.new(common_nodes))
+      common_nodes.each do |node|
+        common_def.ast.as(Crystal::Expressions).expressions << node
+      end
+    else
+      # create a lib containing only common AST nodes
+      common_def = libs[@common_filename] = Lib.new(
+        library: @library,
+        definition: LibGenerator::Definition.new(
+          description: "Common definitions of the #{@library.name} lib",
+        ),
+        ast: Crystal::Expressions.new(common_nodes),
+      )
+    end
+
+    common_def.transformers.replace(@transformers)
+    common_def.requires = \
+      libs.keys.map{|fn| File.join(".", fn) if fn != @common_filename }.compact
 
     self
   end

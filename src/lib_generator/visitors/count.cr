@@ -1,6 +1,6 @@
 require "compiler/crystal/syntax"
 
-class LibGenerator::NodeCountVisitor < Crystal::Visitor
+class LibGenerator::CountVisitor < Crystal::Visitor
   def initialize(@counter : NodeCounter)
   end
 
