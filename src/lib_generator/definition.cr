@@ -27,9 +27,12 @@ class LibGenerator::Definition
     description: { type: String, nilable: true },
   })
 
-  # TODO: to be implemented
-  #def self.from_crystal(source : String)
-  #end
+  def self.from_crystal(source : String)
+    # TODO: take in account possible funs in the lib declaration
+    ltr = LibGenerator::CrystalLibTransformer.new
+    Crystal::Parser.parse(source).transform(ltr)
+    new(ltr.prefixes, ltr.headers.scan(/<(.+)>/).flatten.map(&.[1]), ltr.flags)
+  end
 
   def initialize(
     @prefixes = nil, @includes = nil, @flags = nil, @description = nil
