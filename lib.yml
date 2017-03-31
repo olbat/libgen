@@ -4,6 +4,8 @@ ldflags: "-licuio -licui18n -liculx -licule -licuuc -licudata"
 packages: "icu-uc icu-i18n icu-io icu-lx icu-le"
 includes:
 - include/*.yml
+- include/*.json
+- include/*.cr
 destdir: src/lib_icu/
 rename:
   rules:

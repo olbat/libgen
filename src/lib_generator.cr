@@ -53,8 +53,7 @@ module LibGenerator
         when ".json"
           definition = LibGenerator::Definition.from_json(File.read(filepath))
         when ".cr"
-          abort "Error: #{filepath} importing definitions from Crystal code \
-            is not supported yet"
+          definition = LibGenerator::Definition.from_crystal(File.read(filepath))
         else
           abort "Error: #{filepath} unsupported file format #{extname}"
         end
