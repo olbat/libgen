@@ -34,34 +34,46 @@ module LibGenerator
 
     # parse definition files
     definitions = {} of String => LibGenerator::Definition
-    abort "Error: files to include" if library.includes.empty?
-    inc_files = Dir[library.includes]
-    abort "Error: file not found #{library.includes.join(", ")}"\
-      if inc_files.empty?
-
-    inc_files.each do |filepath|
-      abort "Error: cannot read #{filepath}" unless File.readable?(filepath)
-      puts "loading definition from #{filepath}"
-
-      extname = File.extname(filepath)
-      filename = "#{File.basename(filepath, extname)}.cr"
-
-      begin
-        case extname
-        when ".yml", ".yaml"
-          definition = LibGenerator::Definition.from_yaml(File.read(filepath))
-        when ".json"
-          definition = LibGenerator::Definition.from_json(File.read(filepath))
-        when ".cr"
-          definition = LibGenerator::Definition.from_crystal(File.read(filepath))
-        else
-          abort "Error: #{filepath} unsupported file format #{extname}"
-        end
-      rescue ex : YAML::ParseException | JSON::ParseException | ArgumentError
-        abort "Error: #{filepath} invalid definition format (#{ex.message})"
+    library.definitions.try do |ds|
+      ds.each do |basename, definition|
+        puts "loading #{basename} definition from #{lib_file}"
+        definitions["#{basename}.cr"] = definition
       end
+    end
+    if (includes = library.includes)
+      abort "Error: no file to include" if includes.empty?
+      inc_files = Dir[includes]
+      abort "Error: file not found #{includes.join(", ")}" if inc_files.empty?
 
-      definitions[filename] = definition
+      inc_files.each do |filepath|
+        abort "Error: cannot read #{filepath}" unless File.readable?(filepath)
+
+        extname = File.extname(filepath)
+        basename = File.basename(filepath, extname)
+        filename = "#{basename}.cr"
+        puts "loading #{basename} definition from #{filepath}"
+
+        begin
+          case extname
+          when ".yml", ".yaml"
+            definition = LibGenerator::Definition.from_yaml(File.read(filepath))
+          when ".json"
+            definition = LibGenerator::Definition.from_json(File.read(filepath))
+          when ".cr"
+            definition = LibGenerator::Definition.from_crystal(File.read(filepath))
+          else
+            abort "Error: #{filepath} unsupported file format #{extname}"
+          end
+        rescue ex : YAML::ParseException | JSON::ParseException | ArgumentError
+          abort "Error: #{filepath} invalid definition format (#{ex.message})"
+        end
+
+        if definitions[filename]?
+          abort "Error: #{filename} has already been defined in #{lib_file}"
+        end
+
+        definitions[filename] = definition
+      end
     end
 
     transformers = [] of Crystal::Transformer

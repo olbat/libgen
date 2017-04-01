@@ -6,6 +6,11 @@ includes:
 - include/*.yml
 - include/*.json
 - include/*.cr
+definitions:
+  ubrk:
+    description: Text Boundary Analysis (Break Iteration)
+    includes: [ unicode/ubrk.h ]
+    prefixes: [ ubrk_ ]
 destdir: src/lib_icu/
 rename:
   rules:
