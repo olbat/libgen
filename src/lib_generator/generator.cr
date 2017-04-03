@@ -139,7 +139,7 @@ class LibGenerator::Generator
 
     # if the common_filename file has already been defined, modify it
     if (common_def = libs[@common_filename]?)
-      common_def.ast.accept(LibGenerator::DoublonVisitor.new(common_nodes))
+      common_def.ast.accept(LibGenerator::DuplicatesVisitor.new(common_nodes))
       common_nodes.each do |node|
         common_def.ast.as(Crystal::Expressions).expressions << node
       end

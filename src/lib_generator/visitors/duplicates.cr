@@ -1,6 +1,6 @@
 require "compiler/crystal/syntax"
 
-class LibGenerator::DoublonVisitor < Crystal::Visitor
+class LibGenerator::DuplicatesVisitor < Crystal::Visitor
   def initialize(@nodes : Array(Crystal::ASTNode))
   end
 
