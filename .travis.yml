@@ -15,6 +15,7 @@ before_install:
 - sudo mv docker-compose /usr/local/bin
 
 script:
+- docker-compose run --rm devel crystal tool format --check src/
 - docker-compose run --rm devel crystal spec
 
 # triggers an image build (used with travis' cron jobs to build periodically)
