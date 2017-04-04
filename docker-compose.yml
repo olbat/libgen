@@ -4,19 +4,19 @@ libgen:
   entrypoint: libgen
   volumes:
   - .:/src
-  working_dir: /src
 
 build:
   build: .
   command: make
   volumes:
   - .:/src
-  working_dir: /src
 
 devel:
   image: olbat/libgen
   stdin_open: true
   command: crystal run src/main.cr
   volumes:
-  - .:/src
-  working_dir: /src
+  - ./src:/src/src
+  - ./bin:/src/bin
+  - ./spec:/src/spec
+  - ./examples:/src/examples
