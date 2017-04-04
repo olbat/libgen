@@ -1,0 +1,23 @@
+---
+language: crystal
+
+services:
+- docker
+
+env:
+  DOCKER_COMPOSE_VERSION: 1.11.2
+
+# from https://docs.travis-ci.com/user/docker/
+before_install:
+- sudo rm /usr/local/bin/docker-compose
+- curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+- chmod +x docker-compose
+- sudo mv docker-compose /usr/local/bin
+
+script:
+- docker-compose run --rm devel crystal spec
+
+# triggers an image build (used with travis' cron jobs to build periodically)
+after_script: >
+  curl -H "Content-Type: application/json" --data '{"build": true}'
+  -X POST https://registry.hub.docker.com/u/olbat/libgen/trigger/${API_TOKEN}/
