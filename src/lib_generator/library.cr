@@ -7,6 +7,7 @@ class LibGenerator::Library
   getter includes : Array(String)?
   getter definitions : Hash(String, LibGenerator::Definition)?
   getter packages : String?
+  getter destdir : String?
   getter rename : LibGenerator::RenameTransformer?
 
   YAML.mapping({
@@ -21,8 +22,7 @@ class LibGenerator::Library
 
   def initialize(ypp : YAML::PullParser)
     previous_def
-    raise ArgumentError.new(%("includes" or "definitions" must be defined)) \
-      if @includes.nil? && @definitions.nil?
+    check_attr!
   end
 
   JSON.mapping({
@@ -37,12 +37,24 @@ class LibGenerator::Library
 
   def initialize(jpp : JSON::PullParser)
     previous_def
-    raise ArgumentError.new(%("includes" or "definitions" must be defined)) \
-      if @includes.nil? && @definitions.nil?
+    check_attr!
+  end
+
+  def initialize(@name : String, @ldflags : String, @includes = nil,
+    @definitions = nil, @packages = nil, @destdir = nil, @rename = nil
+  )
+    check_attr!
+  end
+
+  protected def check_attr!
+    if (@includes.nil? || @includes.try(&.empty?)) \
+    && (@definitions.nil? || @definitions.try(&.empty?))
+      raise ArgumentError.new(%("includes" or "definitions" must be defined))
+    end
   end
 
   def destdir : String
-    @destdir ||= File.join("src", "#{@name.downcase}.cr")
+    @destdir ||= File.join("src", @name.underscore)
   end
 
   def generate_ldflags : String
