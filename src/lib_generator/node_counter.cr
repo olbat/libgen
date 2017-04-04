@@ -6,7 +6,7 @@ class LibGenerator::NodeCounter
   @counter : Hash(Crystal::ASTNode, Int32)
   delegate each, to: @counter
 
-  def initialize()
+  def initialize
     @counter = typeof(@counter).new
   end
 

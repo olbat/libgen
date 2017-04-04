@@ -7,6 +7,7 @@ module LibGenerator
     # parse the library description file
     lib_file = ARGV[0]? || "lib.yml"
     abort "Error: cannot read #{lib_file}" unless File.readable?(lib_file)
+
     puts "loading library from #{lib_file}"
     library = nil
     begin
@@ -78,7 +79,7 @@ module LibGenerator
 
     transformers = [] of Crystal::Transformer
     transformers << LibGenerator::SortTransformer.new
-    library.rename.try{|t| transformers << t }
+    library.rename.try { |t| transformers << t }
 
     # generate the Crystal code
     begin
@@ -98,7 +99,7 @@ module LibGenerator
     sources.each do |filename, source|
       filepath = File.join(destdir, filename)
       puts "generate #{filepath}"
-      File.open(filepath, "w"){|io| io.puts(source) }
+      File.open(filepath, "w") { |io| io.puts(source) }
     end
   end
 end

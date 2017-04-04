@@ -11,13 +11,13 @@ class LibGenerator::Library
   getter rename : LibGenerator::RenameTransformer?
 
   YAML.mapping({
-    name: { type: String },
-    ldflags: { type: String },
-    includes: { type: Array(String), nilable: true },
-    definitions: { type: Hash(String, LibGenerator::Definition), nilable: true },
-    packages: { type: String, nilable: true },
-    destdir: { type: String, nilable: true },
-    rename: { type: LibGenerator::RenameTransformer, nilable: true },
+    name:        {type: String},
+    ldflags:     {type: String},
+    includes:    {type: Array(String), nilable: true},
+    definitions: {type: Hash(String, LibGenerator::Definition), nilable: true},
+    packages:    {type: String, nilable: true},
+    destdir:     {type: String, nilable: true},
+    rename:      {type: LibGenerator::RenameTransformer, nilable: true},
   })
 
   def initialize(ypp : YAML::PullParser)
@@ -26,13 +26,13 @@ class LibGenerator::Library
   end
 
   JSON.mapping({
-    name: { type: String },
-    ldflags: { type: String },
-    includes: { type: Array(String), nilable: true },
-    definitions: { type: Hash(String, LibGenerator::Definition), nilable: true },
-    packages: { type: String, nilable: true },
-    destdir: { type: String, nilable: true },
-    rename: { type: LibGenerator::RenameTransformer, nilable: true },
+    name:        {type: String},
+    ldflags:     {type: String},
+    includes:    {type: Array(String), nilable: true},
+    definitions: {type: Hash(String, LibGenerator::Definition), nilable: true},
+    packages:    {type: String, nilable: true},
+    destdir:     {type: String, nilable: true},
+    rename:      {type: LibGenerator::RenameTransformer, nilable: true},
   })
 
   def initialize(jpp : JSON::PullParser)
@@ -40,15 +40,12 @@ class LibGenerator::Library
     check_attr!
   end
 
-  def initialize(@name : String, @ldflags : String, @includes = nil,
-    @definitions = nil, @packages = nil, @destdir = nil, @rename = nil
-  )
+  def initialize(@name : String, @ldflags : String, @includes = nil, @definitions = nil, @packages = nil, @destdir = nil, @rename = nil)
     check_attr!
   end
 
   protected def check_attr!
-    if (@includes.nil? || @includes.try(&.empty?)) \
-    && (@definitions.nil? || @definitions.try(&.empty?))
+    if (@includes.nil? || @includes.try(&.empty?)) && (@definitions.nil? || @definitions.try(&.empty?))
       raise ArgumentError.new(%("includes" or "definitions" must be defined))
     end
   end
@@ -60,8 +57,8 @@ class LibGenerator::Library
   def generate_ldflags : String
     ldflags = @ldflags
     if (packages = @packages)
-      "`command -v pkg-config > /dev/null "\
-      "&& pkg-config --libs #{packages} "\
+      "`command -v pkg-config > /dev/null " \
+      "&& pkg-config --libs #{packages} " \
       "|| printf %s '#{ldflags}'`"
     else
       ldflags
