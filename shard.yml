@@ -7,9 +7,14 @@ authors:
 description: |
   Small crystal_lib-based tool that ease the creation of Crytal C bindings
 
+targets:
+  libgen:
+    main: src/main.cr
+
 dependencies:
   crystal_lib:
     github: crystal-lang/crystal_lib
-    commit: 4c6082a8a6880ffc079db97f1503d04429ed6a48
+
+crystal: 0.21.0
 
 license: GPLv3
