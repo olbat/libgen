@@ -86,6 +86,22 @@ describe "LibGenerator::Library" do
       )
     end
 
+    it "loads from YAML with renames" do
+      LibGenerator::Library.from_yaml(
+        <<-EOS
+        ---
+        name: LibFoo
+        ldflags: "-foo"
+        includes: [ bar.yml ]
+        rename:
+          rules:
+            "*":
+            - pattern: _\d+$
+              replacement: ""
+        EOS
+      )
+    end
+
     it "loads from JSON with includes" do
       LibGenerator::Library.from_json(
         <<-EOS
@@ -108,6 +124,28 @@ describe "LibGenerator::Library" do
             "bar" : {
               "includes" : [ "bar.h" ],
               "prefixes" : [ "bar_" ]
+            }
+          }
+        }
+        EOS
+      )
+    end
+
+    it "loads from JSON with renames" do
+      LibGenerator::Library.from_json(
+        <<-'EOS'
+        {
+          "name" : "LibFoo",
+          "ldflags" : "-foo",
+          "includes" : [ "bar.yml" ],
+          "rename": {
+            "rules": {
+              "*": [
+                {
+                  "pattern": "_\\d+$",
+                  "replacement": ""
+                }
+              ]
             }
           }
         }

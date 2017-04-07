@@ -30,7 +30,7 @@ class LibGenerator::Definition
     # TODO: take in account possible funs in the lib declaration
     ltr = LibGenerator::CrystalLibTransformer.new
     Crystal::Parser.parse(source).transform(ltr)
-    new(ltr.prefixes, ltr.headers.scan(/<(.+)>/).flatten.map(&.[1]), ltr.flags)
+    new(ltr.prefixes, ltr.headers, ltr.flags)
   end
 
   def initialize(@prefixes = [] of String, @includes = [] of String, @flags = [] of String, @description = nil)

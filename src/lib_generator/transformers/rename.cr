@@ -16,15 +16,30 @@ class LibGenerator::RenameTransformer < Crystal::Transformer
     rules: Hash(String, Array(NamedTuple(pattern: Regex, replacement: String))),
   )
 
+  def initialize(ypp : YAML::PullParser)
+    previous_def
+    check_attr!
+  end
+
   JSON.mapping(
     rules: Hash(String, Array(NamedTuple(pattern: Regex, replacement: String))),
   )
 
+  def initialize(jpp : JSON::PullParser)
+    previous_def
+    check_attr!
+  end
+
   def initialize(@rules : Hash(String, Array(NamedTuple(pattern: Regex, replacement: String))))
-    @rules.keys.each do |type|
+    check_attr!
+  end
+
+  protected def check_attr!
+    @rules.each do |type, rules|
       unless type =~ /^(Fun|Type|CStructOrUnion|Alias|ExternalVar)Def|\*$/
         raise ArgumentError.new("Invalid AST node type #{type}")
       end
+      raise ArgumentError.new("the rules list cannot be empty") if rules.empty?
     end
   end
 
