@@ -3,19 +3,20 @@ require "crystal_lib/crystal_lib"
 require "compiler/crystal/syntax"
 
 class LibGenerator::CrystalLibTransformer < CrystalLib::LibTransformer
-  getter headers : String
+  getter headers : Array(String)
   getter flags : Array(String)
   getter prefixes : Array(String)
 
   def initialize
     super
-    @headers = ""
+    @headers = [] of String
     @flags = [] of String
     @prefixes = [] of String
   end
 
   def transform(node : Crystal::LibDef)
-    @headers, @flags, @prefixes, _ = process_includes
+    headers, @flags, @prefixes, _ = process_includes
+    @headers = headers.scan(/<(.+)>/).flatten.map(&.[1])
     node
   end
 end
