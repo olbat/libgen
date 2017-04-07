@@ -16,7 +16,4 @@ devel:
   stdin_open: true
   command: crystal run src/main.cr
   volumes:
-  - ./src:/src/src
-  - ./bin:/src/bin
-  - ./spec:/src/spec
-  - ./examples:/src/examples
+  - .:/src

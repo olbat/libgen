@@ -20,4 +20,12 @@ clean:
 distclean:
 	rm -f $(TARGET)
 
-.PHONY: deps install clean distclean
+test: test-lint test-spec
+
+test-lint:
+	$(CRBIN) tool format --check src/ spec/
+
+test-spec:
+	$(CRBIN) spec
+
+.PHONY: deps install clean distclean test test-lint test-spec
