@@ -7,7 +7,9 @@ $(TARGET): deps $(shell find src -type f -name '*.cr')
 	mkdir -p bin
 	$(CRBIN) build $(CRFLAGS) src/main.cr -o $@
 
-deps: shard.yml
+deps: lib/crystal_lib
+
+lib/crystal_lib: shard.yml
 	$(CRBIN) deps install
 
 install: $(TARGET)
