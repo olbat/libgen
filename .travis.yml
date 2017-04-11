@@ -15,8 +15,7 @@ before_install:
 - sudo mv docker-compose /usr/local/bin
 
 script:
-- docker-compose run --rm -u $UID devel make deps
-- docker-compose run --rm devel make test
+- docker-compose run --rm -u $UID devel make test
 
 # triggers an image build (used with travis' cron jobs to build periodically)
 after_script: >
