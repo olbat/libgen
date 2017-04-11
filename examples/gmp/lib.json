@@ -1,0 +1,12 @@
+{
+  "name": "LibGMP",
+  "ldflags": "-lgmp",
+  "destdir": "src/lib_gmp/",
+  "definitions": {
+    "lib_gmp": {
+      "description": "GMP",
+      "includes": [ "gmp.h" ],
+      "prefixes": [ "__gmpz" ]
+    }
+  }
+}
