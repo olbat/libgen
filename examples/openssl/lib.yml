@@ -1,0 +1,31 @@
+---
+name: LibOpenSSL
+ldflags: "-lssl -lcrypto"
+packages: openssl
+destdir: src/lib_openssl/
+definitions:
+  sha:
+    description: SHA hashing algorithms
+    includes:
+    - openssl/sha.h
+    prefixes:
+    - SHA
+  md5:
+    description: MD5 hashing algorithm
+    includes:
+    - openssl/md5.h
+    prefixes:
+    - MD5
+  rand:
+    description: OpenSSL's RNG
+    includes:
+    - openssl/rand.h
+    prefixes:
+    - RAND
+rename:
+  rules:
+    FunDef:
+    # small hack since strings such as "SHA1" are transformed to "sh_a1"
+    # FIXME: make a fix in crystal_lib/Crystal
+    - pattern: _([a-z]\d+)
+      replacement: "\\1"
