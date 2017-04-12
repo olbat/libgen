@@ -2,6 +2,7 @@
 name: LibICU
 ldflags: "-licuio -licui18n -liculx -licule -licuuc -licudata"
 packages: "icu-uc icu-i18n icu-io icu-lx icu-le"
+destdir: src/lib_icu/
 includes:
 - include/*.yml
 - include/*.json
@@ -11,7 +12,6 @@ definitions:
     description: Text Boundary Analysis (Break Iteration)
     includes: [ unicode/ubrk.h ]
     prefixes: [ ubrk_ ]
-destdir: src/lib_icu/
 rename:
   rules:
     "*":
