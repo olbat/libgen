@@ -36,7 +36,8 @@ test-integration: deps $(TARGET)
 	for lib in $(LIB_EXAMPLES) ; \
 	do \
 		$(TARGET) $$lib \
-		&& git diff --exit-code `dirname $$lib` ; \
+		&& git diff --exit-code `dirname $$lib` \
+		|| exit 1 ; \
 	done \
 	&& $(CRBIN) spec spec/integration/*.cr
 
