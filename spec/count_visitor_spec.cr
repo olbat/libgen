@@ -6,6 +6,7 @@ describe "LibGenerator::CountVisitor" do
       counter = LibGenerator::NodeCounter.new
       visitor = LibGenerator::CountVisitor.new(counter)
       sources = [
+        "FOO = 1",
         "fun bar : Void",
         "alias FooT = Int32",
         "enum Bar\nFOO\nBAR\nend",
@@ -18,7 +19,7 @@ describe "LibGenerator::CountVisitor" do
       counter.each do |node, count|
         count.should eq(2)
       end
-      counter.size.should eq(3)
+      counter.size.should eq(4)
 
       sources.each do |source|
         counter.any? { |n, _| n == ast_node(source) }.should be_true
