@@ -12,4 +12,8 @@ class LibGenerator::RemoveTransformer < Crystal::Transformer
       super
     end
   end
+
+  def after_transform(node : Crystal::Expressions)
+    node.expressions.select! { |n| !n.is_a?(Crystal::Nop) }
+  end
 end

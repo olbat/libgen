@@ -30,6 +30,15 @@ describe "LibGenerator::Generator::Lib" do
       l.should be_a(Crystal::LibDef)
       l.to_s.should eq("lib LibFoo\n  #{sources.join("\n  ")}\nend")
     end
+
+    it "generates nil of there is nothing to generate" do
+      sources = ["fun foo", "fun bar"]
+      library = LibGenerator::Library.new("LibFoo", "-lfoo", includes: ["bar.yml"])
+      li = LibGenerator::Generator::Lib.new(library, LibGenerator::Definition.new)
+      li.ast = Crystal::Expressions.new([] of Crystal::ASTNode)
+
+      li.generate_lib.should be_nil
+    end
   end
 
   describe "generate_requires" do

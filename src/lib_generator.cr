@@ -98,8 +98,12 @@ module LibGenerator
 
     sources.each do |filename, source|
       filepath = File.join(destdir, filename)
-      puts "generate #{filepath}"
-      File.open(filepath, "w") { |io| io.puts(source) }
+      if source
+        puts "generate #{filepath}"
+        File.open(filepath, "w") { |io| io.puts(source) }
+      else
+        puts "skip empty file #{filepath}"
+      end
     end
   end
 end

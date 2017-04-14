@@ -6,32 +6,47 @@ class LibGenerator::Generator
     getter library : LibGenerator::Library
     getter definition : LibGenerator::Definition
     getter transformers : Array(Crystal::Transformer)
-    property! requires : Array(String)
+    getter requires : Array(String)
+    getter source : String?
     property! ast : Crystal::ASTNode
-    property! source : String
 
     def initialize(@library : LibGenerator::Library, @definition : LibGenerator::Definition, @transformers = [] of Crystal::Transformer, @requires = [] of String, @ast = nil, @source = nil)
     end
 
     def transform
+      ast = @ast
       @transformers.each do |tr|
-        @ast = @ast.not_nil!.transform(tr).as(Crystal::Expressions)
+        ast = ast.not_nil!.transform(tr)
+        unless ast.is_a?(Crystal::Expressions)
+          ast = Crystal::Expressions.new([ast])
+        end
       end
+      @ast = ast
       self
     end
 
-    def generate : String
-      ast = Crystal::Expressions.new([
-        generate_attributes() || Crystal::Nop.new,
-        generate_lib.tap { |l| l.doc = @definition.description },
-        generate_requires() || Crystal::Nop.new,
-      ])
-      source = IO::Memory.new
-      ast.to_s(source, emit_doc: true)
-      @source = Crystal.format(source.to_s)
+    def generate : String?
+      li = generate_lib()
+      requires = generate_requires()
+
+      if li || requires
+        expressions = [] of Crystal::ASTNode
+
+        if li
+          generate_attributes().try { |attrs| expressions << attrs }
+          expressions << li
+        end
+        expressions << requires if requires
+
+        ast = Crystal::Expressions.new(expressions)
+
+        source = IO::Memory.new
+        ast.to_s(source, emit_doc: true)
+        @source = Crystal.format(source.to_s)
+      end
     end
 
-    def generate_attributes : Crystal::Attribute | Nil
+    def generate_attributes : Crystal::Attribute?
       if (ldflags = @library.generate_ldflags)
         Crystal::Attribute.new("Link",
           named_args: [Crystal::NamedArgument.new("ldflags",
@@ -39,14 +54,18 @@ class LibGenerator::Generator
       end
     end
 
-    def generate_lib : Crystal::LibDef
-      Crystal::LibDef.new(@library.name, @ast).tap do |ln|
-        ln.doc = @definition.description
+    def generate_lib : Crystal::LibDef?
+      ast = @ast
+      unless ast.as?(Crystal::Expressions).not_nil!.expressions.empty?
+        Crystal::LibDef.new(@library.name, ast).tap do |ln|
+          ln.doc = @definition.description
+        end
       end
     end
 
-    def generate_requires : Crystal::Expressions | Nil
-      if (requires = @requires)
+    def generate_requires : Crystal::Expressions?
+      requires = @requires
+      unless requires.empty?
         Crystal::Expressions.new(
           requires.map { |fn| Crystal::Require.new(fn).as(Crystal::ASTNode) }
         )
@@ -74,7 +93,7 @@ class LibGenerator::Generator
     self.new(library, definitions, transformers).generate
   end
 
-  def generate : Hash(String, String)
+  def generate : Hash(String, String?)
     parse_libs()
     group_common_nodes()
     transform_libs()
@@ -140,7 +159,7 @@ class LibGenerator::Generator
     end
 
     common_def.transformers.replace(@transformers)
-    common_def.requires = libs.keys.map { |fn| File.join(".", fn) if fn != @common_filename }.compact
+    common_def.requires.concat(libs.keys.map { |fn| File.join(".", fn) if fn != @common_filename }.compact)
 
     self
   end
