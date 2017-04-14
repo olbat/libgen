@@ -5,7 +5,7 @@ class LibGenerator::RemoveTransformer < Crystal::Transformer
   end
 
   # def transform(node : Crystal::ASTNode)
-  def transform(node : (Crystal::FunDef | Crystal::TypeDef | Crystal::CStructOrUnionDef | Crystal::EnumDef | Crystal::Alias | Crystal::ExternalVar))
+  def transform(node : (Crystal::FunDef | Crystal::TypeDef | Crystal::CStructOrUnionDef | Crystal::EnumDef | Crystal::Alias | Crystal::ExternalVar | Crystal::Assign))
     if @nodes_to_remove.includes?(node)
       Crystal::Nop.new
     else
