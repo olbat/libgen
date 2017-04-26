@@ -36,7 +36,7 @@ class LibGenerator::RenameTransformer < Crystal::Transformer
 
   protected def check_attr!
     @rules.each do |type, rules|
-      unless type =~ /^(Fun|Type|CStructOrUnion|Alias|ExternalVar)Def|\*$/
+      unless type =~ /^(Fun|Type|CStructOrUnion|Enum)Def|Alias|ExternalVar|\*$/
         raise ArgumentError.new("Invalid AST node type #{type}")
       end
       raise ArgumentError.new("the rules list cannot be empty") if rules.empty?
