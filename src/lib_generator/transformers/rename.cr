@@ -55,7 +55,7 @@ class LibGenerator::RenameTransformer < Crystal::Transformer
         end
       end
     end
-    node
+    super
   end
 
   def transform(node : Crystal::EnumDef)
@@ -66,7 +66,7 @@ class LibGenerator::RenameTransformer < Crystal::Transformer
         end
       end
     end
-    node
+    super
   end
 
   def transform(node : Crystal::Arg) # used in EnumDef
@@ -78,6 +78,6 @@ class LibGenerator::RenameTransformer < Crystal::Transformer
         end
       end
     end
-    node
+    super
   end
 end
