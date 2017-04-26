@@ -103,15 +103,20 @@ describe "LibGenerator::RenameTransformer" do
         <<-EOS
         lib L
           fun foo_123(x : Int32)
-          fun bar
+          fun bar_123
+          fun foobar
           alias A_123 = Int32
+          enum Foo
+            FOO_123 = 1
+            BAR_123
+          end
         end
         EOS
       )
 
       transformer = LibGenerator::RenameTransformer.new({
         "*"      => [{pattern: /_\d+$/, replacement: ""}],
-        "FunDef" => [{pattern: /bar/, replacement: "foobar"}],
+        "FunDef" => [{pattern: /foobar/, replacement: "barfoo"}],
       })
 
       ast.transform(transformer)
@@ -120,8 +125,13 @@ describe "LibGenerator::RenameTransformer" do
         <<-EOS
         lib L
           fun foo = foo_123(x : Int32)
-          fun foobar = bar
+          fun bar = bar_123
+          fun barfoo = foobar
           alias A = Int32
+          enum Foo
+            FOO = 1
+            BAR
+          end
         end
         EOS
       )
