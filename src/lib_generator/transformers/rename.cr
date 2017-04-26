@@ -36,7 +36,7 @@ class LibGenerator::RenameTransformer < Crystal::Transformer
 
   protected def check_attr!
     @rules.each do |type, rules|
-      unless type =~ /^(Fun|Type|CStructOrUnion|Enum)Def|Alias|ExternalVar|\*$/
+      unless type =~ /^(Fun|Type|CStructOrUnion|Enum)Def|Alias|ExternalVar|Arg|\*$/
         raise ArgumentError.new("Invalid AST node type #{type}")
       end
       raise ArgumentError.new("the rules list cannot be empty") if rules.empty?
@@ -63,6 +63,18 @@ class LibGenerator::RenameTransformer < Crystal::Transformer
       rules.each do |rule|
         if match?(type, node)
           node.name.names = node.name.names.map(&.gsub(rule[:pattern], rule[:replacement]))
+        end
+      end
+    end
+    node
+  end
+
+  def transform(node : Crystal::Arg) # used in EnumDef
+    @rules.each do |type, rules|
+      rules.each do |rule|
+        if match?(type, node)
+          node.name = node.name.gsub(rule[:pattern], rule[:replacement])
+          node.external_name = node.name
         end
       end
     end
