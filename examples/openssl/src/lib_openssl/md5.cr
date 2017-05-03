@@ -1,4 +1,4 @@
-@[Link(ldflags: "`command -v pkg-config > /dev/null && pkg-config --libs openssl || printf %s '-lssl -lcrypto'`")]
+@[Link(ldflags: "`command -v pkg-config > /dev/null && pkg-config --libs openssl 2> /dev/null|| printf %s '-lssl -lcrypto'`")]
 lib LibOpenSSL
   MD5_CBLOCK        = 64
   MD5_DIGEST_LENGTH = 16

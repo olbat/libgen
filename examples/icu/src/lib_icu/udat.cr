@@ -1,4 +1,4 @@
-@[Link(ldflags: "`command -v pkg-config > /dev/null && pkg-config --libs icu-uc icu-i18n icu-io icu-lx icu-le || printf %s '-licuio -licui18n -liculx -licule -licuuc -licudata'`")]
+@[Link(ldflags: "`command -v pkg-config > /dev/null && pkg-config --libs icu-uc icu-i18n icu-io icu-lx icu-le 2> /dev/null|| printf %s '-licuio -licui18n -liculx -licule -licuuc -licudata'`")]
 lib LibICU
   alias UCalendar = Void*
   alias UDateFormat = Void*
