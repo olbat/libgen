@@ -1,21 +1,41 @@
 ---
 language: crystal
 
-services:
-- docker
+matrix:
+  include:
+  # full tests (lint, spec, integration) using the Docker image
+  - services:
+    - docker
+    script:
+    - docker-compose run --rm -u $UID devel make test
+    # install docker-compose (from https://docs.travis-ci.com/user/docker/)
+    env:
+      DOCKER_COMPOSE_VERSION: 1.11.2
+    before_install:
+    - sudo rm /usr/local/bin/docker-compose
+    - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+    - chmod +x docker-compose
+    - sudo mv docker-compose /usr/local/bin
 
-env:
-  DOCKER_COMPOSE_VERSION: 1.11.2
+  # spec tests on Ubuntu and OSX
+  - os: linux
+    dist: trusty
+    before_install:
+    - sudo apt-get -qq update
+    - sudo apt-get install -y llvm-3.5-dev libclang-3.5-dev
+  - os: osx
+    osx_image: xcode8.3
+    before_install:
+    - brew update
+    # FIXME: ugly fix for the CI's image, crystal-lang should not be reinstalled
+    - rm -f /usr/local/bin/shards
+    - brew install crystal-lang
+    # install LLVM/Clang
+    - brew install llvm@3.7
+    # FIXME: ugly fix since the libclang.dylib is not symlinked correctly
+    - brew list --verbose llvm@3.7 | grep "\.dylib$" | xargs -n1 -I{} ln -sf {} $(brew --prefix)/lib
 
-# from https://docs.travis-ci.com/user/docker/
-before_install:
-- sudo rm /usr/local/bin/docker-compose
-- curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
-- chmod +x docker-compose
-- sudo mv docker-compose /usr/local/bin
-
-script:
-- docker-compose run --rm -u $UID devel make test
+script: crystal spec
 
 # triggers an image build (used with travis' cron jobs to build periodically)
 after_script: >
