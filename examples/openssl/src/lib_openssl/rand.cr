@@ -1,4 +1,4 @@
-@[Link(ldflags: "`command -v pkg-config > /dev/null && pkg-config --libs openssl || printf %s '-lssl -lcrypto'`")]
+@[Link(ldflags: "`command -v pkg-config > /dev/null && pkg-config --libs openssl 2> /dev/null|| printf %s '-lssl -lcrypto'`")]
 lib LibOpenSSL
   RAND_F_RAND_GET_RAND_METHOD      =        101
   RAND_F_RAND_INIT_FIPS            =        102

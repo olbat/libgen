@@ -58,7 +58,7 @@ class LibGenerator::Library
     ldflags = @ldflags
     if (packages = @packages)
       "`command -v pkg-config > /dev/null " \
-      "&& pkg-config --libs #{packages} " \
+      "&& pkg-config --libs #{packages} 2> /dev/null" \
       "|| printf %s '#{ldflags}'`"
     else
       ldflags
