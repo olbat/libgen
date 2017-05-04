@@ -16,14 +16,20 @@ There is also an option to perform AST node renaming at generation time.
 
 
 ## Installation
+__Debian/Ubuntu__
 ```bash
-# install dependencies (Debian based systems)
+# install build dependencies
 apt-get install -y build-essential llvm-3.5-dev libclang-3.5-dev
 # then, build and install
 make && make install
+```
 
-# or, fetch the Docker image
-docker pull olbat/libgen
+__macOS__
+```bash
+# if necessary, install build dependencies
+brew install llvm@3.7
+# then, build and install
+make && make install
 ```
 
 
