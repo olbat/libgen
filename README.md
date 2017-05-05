@@ -97,9 +97,34 @@ The generated files: [examples/icu/src/lib_icu](examples/icu/src/lib_icu).
 
 
 ## Specifications
+__Configuration files__
+
+Lib's are generated following configurations specified in two kind of entities:
+* a __library__ that specifies global options such as the lib name, the output
+  directory or the linker's flags
+* some __definitions__ that specifies a part of the lib specifying the C header
+  files that describes it  
+  (a Crystal file will be generated for each definition in the output directory)
+
+The ___library___ config has to be saved in a file (
+[JSON](examples/gmp/lib.json) or [YAML](examples/openssl/lib.yml))
+
+The ___definitions___ configs can be saved in:
+* a file ([JSON](examples/icu/include/ucurr.json),
+  [YAML](examples/icu/include/ucsdet.yml) or
+  [Crystal](examples/icu/include/udat.cr)), the name of the output file
+  corresponds to the name of this file (i.e. sha.yml → sha.cr)
+* inside the __library__ config file using the
+  [definitions](examples/icu/lib.yml) field, the name of the output file
+  corresponds to the name of the field
+
+
+__Configuration format__
+
 __WIP__: the config file format is not frozen yet, please wait for the first release to use the project
 
-...
+
+__Example__
 
 A complete example is available in the [examples/icu](examples/icu) directory.
 
