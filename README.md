@@ -44,8 +44,8 @@ A generation config file, [examples/icu/lib.yml](examples/icu/lib.yml):
 ```yaml
 ---
 name: LibICU
-ldflags: "-licuio -licui18n -liculx -licule -licuuc -licudata"
-packages: "icu-uc icu-i18n icu-io icu-lx icu-le"
+ldflags: "-licuuc -licudata -licui18n -licuio"
+packages: "icu-uc icu-i18n icu-io"
 destdir: src/lib_icu/
 includes:
 - include/*.yml

@@ -1,7 +1,7 @@
 ---
 name: LibICU
-ldflags: "-licuio -licui18n -liculx -licule -licuuc -licudata"
-packages: "icu-uc icu-i18n icu-io icu-lx icu-le"
+ldflags: "-licuio -licui18n -licuuc -licudata"
+packages: "icu-uc icu-i18n icu-io"
 destdir: src/lib_icu/
 includes:
 - include/*.yml

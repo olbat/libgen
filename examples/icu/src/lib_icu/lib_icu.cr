@@ -1,4 +1,4 @@
-@[Link(ldflags: "`command -v pkg-config > /dev/null && pkg-config --libs icu-uc icu-i18n icu-io icu-lx icu-le 2> /dev/null|| printf %s '-licuio -licui18n -liculx -licule -licuuc -licudata'`")]
+@[Link(ldflags: "`command -v pkg-config > /dev/null && pkg-config --libs icu-uc icu-i18n icu-io 2> /dev/null|| printf %s '-licuio -licui18n -licuuc -licudata'`")]
 lib LibICU
   alias Int32T = LibC::Int
   alias Int8T = LibC::Char
