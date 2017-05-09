@@ -14,15 +14,19 @@ class LibGenerator::Generator
     end
 
     def transform
-      ast = @ast
       @transformers.each do |tr|
-        ast = ast.not_nil!.transform(tr)
-        unless ast.is_a?(Crystal::Expressions)
-          ast = Crystal::Expressions.new([ast])
-        end
+        transform(tr)
+      end
+      self
+    end
+
+    def transform(transformer : Crystal::Transformer)
+      ast = @ast.not_nil!
+      ast = ast.transform(transformer)
+      unless ast.is_a?(Crystal::Expressions)
+        ast = Crystal::Expressions.new([ast])
       end
       @ast = ast
-      self
     end
 
     def generate : String?
