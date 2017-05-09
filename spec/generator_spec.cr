@@ -34,7 +34,7 @@ describe "LibGenerator::Generator" do
   end
 
   describe "group_common_nodes" do
-    it "groups common nodes in a lib and generates requires" do
+    it "groups common nodes in a lib and generates requires for non-empty libs" do
       sources = [
         "fun foo\nfun bar",
         "fun foo\nfun foobar",
@@ -55,10 +55,10 @@ describe "LibGenerator::Generator" do
       li = generator.libs[generator.common_filename]
 
       li.ast.should eq(Crystal::Expressions.new(ast_nodes(["fun foo", "fun bar"])))
-      li.requires.should eq(definitions.keys.map { |fn| "./#{fn}" })
+      li.requires.should eq([1, 3].map { |fn| "./#{fn}" })
     end
 
-    it "groups common nodes in an existing lib and generates requires" do
+    it "groups common nodes in an existing lib and generates requires for non-empty libs" do
       sources = [
         "fun foo\nfun bar",
         "fun foo\nfun foobar",
@@ -84,7 +84,7 @@ describe "LibGenerator::Generator" do
       li = generator.libs[generator.common_filename]
 
       li.ast.should eq(Crystal::Expressions.new(ast_nodes(["fun common", "fun foo", "fun bar"])))
-      li.requires.should eq(sources.size.times.to_a.map { |i| "./#{i}" })
+      li.requires.should eq([1, 3].map { |i| "./#{i}" })
     end
   end
 end
