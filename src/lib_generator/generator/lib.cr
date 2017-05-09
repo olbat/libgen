@@ -26,6 +26,7 @@ class LibGenerator::Generator
       unless ast.is_a?(Crystal::Expressions)
         ast = Crystal::Expressions.new([ast])
       end
+      ast.expressions.select! { |n| !n.is_a?(Crystal::Nop) }
       @ast = ast
     end
 
@@ -60,7 +61,7 @@ class LibGenerator::Generator
 
     def generate_lib : Crystal::LibDef?
       ast = @ast
-      unless ast.as?(Crystal::Expressions).not_nil!.expressions.empty?
+      unless ast.as(Crystal::Expressions).expressions.empty?
         Crystal::LibDef.new(@library.name, ast).tap do |ln|
           ln.doc = @definition.description
         end

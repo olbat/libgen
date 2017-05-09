@@ -22,7 +22,7 @@ describe "LibGenerator::Generator::Lib" do
       li.ast.should eq(Crystal::Expressions.new(ast_nodes(sources.sort)))
     end
 
-    it "transforms a lib to nothing and returns a Crystal::Expression" do
+    it "transforms a lib to an empty Crystal::Expression" do
       nodes = [ast_node("fun foo")]
       library = LibGenerator::Library.new("LibFoo", "-lfoo", includes: ["bar.yml"])
       li = LibGenerator::Generator::Lib.new(library, LibGenerator::Definition.new)
@@ -31,6 +31,7 @@ describe "LibGenerator::Generator::Lib" do
       ast = li.transform(LibGenerator::RemoveTransformer.new(nodes))
 
       ast.should be_a(Crystal::Expressions)
+      ast.expressions.empty?.should be_true
     end
   end
 
