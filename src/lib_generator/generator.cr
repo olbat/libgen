@@ -87,8 +87,8 @@ class LibGenerator::Generator
       )
     end
 
-    common_def.transformers.replace(@transformers)
-    common_def.requires.concat(libs.keys.map { |fn| File.join(".", fn) if fn != @common_filename }.compact)
+    requires = libs.select { |_, v| !v.ast.as(Crystal::Expressions).expressions.empty? }.keys
+    common_def.requires.concat(requires.map { |fn| File.join(".", fn) if fn != @common_filename }.compact)
 
     self
   end
