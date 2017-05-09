@@ -87,4 +87,53 @@ describe "LibGenerator::Generator" do
       li.requires.should eq([1, 3].map { |i| "./#{i}" })
     end
   end
+
+  describe "generate" do
+    it "generates libs and common lib" do
+      sources = [
+        "fun foo\nfun bar",
+        "fun foo\nfun foobar",
+        "fun bar",
+        "fun barfoo",
+      ]
+
+      library = LibGenerator::Library.new("LibFoo", "-lfoo", includes: ["bar.yml"])
+      definitions = sources.size.times.map(&.to_s).to_a.zip(sources.map { LibGenerator::Definition.new }).to_h
+
+      transformers = [
+        LibGenerator::SortTransformer.new,
+        LibGenerator::RenameTransformer.new({
+          "*" => [{pattern: /foo/, replacement: "foofoo"}],
+        }),
+      ]
+      generator = LibGenerator::Generator.new(library, definitions, transformers)
+
+      generator.libs.each_with_index do |(_, li), i|
+        li.ast = ast_exprs(sources[i]) if i < sources.size
+      end
+
+      libs = generator.generate
+
+      libs["0"].should be_nil
+      libs["1"].should match(/^@\[Link\([^\n]+"-lfoo"/m)
+      libs["1"].should match(/^\s*fun foofoobar\s*=\s*foobar$/m)
+      libs["2"].should be_nil
+      libs["3"].should match(/^@\[Link\([^\n]+"-lfoo"/m)
+      libs["1"].should match(/^\s*fun foofoobar\s*=\s*foobar$/m)
+      libs["3"].should match(/^\s*fun barfoofoo = barfoo$/m)
+      libs["lib_foo.cr"].should match(/^@\[Link\([^\n]+"-lfoo"/m)
+      libs["lib_foo.cr"].should match(/^\s*fun bar$/m)
+      libs["lib_foo.cr"].should match(/^\s*fun foofoo\s*=\s*foo$/m)
+      libs["lib_foo.cr"].should_not match(/^\s*require\s*"\.\/0"$/m)
+      libs["lib_foo.cr"].should match(/^\s*require\s*"\.\/1"$/m)
+      libs["lib_foo.cr"].should_not match(/^\s*require\s*"\.\/2"$/m)
+      libs["lib_foo.cr"].should match(/^\s*require\s*"\.\/3"$/m)
+    end
+  end
+end
+
+# FIXME: ugly hack to "disable" the #parse_libs method (used when testing #generate)
+class LibGenerator::Generator
+  def parse_libs
+  end
 end
