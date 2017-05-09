@@ -26,7 +26,7 @@ describe "LibGenerator::Generator" do
       generator = LibGenerator::Generator.new(library, definitions, [] of Crystal::Transformer)
 
       generator.libs.each_with_index do |(_, li), i|
-        li.ast = Crystal::Parser.parse("lib L\n#{sources[i]}\nend")
+        li.ast = ast_exprs(sources[i])
       end
 
       generator.extract_common_nodes.should eq(ast_nodes(["fun foo", "fun bar"]))
@@ -47,7 +47,7 @@ describe "LibGenerator::Generator" do
       generator = LibGenerator::Generator.new(library, definitions, [] of Crystal::Transformer)
 
       generator.libs.each_with_index do |(_, li), i|
-        li.ast = Crystal::Parser.parse("lib L\n#{sources[i]}\nend")
+        li.ast = ast_exprs(sources[i])
       end
 
       generator.group_common_nodes
@@ -74,7 +74,7 @@ describe "LibGenerator::Generator" do
       generator = LibGenerator::Generator.new(library, definitions, [] of Crystal::Transformer)
 
       generator.libs.each_with_index do |(_, li), i|
-        li.ast = Crystal::Parser.parse("lib L\n#{sources[i]}\nend") if i < sources.size
+        li.ast = ast_exprs(sources[i]) if i < sources.size
       end
 
       generator.libs[common_filename].ast = Crystal::Expressions.new([ast_node("fun common")])
