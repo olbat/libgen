@@ -8,6 +8,32 @@ describe "LibGenerator::Generator::Lib" do
     end
   end
 
+  describe "transform" do
+    it "transforms a lib" do
+      sources = ["fun foo", "fun bar"]
+      library = LibGenerator::Library.new("LibFoo", "-lfoo", includes: ["bar.yml"])
+      transformers = [] of Crystal::Transformer
+      transformers << LibGenerator::SortTransformer.new
+      li = LibGenerator::Generator::Lib.new(library, LibGenerator::Definition.new, transformers)
+      li.ast = Crystal::Expressions.new(ast_nodes(sources))
+
+      li.transform
+
+      li.ast.should eq(Crystal::Expressions.new(ast_nodes(sources.sort)))
+    end
+
+    it "transforms a lib to nothing and returns a Crystal::Expression" do
+      nodes = [ast_node("fun foo")]
+      library = LibGenerator::Library.new("LibFoo", "-lfoo", includes: ["bar.yml"])
+      li = LibGenerator::Generator::Lib.new(library, LibGenerator::Definition.new)
+      li.ast = Crystal::Expressions.new(nodes)
+
+      ast = li.transform(LibGenerator::RemoveTransformer.new(nodes))
+
+      ast.should be_a(Crystal::Expressions)
+    end
+  end
+
   describe "generate_attributes" do
     it "generates Crystal attributes" do
       library = LibGenerator::Library.new("LibFoo", "-lfoo", includes: ["bar.yml"])
