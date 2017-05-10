@@ -24,8 +24,8 @@ class LibGenerator::Generator
 
   def generate : Hash(String, String?)
     parse_libs()
-    group_common_nodes()
     transform_libs()
+    group_common_nodes()
     generate_libs()
 
     @libs.map { |fn, li| {fn, li.source} }.to_h
@@ -66,13 +66,16 @@ class LibGenerator::Generator
     # to remove them: they will be grouped in a common definition/file
     unless (common_nodes = extract_common_nodes()).empty?
       # delete the common AST nodes from every libs
-      nrt = LibGenerator::RemoveTransformer.new(common_nodes.dup)
-      libs.each { |_, li| li.transformers.unshift(nrt) }
+      nrt = LibGenerator::RemoveTransformer.new(common_nodes)
+      libs.each { |_, li| li.transform(nrt) }
     end
 
     # if the common_filename file has already been defined, modify it
     if (common_def = libs[@common_filename]?)
       common_def.ast.accept(LibGenerator::DuplicatesVisitor.new(common_nodes))
+      unless common_def.ast.is_a?(Crystal::Expressions)
+        common_def.ast = Crystal::Expressions.new([common_def.ast])
+      end
       common_nodes.each do |node|
         common_def.ast.as(Crystal::Expressions).expressions << node
       end
@@ -83,8 +86,16 @@ class LibGenerator::Generator
         definition: LibGenerator::Definition.new(
           description: "Common definitions of the #{@library.name} lib",
         ),
-        ast: Crystal::Expressions.new(common_nodes),
+        ast: Crystal::Expressions.new(common_nodes)
       )
+    end
+
+    # (re-)apply cosmetic transformers on the common file's sources
+    transformers = @transformers
+    transformers.each do |tr|
+      if tr.is_a?(LibGenerator::CosmeticTransformer)
+        common_def.transform(tr)
+      end
     end
 
     requires = libs.select { |_, v| !v.ast.as(Crystal::Expressions).expressions.empty? }.keys
