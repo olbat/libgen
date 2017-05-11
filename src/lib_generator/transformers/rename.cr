@@ -1,34 +1,28 @@
 require "compiler/crystal/syntax"
 
 # TODO: find a better way to do it
-def Regex.new(ypp : YAML::PullParser)
-  new ypp.read_scalar
+def Regex.new(pp : YAML::PullParser)
+  new pp.read_scalar
 end
 
-def Regex.new(jpp : JSON::PullParser)
-  new jpp.read_string
+# ditto
+def Regex.new(pp : JSON::PullParser)
+  new pp.read_string
 end
 
 class LibGenerator::RenameTransformer < Crystal::Transformer
   getter rules : Hash(String, Array(NamedTuple(pattern: Regex, replacement: String)))
 
-  YAML.mapping(
+  {% for klass in ["YAML", "JSON"] %}
+  {{klass.id}}.mapping(
     rules: Hash(String, Array(NamedTuple(pattern: Regex, replacement: String))),
   )
 
-  def initialize(ypp : YAML::PullParser)
+  def initialize(pp : {{klass.id}}::PullParser)
     previous_def
     check_attr!
   end
-
-  JSON.mapping(
-    rules: Hash(String, Array(NamedTuple(pattern: Regex, replacement: String))),
-  )
-
-  def initialize(jpp : JSON::PullParser)
-    previous_def
-    check_attr!
-  end
+  {% end %}
 
   def initialize(@rules : Hash(String, Array(NamedTuple(pattern: Regex, replacement: String))))
     check_attr!

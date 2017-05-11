@@ -10,7 +10,8 @@ class LibGenerator::Library
   getter destdir : String?
   getter rename : LibGenerator::RenameTransformer?
 
-  YAML.mapping({
+  {% for klass in ["YAML", "JSON"] %}
+  {{klass.id}}.mapping({
     name:        {type: String},
     ldflags:     {type: String},
     includes:    {type: Array(String), nilable: true},
@@ -20,25 +21,11 @@ class LibGenerator::Library
     rename:      {type: LibGenerator::RenameTransformer, nilable: true},
   })
 
-  def initialize(ypp : YAML::PullParser)
+  def initialize(pp : {{klass.id}}::PullParser)
     previous_def
     check_attr!
   end
-
-  JSON.mapping({
-    name:        {type: String},
-    ldflags:     {type: String},
-    includes:    {type: Array(String), nilable: true},
-    definitions: {type: Hash(String, LibGenerator::Definition), nilable: true},
-    packages:    {type: String, nilable: true},
-    destdir:     {type: String, nilable: true},
-    rename:      {type: LibGenerator::RenameTransformer, nilable: true},
-  })
-
-  def initialize(jpp : JSON::PullParser)
-    previous_def
-    check_attr!
-  end
+  {% end %}
 
   def initialize(@name : String, @ldflags : String, @includes = nil, @definitions = nil, @packages = nil, @destdir = nil, @rename = nil)
     check_attr!

@@ -12,19 +12,14 @@ class LibGenerator::Definition
   # generator
   getter description : String?
 
-  YAML.mapping({
+  {% for klass in ["YAML", "JSON"] %}
+  {{klass.id}}.mapping({
     includes:    {type: Array(String)},
     prefixes:    {type: Array(String)},
     flags:       {type: Array(String), nilable: true},
     description: {type: String, nilable: true},
   })
-
-  JSON.mapping({
-    includes:    {type: Array(String)},
-    prefixes:    {type: Array(String)},
-    flags:       {type: Array(String), nilable: true},
-    description: {type: String, nilable: true},
-  })
+  {% end %}
 
   def self.from_crystal(source : String)
     # TODO: take in account possible funs in the lib declaration
