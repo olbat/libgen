@@ -104,7 +104,15 @@ See [SPECS.md](SPECS.md)
 ## Development
 __How does it work__
 
-...
+To generate Crystal libs from C headers, the `libgen` tool:
+1. loads [Library](src/lib_generator/library.cr) and [Definition](src/lib_generator/definition.cr) objects from configuration files
+2. generates Crystal ASTs (one per Definition) from C headers using [crystal_lib](https://github.com/crystal-lang/crystal_lib)'s parser (see [Definition#parse_lib](src/lib_generator/definition.cr))
+3. transforms the Crystal ASTs:
+    1. applies transformers following the configuration (AST nodes renaming, sorting, ... see [transformers](src/lib_generator/transformers))
+    2. groups AST nodes that are common to several libs into a common lib
+    3. adds requires to non-empty libs in the common lib's AST
+4. generates and formats the libs from ASTs adding the _@Link/ldflags_ attribute (see [Generator::Lib#generate](src/lib_generator/generator/lib.cr))
+5. saves the generated libs to their respective output files
 
 __Known limitations__
 * it's only possible to filter functions to bind by prefix (and not by name, such as in [example](https://github.com/crystal-lang/crystal_lib/blob/master/examples/lib_readline.cr))
