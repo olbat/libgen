@@ -66,40 +66,40 @@ ___WIP___: the config file format is not frozen yet, please wait for the first
          release to use the project
 
 ### Library
-- __name__: the name of the output lib  
+- `name`: the name of the output lib  
   _[String, mandatory]_
-- __ldflags__: flags to be passed to the linker  
+- `ldflags`: flags to be passed to the linker  
   _[String, mandatory]_
-- __packages__: a list of [pkg-config](https://www.freedesktop.org/wiki/Software/pkg-config/)
+- `packages`: a list of [pkg-config](https://www.freedesktop.org/wiki/Software/pkg-config/)
   packages that can be used to find the linker's flags
   (falls back on _ldflags_ if not found)  
   _[String, optional]_
-- __destdir__: the directory to write the output files to (relative to the
+- `destdir`: the directory to write the output files to (relative to the
   config file)  
   _[String, optional, default: src/@name.underscore]_
-- __includes__: a list of definition files to include for the generation
+- `includes`: a list of definition files to include for the generation
   (interpreted by [Dir.glob](https://crystal-lang.org/api/0.21.1/Dir.html))  
   _[Array(String), optional]_
-- __definitions__: a list of definitions (see __Definition__ bellow) the hash's
+- `definitions`: a list of definitions (see __Definition__ bellow) the hash's
   is used to specify the output file name (without extension)  
   _[Hash(String, String), optional]_
-- __rename/rules__: a list of renaming rules:
+- `rename/rules`: a list of renaming rules:
   - the key is the type of AST node to rename  
     _[String, value =~ /(Fun|Type|CStructOrUnion|Enum)Def|Alias|ExternalVar|Arg|\*/]_,
   - the value is an array of
-    [String#gsub](https://crystal-lang.org/api/0.21.1/Dir.html) __pattern__ and
-    __replacement__ values  
+    [String#gsub](https://crystal-lang.org/api/0.21.1/Dir.html) `pattern` and
+    `replacement` values  
     _[Array(NamedTuple(pattern:Regex, replacement:String)))]_
 
 ### Definition
-- __description__: a description of this part of the lib (used to generate a
+- `description`: a description of this part of the lib (used to generate a
   comment in the output file)  
   _[String, optional]_
-- __includes__: a list of C header files used to generate the binding of this
+- `includes`: a list of C header files used to generate the binding of this
   part of the lib  
   _[Array(String), mandatory]_
-- __prefixes__: a list of prefixes used to filter C functions that have to be
+- `prefixes`: a list of prefixes used to filter C functions that have to be
   included in the binding from the header files  
   _[String, mandatory]_
-- __flags__: some flags to be define when loading C header files  
+- `flags`: some flags to be define when loading C header files  
   _[String, optional]_
