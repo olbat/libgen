@@ -1,6 +1,5 @@
 CRBIN=crystal
-# FIXME: flag temporary disabled, see https://github.com/olbat/libgen/issues/5
-CRFLAGS=#--release
+CRFLAGS=--release
 TARGET=bin/libgen
 INSTALL_PATH?=/usr/local
 SOURCES=$(shell find src -type f -name '*.cr')
