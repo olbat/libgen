@@ -61,10 +61,6 @@ The ___definitions___ configs can be saved in:
 
 
 ## Configuration format (v1)
-
-___WIP___: the config file format is not frozen yet, please wait for the first
-         release to use the project
-
 ### Library
 - `name`: the name of the output lib  
   _[String, mandatory]_

@@ -143,4 +143,4 @@ docker build .
 
 
 ## Contributors
-- [olbat](https://github.com/olbat)  - creator, maintainer
+- [olbat](https://github.com/olbat) - creator, maintainer
