@@ -7,6 +7,7 @@ matrix:
   # full tests (lint, spec, integration) using the Docker image
   - services:
     - docker
+
     # install docker-compose (from https://docs.travis-ci.com/user/docker/)
     env:
       DOCKER_COMPOSE_VERSION: 1.11.2
@@ -15,8 +16,18 @@ matrix:
     - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
     - chmod +x docker-compose
     - sudo mv docker-compose /usr/local/bin
+
     script:
     - docker-compose run --rm -u $UID devel make test
+    - docker-compose run --rm -u $UID devel crystal doc
+
+    # publish the documentation on GitHub pages
+    deploy:
+      provider: pages
+      local_dir: doc/
+      target_branch: gh-pages
+      github_token: $GITHUB_TOKEN
+      skip_cleanup: true
 
   # spec tests on Ubuntu and OSX
   - os: linux
@@ -98,3 +109,6 @@ after_script: >
   [ $TRAVIS_EVENT_TYPE != "cron" ] ||
   curl -H "Content-Type: application/json" --data '{"build": true}'
   -X POST https://registry.hub.docker.com/u/olbat/libgen/trigger/${API_TOKEN}/
+
+  on:
+    condition: $PUBDOC
