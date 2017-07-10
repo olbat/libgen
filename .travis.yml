@@ -102,6 +102,3 @@ after_script: >
   [ $TRAVIS_EVENT_TYPE != "cron" ] ||
   curl -H "Content-Type: application/json" --data '{"build": true}'
   -X POST https://registry.hub.docker.com/u/olbat/libgen/trigger/${API_TOKEN}/
-
-  on:
-    condition: $PUBDOC
