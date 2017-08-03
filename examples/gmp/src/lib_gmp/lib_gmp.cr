@@ -4,7 +4,9 @@ lib LibGMP
   alias MpBitcntT = LibC::ULong
   alias MpExpT = LibC::Long
   alias MpLimbT = LibC::ULong
+  alias MpPtr = MpLimbT*
   alias MpSizeT = LibC::Long
+  alias MpSrcptr = MpLimbT*
   alias MpfSrcptr = X__MpfStruct*
   alias MpqSrcptr = X__MpqStruct*
   alias MpzPtr = X__MpzStruct*
@@ -105,6 +107,10 @@ lib LibGMP
   fun __gmpz_kronecker_ui(x0 : MpzSrcptr, x1 : LibC::ULong) : LibC::Int
   fun __gmpz_lcm(x0 : MpzPtr, x1 : MpzSrcptr, x2 : MpzSrcptr)
   fun __gmpz_lcm_ui(x0 : MpzPtr, x1 : MpzSrcptr, x2 : LibC::ULong)
+  fun __gmpz_limbs_finish(x0 : MpzPtr, x1 : MpSizeT)
+  fun __gmpz_limbs_modify(x0 : MpzPtr, x1 : MpSizeT) : MpPtr
+  fun __gmpz_limbs_read(x0 : MpzSrcptr) : MpSrcptr
+  fun __gmpz_limbs_write(x0 : MpzPtr, x1 : MpSizeT) : MpPtr
   fun __gmpz_lucnum2_ui(x0 : MpzPtr, x1 : MpzPtr, x2 : LibC::ULong)
   fun __gmpz_lucnum_ui(x0 : MpzPtr, x1 : LibC::ULong)
   fun __gmpz_mfac_uiui(x0 : MpzPtr, x1 : LibC::ULong, x2 : LibC::ULong)
@@ -133,6 +139,7 @@ lib LibGMP
   fun __gmpz_realloc(x0 : MpzPtr, x1 : MpSizeT) : Void*
   fun __gmpz_realloc2(x0 : MpzPtr, x1 : MpBitcntT)
   fun __gmpz_remove(x0 : MpzPtr, x1 : MpzSrcptr, x2 : MpzSrcptr) : MpBitcntT
+  fun __gmpz_roinit_n(x0 : MpzPtr, x1 : MpSrcptr, x2 : MpSizeT) : MpzSrcptr
   fun __gmpz_root(x0 : MpzPtr, x1 : MpzSrcptr, x2 : LibC::ULong) : LibC::Int
   fun __gmpz_rootrem(x0 : MpzPtr, x1 : MpzPtr, x2 : MpzSrcptr, x3 : LibC::ULong)
   fun __gmpz_rrandomb(x0 : MpzPtr, x1 : GmpRandstateT, x2 : MpBitcntT)
