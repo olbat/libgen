@@ -22,10 +22,3 @@ definitions:
     - openssl/rand.h
     prefixes:
     - RAND
-rename:
-  rules:
-    FunDef:
-    # small hack since strings such as "SHA1" are transformed to "sh_a1"
-    # FIXME: make a fix in crystal_lib/Crystal
-    - pattern: _([a-z]\d+)
-      replacement: "\\1"

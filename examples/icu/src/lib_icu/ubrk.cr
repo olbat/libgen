@@ -76,7 +76,7 @@ lib LibICU
     replace : (UText*, Int64T, Int64T, UChar*, Int32T, UErrorCode* -> Int32T)
     copy : (UText*, Int64T, Int64T, Int64T, UBool, UErrorCode* -> Void)
     map_offset_to_native : (UText* -> Int64T)
-    map_native_index_to_ut_f16 : (UText*, Int64T -> Int32T)
+    map_native_index_to_utf16 : (UText*, Int64T -> Int32T)
     close : (UText* -> Void)
     spare1 : (UText* -> Void)
     spare2 : (UText* -> Void)

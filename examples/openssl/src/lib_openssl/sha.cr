@@ -56,32 +56,20 @@ lib LibOpenSSL
     md_len : LibC::UInt
   end
 
-  struct ShA512stateSt
+  struct Sha512stateSt
     h : LibC::ULongLong[8]
     nl : LibC::ULongLong
     nh : LibC::ULongLong
-    u : ShA512stateStU
+    u : Sha512stateStU
     num : LibC::UInt
     md_len : LibC::UInt
   end
 
-  struct ShAstateSt
-    h0 : LibC::UInt
-    h1 : LibC::UInt
-    h2 : LibC::UInt
-    h3 : LibC::UInt
-    h4 : LibC::UInt
-    nl : LibC::UInt
-    nh : LibC::UInt
-    data : LibC::UInt[16]
-    num : LibC::UInt
-  end
-
-  type ShA256Ctx = ShA256stateSt
-  type ShA512Ctx = ShA512stateSt
+  type Sha256Ctx = Sha256stateSt
+  type Sha512Ctx = Sha512stateSt
   type ShaCtx = ShAstateSt
 
-  union ShA512stateStU
+  union Sha512stateStU
     d : LibC::ULongLong[16]
     p : UInt8[128]
   end

@@ -3,12 +3,12 @@ lib LibOpenSSL
   MD5_CBLOCK        = 64
   MD5_DIGEST_LENGTH = 16
   fun md5 = MD5(d : UInt8*, n : LibC::SizeT, md : UInt8*) : UInt8*
-  fun md5_final = MD5_Final(md : UInt8*, c : MD5Ctx*) : LibC::Int
-  fun md5_init = MD5_Init(c : MD5Ctx*) : LibC::Int
-  fun md5_transform = MD5_Transform(c : MD5Ctx*, b : UInt8*)
-  fun md5_update = MD5_Update(c : MD5Ctx*, data : Void*, len : LibC::SizeT) : LibC::Int
+  fun md5_final = MD5_Final(md : UInt8*, c : Md5Ctx*) : LibC::Int
+  fun md5_init = MD5_Init(c : Md5Ctx*) : LibC::Int
+  fun md5_transform = MD5_Transform(c : Md5Ctx*, b : UInt8*)
+  fun md5_update = MD5_Update(c : Md5Ctx*, data : Void*, len : LibC::SizeT) : LibC::Int
 
-  struct MD5stateSt
+  struct Md5stateSt
     a : LibC::UInt
     b : LibC::UInt
     c : LibC::UInt
@@ -19,5 +19,5 @@ lib LibOpenSSL
     num : LibC::UInt
   end
 
-  type MD5Ctx = MD5stateSt
+  type Md5Ctx = Md5stateSt
 end

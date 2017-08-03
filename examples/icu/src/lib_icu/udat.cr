@@ -43,8 +43,8 @@ lib LibICU
     UdatYearField                       =  1
     UdatMonthField                      =  2
     UdatDateField                       =  3
-    UdatHourOfDaY1Field                 =  4
-    UdatHourOfDaY0Field                 =  5
+    UdatHourOfDay1Field                 =  4
+    UdatHourOfDay0Field                 =  5
     UdatMinuteField                     =  6
     UdatSecondField                     =  7
     UdatFractionalSecondField           =  8
@@ -54,8 +54,8 @@ lib LibICU
     UdatWeekOfYearField                 = 12
     UdatWeekOfMonthField                = 13
     UdatAmPmField                       = 14
-    UdatHouR1Field                      = 15
-    UdatHouR0Field                      = 16
+    UdatHour1Field                      = 15
+    UdatHour0Field                      = 16
     UdatTimezoneField                   = 17
     UdatYearWoyField                    = 18
     UdatDowLocalField                   = 19
