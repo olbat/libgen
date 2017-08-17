@@ -42,7 +42,6 @@ usage: libgen [<lib_desc_file>]
 ## Example
 A generation config file, [examples/icu/lib.yml](examples/icu/lib.yml):
 ```yaml
----
 name: LibICU
 ldflags: "-licuuc -licudata -licui18n -licuio"
 packages: "icu-uc icu-i18n icu-io"
@@ -65,7 +64,6 @@ rename:
 
 A definition file, [examples/icu/include/ucsdet.yml](examples/icu/include/ucsdet.yml):
 ```yaml
----
 description: Charset detection
 includes:
 - unicode/ucsdet.h
