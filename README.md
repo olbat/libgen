@@ -40,7 +40,7 @@ usage: libgen [<lib_desc_file>]
 
 
 ## Example
-A generation config file, [examples/icu/lib.yml](examples/icu/lib.yml):
+A generation config file, [examples/icu/lib.yml](https://github.com/olbat/libgen/blob/master/examples/icu/lib.yml):
 ```yaml
 name: LibICU
 ldflags: "-licuuc -licudata -licui18n -licuio"
@@ -62,7 +62,7 @@ rename:
       replacement: ""
 ```
 
-A definition file, [examples/icu/include/ucsdet.yml](examples/icu/include/ucsdet.yml):
+A definition file, [examples/icu/include/ucsdet.yml](https://github.com/olbat/libgen/blob/master/examples/icu/include/ucsdet.yml):
 ```yaml
 description: Charset detection
 includes:
@@ -91,25 +91,25 @@ generate src/lib_icu/udat.cr
 $ docker-compose run --rm -u $UID libgen examples/icu/lib.yml
 ```
 
-The generated files: [examples/icu/src/lib_icu](examples/icu/src/lib_icu).
+The generated files: [examples/icu/src/lib_icu](https://github.com/olbat/libgen/blob/master/examples/icu/src/lib_icu).
 
 
 ## Specifications
 
-See [SPECS.md](SPECS.md)
+See [SPECS.md](https://github.com/olbat/libgen/blob/master/SPECS.md)
 
 
 ## Development
 __How does it work__
 
 To generate Crystal libs from C headers, the `libgen` tool:
-1. loads [Library](src/lib_generator/library.cr) and [Definition](src/lib_generator/definition.cr) objects from configuration files
-2. generates Crystal ASTs (one per Definition) from C headers using [crystal_lib](https://github.com/crystal-lang/crystal_lib)'s parser (see [Definition#parse_lib](src/lib_generator/definition.cr))
+1. loads [Library](https://github.com/olbat/libgen/blob/master/src/lib_generator/library.cr) and [Definition](https://github.com/olbat/libgen/blob/master/src/lib_generator/definition.cr) objects from configuration files
+2. generates Crystal ASTs (one per Definition) from C headers using [crystal_lib](https://github.com/olbat/libgen/blob/master/https://github.com/crystal-lang/crystal_lib)'s parser (see [Definition#parse_lib](https://github.com/olbat/libgen/blob/master/src/lib_generator/definition.cr))
 3. transforms the Crystal ASTs:
-    1. applies transformers following the configuration (AST nodes renaming, sorting, ... see [transformers](src/lib_generator/transformers))
+    1. applies transformers following the configuration (AST nodes renaming, sorting, ... see [transformers](https://github.com/olbat/libgen/blob/master/src/lib_generator/transformers))
     2. groups AST nodes that are common to several libs into a common lib
     3. adds requires to non-empty libs in the common lib's AST
-4. generates and formats the libs from ASTs adding the _@Link/ldflags_ attribute (see [Generator::Lib#generate](src/lib_generator/generator/lib.cr))
+4. generates and formats the libs from ASTs adding the _@Link/ldflags_ attribute (see [Generator::Lib#generate](https://github.com/olbat/libgen/blob/master/src/lib_generator/generator/lib.cr))
 5. saves the generated libs to their respective output files
 
 __Known limitations__
