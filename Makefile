@@ -1,5 +1,5 @@
 CRBIN=crystal
-CRFLAGS=--release
+CRFLAGS=--release --no-debug
 TARGET=bin/libgen
 INSTALL_PATH?=/usr/local
 SOURCES=$(shell find src -type f -name '*.cr')
