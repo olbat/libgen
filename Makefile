@@ -20,7 +20,7 @@ install: $(TARGET)
 	install -m 755 $(TARGET) $(INSTALL_PATH)/bin
 
 clean:
-	rm -rf .crystal
+	rm -rf .crystal .shards lib
 
 distclean:
 	rm -f $(TARGET)
