@@ -1,4 +1,4 @@
-# Specifications
+# Specifications - v0.2
 
 ## Example
 
@@ -6,6 +6,7 @@ A lib generation config
 ```yaml
 --- # lib.yml
 name: LibICU
+cflags: "U_COMMON_IMPLEMENTATION"
 ldflags: "-licuuc -licudata -licui18n -licuio"
 packages: "icu-uc icu-i18n icu-io"
 destdir: src/lib_icu/
@@ -64,11 +65,14 @@ The ___definitions___ configs can be saved in:
 ### Library
 - `name`: the name of the output lib  
   _[String, mandatory]_
+- `cflags`: flags to be passed to the compiler  
+  _[String, optional]_
 - `ldflags`: flags to be passed to the linker  
   _[String, mandatory]_
 - `packages`: a list of [pkg-config](https://www.freedesktop.org/wiki/Software/pkg-config/)
-  packages that can be used to find the linker's flags
-  (falls back on _ldflags_ if not found)  
+  packages that can be used to find the compiler's and linker's flags
+  (if there is any results, the compiler's flags are added to _cflags_
+  and the linker's flags are used instead of _ldflags_)  
   _[String, optional]_
 - `destdir`: the directory to write the output files to (relative to the
   config file)  
@@ -97,5 +101,6 @@ The ___definitions___ configs can be saved in:
 - `prefixes`: a list of prefixes used to filter C functions that have to be
   included in the binding from the header files  
   _[String, mandatory]_
-- `flags`: some flags to be define when loading C header files  
-  _[String, optional]_
+
+## Older versions
+[v0.1](https://github.com/olbat/libgen/blob/v0.1.0/SPECS.md)
