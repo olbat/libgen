@@ -77,6 +77,7 @@ describe "LibGenerator::Library" do
         <<-EOS
         ---
         name: LibFoo
+        cflags: "-D_FOO"
         ldflags: "-foo"
         definitions:
           bar:
@@ -107,6 +108,7 @@ describe "LibGenerator::Library" do
         <<-EOS
         {
           "name" : "LibFoo",
+          "cflags" : "-D_FOO",
           "ldflags" : "-foo",
           "includes" : [ "bar.yml" ]
         }
@@ -167,6 +169,38 @@ describe "LibGenerator::Library" do
       library = LibGenerator::Library.new("LibFoo", "-lfoo", ["bar.yml"],
         destdir: "/dir")
       library.destdir.should eq("/dir")
+    end
+  end
+
+  describe "generate_cflags" do
+    it "it returns @cflags when no packages are specified" do
+      cflags = "-D__FOO -I/usr/include/foo"
+      library = LibGenerator::Library.new("LibFoo", "-lfoo", ["bar.yml"],
+        cflags: cflags)
+      library.generate_cflags.should eq(cflags)
+    end
+
+    it "it looks for cflags using pkg-config when packages are specified" do
+      packages = "openssl"
+      library = LibGenerator::Library.new("LibFoo", "-lfoo", ["bar.yml"],
+        packages: packages)
+      library.generate_cflags.should be_nil
+    end
+
+    it "it looks for cflags using pkg-config when invalid packages are specified" do
+      packages = "_invalid_"
+      library = LibGenerator::Library.new("LibFoo", "-lfoo", ["bar.yml"],
+        packages: packages)
+      library.generate_cflags.should be_nil
+    end
+
+    it "it looks for cflags using pkg-config when packages are specified and concat flags to @cflags" do
+      cflags = "-D__FOO -I/usr/include/foo"
+      pcflags = ""
+      packages = "openssl"
+      library = LibGenerator::Library.new("LibFoo", "-lfoo", ["bar.yml"],
+        cflags: cflags, packages: packages)
+      library.generate_cflags.should eq("#{pcflags} #{cflags}".strip)
     end
   end
 
