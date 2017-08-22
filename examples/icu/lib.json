@@ -1,5 +1,6 @@
 {
   "name": "LibICU",
+  "cflags" : "-DU_COMMON_IMPLEMENTATION",
   "ldflags": "-licuio -licui18n -licuuc -licudata",
   "packages": "icu-uc icu-i18n icu-io",
   "destdir": "src/lib_icu/",
