@@ -64,7 +64,7 @@ describe "LibGenerator::Definition" do
       end
     end
 
-    it "parses C headers specifying flags" do
+    it "parses C headers specifying cflags" do
       Tempfile.open("foo.h") do |file|
         File.write(file.path,
           <<-EOS
@@ -75,15 +75,15 @@ describe "LibGenerator::Definition" do
           #endif
           EOS
         )
+        li = <<-EOS
+        fun foo_foo : LibC::Int
+        EOS
 
         definition = LibGenerator::Definition.new(
-          includes: [file.path], prefixes: ["foo_"], flags: ["-D__FOO"])
+          includes: [file.path], prefixes: ["foo_"])
 
-        definition.parse_lib.to_s.strip.should eq(
-          <<-EOS
-          fun foo_foo : LibC::Int
-          EOS
-        )
+        definition.parse_lib(["-D__FOO"]).to_s.strip.should eq(li)
+        definition.parse_lib("-D__FOO").to_s.strip.should eq(li)
       end
     end
 

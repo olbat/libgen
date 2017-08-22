@@ -32,10 +32,9 @@ class LibGenerator::Generator
   end
 
   def parse_libs
-    @libs.each do |fn, de|
-      de.ast = de.definition.parse_lib
+    @libs.each do |filename, li|
+      li.parse
     end
-    self
   end
 
   def transform_libs

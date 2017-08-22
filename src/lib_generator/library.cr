@@ -4,6 +4,7 @@ require "json"
 class LibGenerator::Library
   getter name : String
   getter ldflags : String
+  getter cflags : String?
   getter includes : Array(String)?
   getter definitions : Hash(String, LibGenerator::Definition)?
   getter packages : String?
@@ -14,6 +15,7 @@ class LibGenerator::Library
   {{klass.id}}.mapping({
     name:        {type: String},
     ldflags:     {type: String},
+    cflags:      {type: String, nilable: true},
     includes:    {type: Array(String), nilable: true},
     definitions: {type: Hash(String, LibGenerator::Definition), nilable: true},
     packages:    {type: String, nilable: true},
@@ -27,7 +29,7 @@ class LibGenerator::Library
   end
   {% end %}
 
-  def initialize(@name : String, @ldflags : String, @includes = nil, @definitions = nil, @packages = nil, @destdir = nil, @rename = nil)
+  def initialize(@name : String, @ldflags : String, @includes = nil, @definitions = nil, @cflags = nil, @packages = nil, @destdir = nil, @rename = nil)
     check_attr!
   end
 
@@ -39,6 +41,25 @@ class LibGenerator::Library
 
   def destdir : String
     @destdir ||= File.join("src", @name.underscore)
+  end
+
+  def generate_cflags : String?
+    cflags = @cflags
+    if (packages = @packages)
+      pcflags = `command -v pkg-config > /dev/null \
+                 && pkg-config --cflags #{packages} 2> /dev/null`.strip
+      if pcflags.empty?
+        cflags
+      elsif (cflags.nil? || cflags.empty?)
+        pcflags
+      elsif (cflags.strip == pcflags)
+        pcflags
+      else
+        "#{pcflags} #{cflags}"
+      end
+    else
+      cflags
+    end
   end
 
   def generate_ldflags : String

@@ -13,6 +13,11 @@ class LibGenerator::Generator
     def initialize(@library : LibGenerator::Library, @definition : LibGenerator::Definition, @transformers = [] of Crystal::Transformer, @requires = [] of String, @ast = nil, @source = nil)
     end
 
+    def parse
+      @ast = @definition.parse_lib(@library.generate_cflags)
+      self
+    end
+
     def transform
       @transformers.each do |tr|
         transform(tr)
