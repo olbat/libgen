@@ -136,6 +136,12 @@ docker build .
 ```
 
 
+## Projects using libgen
+- [icu.cr](https://github.com/olbat/icu.cr)
+
+__Note__: you are using _libgen_ in your project and want to link it here, please [submit a PR](contributing)
+
+
 ## Contributing
 1. Fork it ( https://github.com/olbat/libgen/fork )
 2. Create your feature branch (git checkout -b my-new-feature)
