@@ -61,7 +61,7 @@ The ___definitions___ configs can be saved in:
   corresponds to the name of the field
 
 
-## Configuration format (v1)
+## Configuration format
 ### Library
 - `name`: the name of the output lib  
   _[String, mandatory]_
@@ -102,5 +102,5 @@ The ___definitions___ configs can be saved in:
   included in the binding from the header files  
   _[String, mandatory]_
 
-## Older versions
-[v0.1](https://github.com/olbat/libgen/blob/v0.1.0/SPECS.md)
+## Previous versions
+- [v0.1](https://github.com/olbat/libgen/blob/v0.1.0/SPECS.md)
