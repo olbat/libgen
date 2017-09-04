@@ -18,13 +18,6 @@ matrix:
     script:
     - docker-compose run --rm -u $UID devel make test
     - docker-compose run --rm -u $UID devel crystal doc
-    # publish the documentation on GitHub pages
-    deploy:
-      provider: pages
-      local_dir: doc/
-      target_branch: gh-pages
-      github_token: $GITHUB_TOKEN
-      skip_cleanup: true
 
   # spec tests on Ubuntu and macOS
   - os: linux
@@ -53,6 +46,18 @@ matrix:
     env:
     - LLVM_VERSION=4.0
     - FORMULA=llvm
+
+  # publish the documentation on GitHub pages
+  - stage: deploy
+    os: linux
+    before_install:
+    script: crystal doc
+    deploy:
+      provider: pages
+      local_dir: doc/
+      target_branch: gh-pages
+      github_token: $GITHUB_TOKEN
+      skip_cleanup: true
 
 before_install: |
   set -e
