@@ -58,6 +58,8 @@ matrix:
       target_branch: gh-pages
       github_token: $GITHUB_TOKEN
       skip_cleanup: true
+      on:
+        branch: master
 
 before_install: |
   set -e
