@@ -26,12 +26,13 @@ matrix:
   - os: linux
     dist: trusty
     env: LLVM_VERSION=3.6
-  - os: linux
-    dist: trusty
-    env: LLVM_VERSION=3.7
-  - os: linux
-    dist: trusty
-    env: LLVM_VERSION=3.8
+  # Temporary since linking to LLVM does not work on Travis CI anymore
+  #- os: linux
+  #  dist: trusty
+  #  env: LLVM_VERSION=3.7
+  #- os: linux
+  #  dist: trusty
+  #  env: LLVM_VERSION=3.8
   - os: osx
     osx_image: xcode8.3
     env: LLVM_VERSION=3.7
