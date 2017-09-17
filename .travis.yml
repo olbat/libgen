@@ -97,7 +97,7 @@ before_install: |
 
   set +x
 
-script: crystal spec
+script: rm -rf .cache/crystal && crystal spec
 
 # triggers an image build (used with travis' cron jobs to build periodically)
 after_script: >
