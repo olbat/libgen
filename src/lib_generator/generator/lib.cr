@@ -52,7 +52,18 @@ class LibGenerator::Generator
 
         source = IO::Memory.new
         ast.to_s(source, emit_doc: true)
-        @source = Crystal.format(source.to_s)
+        code = source.to_s
+
+        begin
+          Crystal::Parser.parse(code)
+        rescue e : Crystal::SyntaxException
+          msg = IO::Memory.new
+          msg << "transformations are making the code syntaxically incorrect\n\n"
+          e.append_to_s(code, msg)
+          raise ArgumentError.new(msg.to_s)
+        end
+
+        @source = Crystal.format(code)
       end
     end
 

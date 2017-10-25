@@ -35,6 +35,44 @@ describe "LibGenerator::Generator::Lib" do
     end
   end
 
+  describe "generate" do
+    it "generates a usable Crystal lib" do
+      nodes = ast_nodes(["fun foo", "fun bar"])
+      library = LibGenerator::Library.new("LibFoo", "-lfoo", includes: ["bar.yml"])
+      li = LibGenerator::Generator::Lib.new(library, LibGenerator::Definition.new)
+
+      li.ast = Crystal::Expressions.new(nodes)
+
+      li.transform
+      code = li.generate
+      code.not_nil!.chomp.should eq(
+        <<-EOS
+        @[Link(ldflags: "#{library.generate_ldflags}")]
+        lib LibFoo
+          fun foo
+          fun bar
+        end
+        EOS
+      )
+    end
+
+    it "raises when trying to generate syntaxically incorrect code" do
+      nodes = ast_nodes(["fun foo", "fun bar"])
+      library = LibGenerator::Library.new("LibFoo", "-lfoo", includes: ["bar.yml"])
+      transformers = [] of Crystal::Transformer
+      transformers << LibGenerator::RenameTransformer.new({"FunDef" => [{pattern: /bar/, replacement: "123"}]})
+      li = LibGenerator::Generator::Lib.new(library, LibGenerator::Definition.new, transformers)
+
+      li.ast = Crystal::Expressions.new(nodes)
+
+      li.transform
+
+      expect_raises do
+        li.generate
+      end
+    end
+  end
+
   describe "generate_attributes" do
     it "generates Crystal attributes" do
       library = LibGenerator::Library.new("LibFoo", "-lfoo", includes: ["bar.yml"])
