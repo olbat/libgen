@@ -3,8 +3,8 @@ MAINTAINER devel@olbat.net
 
 RUN apt-get update && apt-get install -y \
   build-essential \
-  llvm-3.5-dev \
-  libclang-3.5-dev \
+  llvm-3.8-dev \
+  libclang-3.8-dev \
   git \
   libicu-dev \
   libgtk2.0-dev \
@@ -12,6 +12,7 @@ RUN apt-get update && apt-get install -y \
 && apt-get clean \
 && rm -rf /var/lib/apt/lists/*
 
+RUN ln -s $(llvm-config-3.8 --libdir)/libclang.so /usr/lib/
 
 RUN mkdir -p /src
 WORKDIR /src
