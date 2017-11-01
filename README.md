@@ -30,9 +30,6 @@ __macOS__
 brew install llvm@3.7
 # then, build and install
 make && make install
-# Note: some versions of the llvm formula are not copying clang's shared objects to the default directory.
-# You may have to do it manually to be able to compile crystal_lib/libgen:
-#     brew list --verbose llvm@VERSION | grep "\.dylib$" | xargs -n1 -I{} ln -sf {} $(brew --prefix)/lib
 ```
 
 
