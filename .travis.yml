@@ -10,32 +10,24 @@ matrix:
     # install docker-compose (from https://docs.travis-ci.com/user/docker/)
     env:
       DOCKER_COMPOSE_VERSION: 1.11.2
-    before_install:
+    install:
     - sudo rm /usr/local/bin/docker-compose
     - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
     - chmod +x docker-compose
     - sudo mv docker-compose /usr/local/bin
-    script:
-    - docker-compose run --rm -u $UID devel make test
-    - docker-compose run --rm -u $UID devel crystal doc
+    script: docker-compose run --rm -u $UID devel make test
 
   # spec tests on Ubuntu and macOS
   - os: linux
     dist: trusty
-    env: LLVM_VERSION=3.5
+    env: LLVM_VERSION=3.8
   - os: linux
     dist: trusty
-    env: LLVM_VERSION=3.6
-  # Temporary since linking to LLVM does not work on Travis CI anymore
+    env: LLVM_VERSION=3.9
+  # FIXME: not available in Trusty, use Xenial once the image is released
   #- os: linux
   #  dist: trusty
-  #  env: LLVM_VERSION=3.7
-  #- os: linux
-  #  dist: trusty
-  #  env: LLVM_VERSION=3.8
-  - os: osx
-    osx_image: xcode8.3
-    env: LLVM_VERSION=3.7
+  #  env: LLVM_VERSION=4.0
   - os: osx
     osx_image: xcode8.3
     env: LLVM_VERSION=3.8
@@ -44,14 +36,12 @@ matrix:
     env: LLVM_VERSION=3.9
   - os: osx
     osx_image: xcode8.3
-    env:
-    - LLVM_VERSION=4.0
-    - FORMULA=llvm
+    env: LLVM_VERSION=4
 
   # publish the documentation on GitHub pages
   - stage: deploy
     os: linux
-    before_install:
+    install:
     script: crystal doc
     deploy:
       provider: pages
@@ -65,45 +55,53 @@ matrix:
   # triggers an image build (used with travis' cron jobs to build periodically)
   - stage: deploy
     os: linux
-    before_install:
+    install:
     script: >
       [ $TRAVIS_EVENT_TYPE != "cron" ] ||
       curl -H "Content-Type: application/json" --data '{"build": true}'
       -X POST https://registry.hub.docker.com/u/olbat/libgen/trigger/${DOCKER_TOKEN}/
 
-before_install: |
+install: |
   set -e
   set -x
 
   case $TRAVIS_OS_NAME in
   linux)
-    # FIXME: several ugly fixes since there is no proper Travis CI Xenial image:
-    #        - Xenial's APT repository is added in the image
-    #        - the "binutils" package is re-installed in it's Xenial version
-    #          (see https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=808205)
-    #        - the "libclang.so" shared object is manually added to the ld
-    #          library path since some version of the libclang-dev package are
-    #          not doing it properly
-    echo "deb http://archive.ubuntu.com/ubuntu xenial main universe" | sudo tee /etc/apt/sources.list.d/ubuntu-xenial.list
-
     sudo apt-get -qq update
-    sudo apt-get install -t xenial -y llvm-${LLVM_VERSION}-dev libclang-${LLVM_VERSION}-dev binutils
+    sudo apt-get install -y llvm-${LLVM_VERSION}-dev libclang-${LLVM_VERSION}-dev
 
-    sudo ln -s $(llvm-config-${LLVM_VERSION} --libdir)/libclang.so /usr/lib/
+    # FIXME: several ugly fixes since the Travis CI image is shipped
+    #        with a pre-configured version of LLVM:
+    #        - /usr/bin/llvm-config is configured to point to the llvm-config
+    #          executable that comes with the llvm-${LLVM_VERSION} package
+    #        - the $PATH env. var. is modified to use executables from /usr/bin
+    #          in priority to be sure that /usr/bin/llvm-config will be used to
+    #          provide llvm-config (by default, the /usr/local/clang-VERSION/bin
+    #          directory is present in $PATH with a better priority)
+    sudo update-alternatives --install /usr/bin/llvm-config llvm-config $(llvm-config-${LLVM_VERSION} --bindir)/llvm-config 1
+    export PATH=/usr/bin:$PATH
     ;;
 
   osx)
     brew update
     brew install ${FORMULA:-llvm@$LLVM_VERSION}
 
-    # FIXME: the "libclang.dylib" shared object is manually added to the ld
-    #        library path since the llvm the formula don't do it properly
-    brew list --verbose ${FORMULA:-llvm@$LLVM_VERSION} | grep "\.dylib$" | xargs -n1 -I{} ln -sf {} $(brew --prefix)/lib
+    # make sure the default llvm-config executable is the one of the brew
+    # formula (see https://github.com/Homebrew/legacy-homebrew/issues/29733)
+    export PATH=$(brew --prefix ${FORMULA:-llvm@$LLVM_VERSION})/bin:$PATH
+    ln -s $(brew --prefix ${FORMULA:-llvm@$LLVM_VERSION})/bin/llvm-config-$LLVM_VERSION /usr/local/bin/llvm-config
+
+    # FIXME: ugly fix to allow the clang shared object to be linked
+    find $(brew --prefix ${FORMULA:-llvm@$LLVM_VERSION})/lib -type f -name "libclang.dylib" -exec ln -s {} /usr/local/lib/ \; -quit
     ;;
 
   *)
     exit 1;;
   esac
+
+  llvm-config --version
+
+  crystal deps
 
   set +x
 
