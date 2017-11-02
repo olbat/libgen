@@ -1,10 +1,10 @@
 FROM crystallang/crystal
 MAINTAINER devel@olbat.net
 
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y --no-install-recommends \
   build-essential \
-  llvm-3.8-dev \
-  libclang-3.8-dev \
+  llvm-4.0-dev \
+  libclang-4.0-dev \
   git \
   libicu-dev \
   libgtk2.0-dev \
@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y \
 && rm -rf /var/lib/apt/lists/*
 
 RUN update-alternatives --install /usr/bin/llvm-config llvm-config \
-  $(llvm-config-3.8 --bindir)/llvm-config 1
+  $(llvm-config-4.0 --bindir)/llvm-config 1
 
 RUN mkdir -p /src
 WORKDIR /src
