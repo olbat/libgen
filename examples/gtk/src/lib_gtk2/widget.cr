@@ -6,8 +6,7 @@ lib LibGTK2
   alias GtkRcPropertyParser = (GParamSpec*, GString*, GValue* -> Gboolean)
   alias Guchar = UInt8
   alias Gushort = LibC::UShort
-  alias VaList = X__GnucVaList
-  alias X__GnucVaList = LibC::VaList
+  alias VaList = LibC::Int
   enum AtkLayer
     AtkLayerInvalid    = 0
     AtkLayerBackground = 1

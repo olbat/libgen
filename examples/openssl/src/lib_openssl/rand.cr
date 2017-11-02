@@ -14,7 +14,7 @@ lib LibOpenSSL
   fun rand_cleanup = RAND_cleanup
   fun rand_egd = RAND_egd(path : LibC::Char*) : LibC::Int
   fun rand_egd_bytes = RAND_egd_bytes(path : LibC::Char*, bytes : LibC::Int) : LibC::Int
-  fun rand_file_name = RAND_file_name(file : LibC::Char*, num : LibC::SizeT) : LibC::Char*
+  fun rand_file_name = RAND_file_name(file : LibC::Char*, num : LibC::Int) : LibC::Char*
   fun rand_get_rand_method = RAND_get_rand_method : RandMethod*
   fun rand_load_file = RAND_load_file(file : LibC::Char*, max_bytes : LibC::Long) : LibC::Int
   fun rand_poll = RAND_poll : LibC::Int
