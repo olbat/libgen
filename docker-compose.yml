@@ -12,7 +12,7 @@ build:
   - .:/src
 
 devel:
-  image: olbat/libgen
+  image: olbat/libgen:devel
   stdin_open: true
   command: crystal run src/main.cr
   volumes:
