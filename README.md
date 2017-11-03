@@ -118,6 +118,12 @@ __Known limitations__
 * it's not possible to specify the `description` field in definitions written in Crystal
 * the `description` field specified in definitions is not used ATM (it should be added as a comment in the generated bindings)
 
+__LLVM versions__
+
+Libgen is [tested](.travis.yml) using the versions of LLVM that are [currently supported](https://crystal-lang.org/docs/installation/from_source_repository.html) by Crystal: LLVM `3.8`, `3.9` and `4.0`.
+
+The tool is not dependent on this versions of LLVM, it may be working with other versions as well but it's not tested/guaranteed.
+
 __Launch the tests__
 ```
 make test
