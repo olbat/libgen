@@ -19,13 +19,6 @@ class LibGenerator::Definition
   })
   {% end %}
 
-  def self.from_crystal(source : String)
-    # TODO: take in account possible funs in the lib declaration
-    ltr = LibGenerator::CrystalLibTransformer.new
-    Crystal::Parser.parse(source).transform(ltr)
-    new(ltr.prefixes, ltr.headers)
-  end
-
   def initialize(@prefixes = [] of String, @includes = [] of String, @description = nil)
   end
 

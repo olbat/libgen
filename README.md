@@ -8,7 +8,7 @@ This project aims to ease the port of big C libraries and to provide a convinien
 
 Lib generation is parametrized using a YAML or JSON configuration file (_how to generate_).
 
-Bindings definitions are specified in YAML, JSON or Crystal files or in the generation config file directly (_what to generate_).
+Bindings definitions are specified in YAML or JSON files or in the generation config file directly (_what to generate_).
 
 It's possible to split lib's definitions in several files in order to make the binding more readable/easy to maintain.
 
@@ -115,7 +115,6 @@ To generate Crystal libs from C headers, the `libgen` tool:
 
 __Known limitations__
 * it's only possible to filter functions to bind by prefix (and not by name, such as in [example](https://github.com/crystal-lang/crystal_lib/blob/master/examples/lib_readline.cr))
-* it's not possible to specify the `description` field in definitions written in Crystal
 * the `description` field specified in definitions is not used ATM (it should be added as a comment in the generated bindings)
 
 __LLVM versions__

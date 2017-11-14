@@ -29,16 +29,6 @@ describe "LibGenerator::Definition" do
         EOS
       )
     end
-
-    it "loads from Crystal" do
-      LibGenerator::Definition.from_crystal(
-        <<-EOS
-        @[Include("foo.h", prefix: "foo_")]
-        lib LibFoo
-        end
-        EOS
-      )
-    end
   end
 
   describe "parse_lib" do
