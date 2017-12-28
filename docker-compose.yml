@@ -1,19 +1,19 @@
-libgen:
-  image: olbat/libgen
-  stdin_open: true
-  entrypoint: libgen
-  volumes:
-  - .:/src
+version: "3"
 
-build:
-  build: .
-  command: make
-  volumes:
-  - .:/src
+services:
+  libgen:
+    build: .
+    image: olbat/libgen
+    stdin_open: true
+    entrypoint: libgen
+    volumes:
+    - .:/src
 
-devel:
-  image: olbat/libgen:devel
-  stdin_open: true
-  command: crystal run src/main.cr
-  volumes:
-  - .:/src
+  devel:
+    build:
+      context: .
+      dockerfile: Dockerfile.devel
+    stdin_open: true
+    command: make test
+    volumes:
+    - .:/src
