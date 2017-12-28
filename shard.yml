@@ -15,6 +15,6 @@ dependencies:
   crystal_lib:
     github: crystal-lang/crystal_lib
 
-crystal: 0.21.0
+crystal: 0.24.0
 
 license: GPLv3

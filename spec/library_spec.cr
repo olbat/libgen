@@ -9,17 +9,17 @@ describe "LibGenerator::Library" do
     end
 
     it "raises an exception if nor @includes or @definitions is defined" do
-      expect_raises do
+      expect_raises(ArgumentError) do
         LibGenerator::Library.new("LibFoo", "-lfoo")
       end
-      expect_raises do
+      expect_raises(ArgumentError) do
         LibGenerator::Library.new("LibFoo", "-lfoo", includes: [] of String)
       end
-      expect_raises do
+      expect_raises(ArgumentError) do
         LibGenerator::Library.new("LibFoo", "-lfoo",
           definitions: {} of String => LibGenerator::Definition)
       end
-      expect_raises do
+      expect_raises(ArgumentError) do
         LibGenerator::Library.from_yaml(
           <<-EOS
           ---
@@ -28,7 +28,7 @@ describe "LibGenerator::Library" do
           EOS
         )
       end
-      expect_raises do
+      expect_raises(ArgumentError) do
         LibGenerator::Library.from_yaml(
           <<-EOS
           ---
@@ -38,17 +38,17 @@ describe "LibGenerator::Library" do
           EOS
         )
       end
-      expect_raises do
+      expect_raises(ArgumentError) do
         LibGenerator::Library.from_json(
           <<-EOS
           {
             "name" : "LibFoo",
-            "ldflags" : "-foo",
+            "ldflags" : "-foo"
           }
           EOS
         )
       end
-      expect_raises do
+      expect_raises(ArgumentError) do
         LibGenerator::Library.from_json(
           <<-EOS
           {

@@ -67,7 +67,7 @@ describe "LibGenerator::Generator::Lib" do
 
       li.transform
 
-      expect_raises do
+      expect_raises(ArgumentError) do
         li.generate
       end
     end

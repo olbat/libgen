@@ -22,12 +22,16 @@ class LibGenerator::Library
     destdir:     {type: String, nilable: true},
     rename:      {type: LibGenerator::RenameTransformer, nilable: true},
   })
+  {% end %}
 
-  def initialize(pp : {{klass.id}}::PullParser)
+  def self.new(pc : YAML::ParseContext, n : YAML::Nodes::Node)
+    previous_def.tap(&.check_attr!)
+  end
+
+  def initialize(pp : JSON::PullParser)
     previous_def
     check_attr!
   end
-  {% end %}
 
   def initialize(@name : String, @ldflags : String, @includes = nil, @definitions = nil, @cflags = nil, @packages = nil, @destdir = nil, @rename = nil)
     check_attr!
