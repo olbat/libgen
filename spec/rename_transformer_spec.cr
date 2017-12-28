@@ -3,13 +3,13 @@ require "./spec_helper"
 describe "LibGenerator::RenameTransformer" do
   describe "initialize" do
     it "raises if a rule type is invalid" do
-      expect_raises do
+      expect_raises(ArgumentError) do
         LibGenerator::RenameTransformer.new({
           "foo" => [{pattern: /foo/, replacement: "bar"}],
         })
       end
 
-      expect_raises do
+      expect_raises(ArgumentError) do
         LibGenerator::RenameTransformer.from_yaml(
           <<-EOS
           ---
@@ -21,7 +21,7 @@ describe "LibGenerator::RenameTransformer" do
         )
       end
 
-      expect_raises do
+      expect_raises(JSON::ParseException) do
         LibGenerator::RenameTransformer.from_json(
           <<-EOS
           {
@@ -38,13 +38,13 @@ describe "LibGenerator::RenameTransformer" do
     end
 
     it "raises if a rules list is empty" do
-      expect_raises do
+      expect_raises(ArgumentError) do
         LibGenerator::RenameTransformer.new({
           "foo" => [] of NamedTuple(pattern: Regex, replacement: String),
         })
       end
 
-      expect_raises do
+      expect_raises(ArgumentError) do
         LibGenerator::RenameTransformer.from_yaml(
           <<-EOS
           ---
@@ -54,7 +54,7 @@ describe "LibGenerator::RenameTransformer" do
         )
       end
 
-      expect_raises do
+      expect_raises(ArgumentError) do
         LibGenerator::RenameTransformer.from_json(
           <<-EOS
           {

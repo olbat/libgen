@@ -88,20 +88,20 @@ describe "LibGenerator::Definition" do
     end
 
     it "raises if @includes is not defined" do
-      expect_raises do
+      expect_raises(ArgumentError) do
         LibGenerator::Definition.new(prefixes: ["foo_"]).parse_lib
       end
-      expect_raises do
+      expect_raises(ArgumentError) do
         LibGenerator::Definition.new(includes: [] of String,
           prefixes: ["foo_"]).parse_lib
       end
     end
 
     it "raises if @prefixes is not defined" do
-      expect_raises do
+      expect_raises(ArgumentError) do
         LibGenerator::Definition.new(includes: ["foo.h"]).parse_lib
       end
-      expect_raises do
+      expect_raises(ArgumentError) do
         LibGenerator::Definition.new(includes: ["foo.h"],
           prefixes: [] of String).parse_lib
       end

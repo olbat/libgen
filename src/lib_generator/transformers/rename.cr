@@ -1,8 +1,8 @@
 require "compiler/crystal/syntax"
 
 # TODO: find a better way to do it
-def Regex.new(pp : YAML::PullParser)
-  new pp.read_scalar
+def Regex.new(pc : YAML::ParseContext, n : YAML::Nodes::Node)
+  new String.new(pc, n)
 end
 
 # ditto
@@ -17,12 +17,16 @@ class LibGenerator::RenameTransformer < Crystal::Transformer
   {{klass.id}}.mapping(
     rules: Hash(String, Array(NamedTuple(pattern: Regex, replacement: String))),
   )
+  {% end %}
 
-  def initialize(pp : {{klass.id}}::PullParser)
+  def self.new(pc : YAML::ParseContext, n : YAML::Nodes::Node)
+    previous_def.tap(&.check_attr!)
+  end
+
+  def initialize(pp : JSON::PullParser)
     previous_def
     check_attr!
   end
-  {% end %}
 
   def initialize(@rules : Hash(String, Array(NamedTuple(pattern: Regex, replacement: String))))
     check_attr!
