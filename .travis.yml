@@ -42,10 +42,10 @@ matrix:
   - stage: deploy
     os: linux
     install:
-    script: crystal doc
+    script: crystal docs
     deploy:
       provider: pages
-      local_dir: doc/
+      local_dir: docs/
       target_branch: gh-pages
       github_token: $GITHUB_TOKEN
       skip_cleanup: true
