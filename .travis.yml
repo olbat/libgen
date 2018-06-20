@@ -102,7 +102,7 @@ install: |
 
   llvm-config --version
 
-  crystal deps
+  shards deps
 
   set +x
 
