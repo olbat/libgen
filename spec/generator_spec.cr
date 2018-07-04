@@ -101,10 +101,10 @@ describe "LibGenerator::Generator" do
       definitions[common_filename] = LibGenerator::Definition.new
 
       transformers = [
-        LibGenerator::SortTransformer.new,
+        LibGenerator::SortTransformer.new.as(Crystal::Transformer),
         LibGenerator::RenameTransformer.new({
           "*" => [{pattern: /foo/, replacement: "foofoo"}],
-        }),
+        }).as(Crystal::Transformer),
       ]
       generator = LibGenerator::Generator.new(library, definitions, transformers)
 
@@ -135,10 +135,10 @@ describe "LibGenerator::Generator" do
       definitions = sources.size.times.map(&.to_s).to_a.zip(sources.map { LibGenerator::Definition.new }).to_h
 
       transformers = [
-        LibGenerator::SortTransformer.new,
+        LibGenerator::SortTransformer.new.as(Crystal::Transformer),
         LibGenerator::RenameTransformer.new({
           "*" => [{pattern: /foo/, replacement: "foofoo"}],
-        }),
+        }).as(Crystal::Transformer),
       ]
       generator = LibGenerator::Generator.new(library, definitions, transformers)
 
