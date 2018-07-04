@@ -73,13 +73,13 @@ describe "LibGenerator::Generator::Lib" do
     end
   end
 
-  describe "generate_attributes" do
-    it "generates Crystal attributes" do
+  describe "generate_link_annotation" do
+    it "generates Crystal Link annotation" do
       library = LibGenerator::Library.new("LibFoo", "-lfoo", includes: ["bar.yml"])
       li = LibGenerator::Generator::Lib.new(library, LibGenerator::Definition.new)
 
-      attrs = li.generate_attributes
-      attrs.should be_a(Crystal::Attribute)
+      attrs = li.generate_link_annotation
+      attrs.should be_a(Crystal::Annotation)
       attrs.to_s.should eq(%(@[Link(ldflags: "#{library.generate_ldflags}")]))
     end
   end

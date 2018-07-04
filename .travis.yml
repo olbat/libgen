@@ -102,7 +102,7 @@ install: |
 
   llvm-config --version
 
-  shards deps
+  shards install
 
   set +x
 

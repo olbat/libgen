@@ -43,7 +43,7 @@ class LibGenerator::Generator
         expressions = [] of Crystal::ASTNode
 
         if li
-          generate_attributes().try { |attrs| expressions << attrs }
+          generate_link_annotation().try { |attrs| expressions << attrs }
           expressions << li
         end
         expressions << requires if requires
@@ -67,9 +67,9 @@ class LibGenerator::Generator
       end
     end
 
-    def generate_attributes : Crystal::Attribute?
+    def generate_link_annotation : Crystal::Annotation?
       if (ldflags = @library.generate_ldflags)
-        Crystal::Attribute.new("Link",
+        Crystal::Annotation.new(Crystal::Path.new(["Link"]),
           named_args: [Crystal::NamedArgument.new("ldflags",
             Crystal::StringLiteral.new(ldflags))])
       end

@@ -1,4 +1,5 @@
 CRBIN=crystal
+SHRBIN=shards
 CRFLAGS=--release --no-debug
 TARGET=bin/libgen
 INSTALL_PATH?=/usr/local
@@ -12,7 +13,7 @@ $(TARGET): deps $(SOURCES)
 deps: lib/crystal_lib
 
 lib/crystal_lib: shard.yml
-	$(CRBIN) deps install
+	$(SHRBIN) install
 
 install: $(TARGET)
 	install -d $(INSTALL_PATH)/bin
