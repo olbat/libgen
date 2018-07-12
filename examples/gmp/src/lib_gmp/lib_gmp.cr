@@ -57,7 +57,7 @@ lib LibGMP
   fun __gmpz_divisible_p(x0 : MpzSrcptr, x1 : MpzSrcptr) : LibC::Int
   fun __gmpz_divisible_ui_p(x0 : MpzSrcptr, x1 : LibC::ULong) : LibC::Int
   fun __gmpz_dump(x0 : MpzSrcptr)
-  fun __gmpz_export(x0 : Void*, x1 : LibC::Int*, x2 : LibC::Int, size_t : LibC::Int, x4 : LibC::Int, x5 : LibC::Int, x6 : MpzSrcptr) : Void*
+  fun __gmpz_export(x0 : Void*, x1 : LibC::SizeT*, x2 : LibC::Int, x3 : LibC::SizeT, x4 : LibC::Int, x5 : LibC::SizeT, x6 : MpzSrcptr) : Void*
   fun __gmpz_fac_ui(x0 : MpzPtr, x1 : LibC::ULong)
   fun __gmpz_fdiv_q(x0 : MpzPtr, x1 : MpzSrcptr, x2 : MpzSrcptr)
   fun __gmpz_fdiv_q_2exp(x0 : MpzPtr, x1 : MpzSrcptr, x2 : MpBitcntT)
@@ -91,7 +91,7 @@ lib LibGMP
   fun __gmpz_getlimbn(__gmp_z : MpzSrcptr, __gmp_n : MpSizeT) : MpLimbT
   fun __gmpz_getlimbn(x0 : MpzSrcptr, x1 : MpSizeT) : MpLimbT
   fun __gmpz_hamdist(x0 : MpzSrcptr, x1 : MpzSrcptr) : MpBitcntT
-  fun __gmpz_import(x0 : MpzPtr, size_t : LibC::Int, x2 : LibC::Int, x3 : LibC::Int, x4 : LibC::Int, x5 : LibC::Int, x6 : Void*)
+  fun __gmpz_import(x0 : MpzPtr, x1 : LibC::SizeT, x2 : LibC::Int, x3 : LibC::SizeT, x4 : LibC::Int, x5 : LibC::SizeT, x6 : Void*)
   fun __gmpz_init(x0 : MpzPtr)
   fun __gmpz_init2(x0 : MpzPtr, x1 : MpBitcntT)
   fun __gmpz_init_set(x0 : MpzPtr, x1 : MpzSrcptr)
@@ -155,8 +155,9 @@ lib LibGMP
   fun __gmpz_set_ui(x0 : MpzPtr, x1 : LibC::ULong)
   fun __gmpz_setbit(x0 : MpzPtr, x1 : MpBitcntT)
   fun __gmpz_si_kronecker(x0 : LibC::Long, x1 : MpzSrcptr) : LibC::Int
-  fun __gmpz_size : LibC::Int
-  fun __gmpz_sizeinbase : LibC::Int
+  fun __gmpz_size(__gmp_z : MpzSrcptr) : LibC::SizeT
+  fun __gmpz_size(x0 : MpzSrcptr) : LibC::SizeT
+  fun __gmpz_sizeinbase(x0 : MpzSrcptr, x1 : LibC::Int) : LibC::SizeT
   fun __gmpz_sqrt(x0 : MpzPtr, x1 : MpzSrcptr)
   fun __gmpz_sqrtrem(x0 : MpzPtr, x1 : MpzPtr, x2 : MpzSrcptr)
   fun __gmpz_sub(x0 : MpzPtr, x1 : MpzSrcptr, x2 : MpzSrcptr)
