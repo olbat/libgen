@@ -14,7 +14,8 @@ lib LibGTK3
   alias GtkTickCallback = (GtkWidget*, GdkFrameClock, Gpointer -> Gboolean)
   alias Guint64 = LibC::ULong
   alias Gulong = LibC::ULong
-  alias VaList = LibC::Int
+  alias VaList = X__GnucVaList
+  alias X__GnucVaList = LibC::VaList
   enum AtkLayer
     AtkLayerInvalid    = 0
     AtkLayerBackground = 1
