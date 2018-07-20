@@ -86,14 +86,11 @@ install: |
   osx)
     brew update
     brew install ${FORMULA:-llvm@$LLVM_VERSION}
+    brew link --force --overwrite ${FORMULA:-llvm@$LLVM_VERSION}
 
-    # make sure the default llvm-config executable is the one of the brew
-    # formula (see https://github.com/Homebrew/legacy-homebrew/issues/29733)
-    export PATH=$(brew --prefix ${FORMULA:-llvm@$LLVM_VERSION})/bin:$PATH
-    ln -s $(brew --prefix ${FORMULA:-llvm@$LLVM_VERSION})/bin/llvm-config-$LLVM_VERSION /usr/local/bin/llvm-config
-
-    # FIXME: ugly fix to allow the clang shared object to be linked
-    find $(brew --prefix ${FORMULA:-llvm@$LLVM_VERSION})/lib -type f -name "libclang.dylib" -exec ln -s {} /usr/local/lib/ \; -quit
+    # FIXME: the "libclang.dylib" shared object is manually added to the ld
+    #        library path since the llvm the formula don't do it properly
+    find $(brew --prefix ${FORMULA:-llvm@$LLVM_VERSION})/lib -type f -name "libclang.dylib" -exec ln -sf {} $(brew --prefix)/lib \; -quit
     ;;
 
   *)
