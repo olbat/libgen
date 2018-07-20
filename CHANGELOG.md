@@ -1,3 +1,9 @@
+# 0.2.2 (20-07-2018)
+- Add Crystal 0.25 compatibility
+
+# 0.2.1 (28-12-2017)
+- Add Crystal 0.24 compatibility
+
 # 0.2.0 (23-08-2017)
 - **(breaking-change)** Compilation flags are now specified using the
   `cflags` field of code generation configuration file (see #17)
