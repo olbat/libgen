@@ -1,3 +1,6 @@
+# 0.2.3 (29-07-2018)
+- Fix: using the "-h" option makes the program crash (#29, thanks @rtnakashima)
+
 # 0.2.2 (20-07-2018)
 - Add Crystal 0.25 compatibility
 
