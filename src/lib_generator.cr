@@ -2,7 +2,7 @@ require "./lib_generator/**"
 
 module LibGenerator
   def self.run
-    abort "usage: #{$0} [<lib_desc_file>]" if ARGV.size > 1 || ARGV[0]? == "-h"
+    abort "usage: #{PROGRAM_NAME} [<lib_desc_file>]" if ARGV.size > 1 || ARGV[0]? == "-h"
 
     # parse the library description file
     lib_file = ARGV[0]? || "lib.yml"
