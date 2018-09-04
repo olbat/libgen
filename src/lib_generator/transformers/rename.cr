@@ -45,7 +45,7 @@ class LibGenerator::RenameTransformer < Crystal::Transformer
     type == "*" || node.class_desc == type
   end
 
-  def transform(node : (Crystal::FunDef | Crystal::TypeDef | Crystal::CStructOrUnionDef | Crystal::Alias | Crystal::ExternalVar))
+  def transform(node : (Crystal::FunDef | Crystal::TypeDef | Crystal::CStructOrUnionDef | Crystal::ExternalVar))
     @rules.each do |type, rules|
       rules.each do |rule|
         if match?(type, node)
@@ -56,7 +56,7 @@ class LibGenerator::RenameTransformer < Crystal::Transformer
     super
   end
 
-  def transform(node : Crystal::EnumDef)
+  def transform(node : (Crystal::EnumDef | Crystal::Alias))
     @rules.each do |type, rules|
       rules.each do |rule|
         if match?(type, node)
