@@ -120,7 +120,7 @@ __Known limitations__
 
 __LLVM versions__
 
-Libgen is [tested](.travis.yml) using the versions of LLVM that are [currently supported](https://crystal-lang.org/docs/installation/from_source_repository.html) by Crystal: LLVM `3.8`, `3.9` and `4.0`.
+Libgen is [tested](.travis.yml) using the versions of LLVM that are [currently supported](https://crystal-lang.org/docs/installation/from_source_repository.html) by Crystal: LLVM `3.8`→`6.0`.
 
 The tool is not dependent on this versions of LLVM, it may be working with other versions as well but it's not tested/guaranteed.
 
