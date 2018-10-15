@@ -40,6 +40,9 @@ matrix:
   - os: osx
     osx_image: xcode8.3
     env: LLVM_VERSION=6
+  - os: osx
+    osx_image: xcode8.3
+    env: LLVM_VERSION=7.0
 
   # publish the documentation on GitHub pages
   - stage: deploy
