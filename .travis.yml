@@ -87,13 +87,16 @@ install: |
     ;;
 
   osx)
+    LLVM_MAJOR_VERSION=${LLVM_VERSION:0:1}
+    [ $LLVM_MAJOR_VERSION -ge 4 ] && FORMULA_VERSION=$LLVM_MAJOR_VERSION || FORMULA_VERSION=$LLVM_VERSION
+
     brew update
-    brew install ${FORMULA:-llvm@$LLVM_VERSION}
-    brew link --force --overwrite ${FORMULA:-llvm@$LLVM_VERSION}
+    brew install llvm@$FORMULA_VERSION
+    brew link --force --overwrite llvm@$FORMULA_VERSION
 
     # FIXME: the "libclang.dylib" shared object is manually added to the ld
     #        library path since the llvm the formula don't do it properly
-    find $(brew --prefix ${FORMULA:-llvm@$LLVM_VERSION})/lib -type f -name "libclang.dylib" -exec ln -sf {} $(brew --prefix)/lib \; -quit
+    find $(brew --prefix llvm@$FORMULA_VERSION)/lib -type f -name "libclang.dylib" -exec ln -sf {} $(brew --prefix)/lib \; -quit
     ;;
 
   *)
