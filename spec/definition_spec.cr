@@ -1,5 +1,4 @@
 require "./spec_helper"
-require "tempfile"
 
 describe "LibGenerator::Definition" do
   describe "initialize" do
@@ -43,7 +42,7 @@ describe "LibGenerator::Definition" do
 
   describe "parse_lib" do
     it "parses C headers specifying prefixes" do
-      Tempfile.open("foo.h") do |file|
+      File.tempfile("foo.h") do |file|
         File.write(file.path,
           <<-EOS
           int foo_foo(void *a, int b);
@@ -65,7 +64,7 @@ describe "LibGenerator::Definition" do
     end
 
     it "parses C headers specifying cflags" do
-      Tempfile.open("foo.h") do |file|
+      File.tempfile("foo.h") do |file|
         File.write(file.path,
           <<-EOS
           #ifdef __FOO
