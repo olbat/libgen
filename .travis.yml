@@ -94,6 +94,10 @@ install: |
     brew install llvm@$FORMULA_VERSION
     brew link --force --overwrite llvm@$FORMULA_VERSION
 
+    # needed by LLVM >= 7.0 formulas
+    # (see https://github.com/Homebrew/homebrew-core/issues/32765)
+    PATH="$(brew --prefix llvm@$FORMULA_VERSION)/bin:$PATH"
+
     # FIXME: the "libclang.dylib" shared object is manually added to the ld
     #        library path since the llvm the formula don't do it properly
     find $(brew --prefix llvm@$FORMULA_VERSION)/lib -type f -name "libclang.dylib" -exec ln -sf {} $(brew --prefix)/lib \; -quit
