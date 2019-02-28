@@ -4,14 +4,10 @@ Libgen is a small tool based on the [crystal_lib](https://github.com/crystal-lan
 
 
 ## Overview
-This project aims to ease the port of big C libraries and to provide a convinient way to define re-generable bindings.
-
-Lib generation is parametrized using a YAML or JSON configuration file (_how to generate_).
-
-Bindings definitions are specified in YAML, JSON or Crystal files or in the generation config file directly (_what to generate_).
-
-It's possible to split lib's definitions in several files in order to make the binding more readable/easy to maintain.
-
+This project aims to ease the port of big C libraries and to provide a convinient way to define re-generable bindings.  
+Lib generation is parametrized using a YAML or JSON configuration file (_how to generate_).  
+Bindings definitions are specified in YAML, JSON or Crystal files or in the generation config file directly (_what to generate_).  
+It's possible to split lib's definitions in several files in order to make the binding more readable/easy to maintain.  
 There is also an option to perform AST node renaming at generation time.
 
 
@@ -19,7 +15,7 @@ There is also an option to perform AST node renaming at generation time.
 __Debian/Ubuntu__
 ```bash
 # install build dependencies
-apt-get install -y build-essential llvm-3.9-dev libclang-3.9-dev
+apt-get install -y build-essential llvm-4.0-dev libclang-4.0-dev
 # then, build and install
 make && make install
 ```
@@ -27,7 +23,7 @@ make && make install
 __macOS__
 ```bash
 # if necessary, install build dependencies
-brew install llvm@3.9
+brew install llvm@4.0
 # then, build and install
 make && make install
 ```
