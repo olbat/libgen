@@ -24,10 +24,15 @@ matrix:
   - os: linux
     dist: trusty
     env: LLVM_VERSION=3.9
-  # FIXME: not available in Trusty, use Xenial once the image is released
-  #- os: linux
-  #  dist: trusty
-  #  env: LLVM_VERSION=4.0
+  - os: linux
+    dist: xenial
+    env: LLVM_VERSION=4.0
+  - os: linux
+    dist: xenial
+    env: LLVM_VERSION=5.0
+  - os: linux
+    dist: xenial
+    env: LLVM_VERSION=6.0
   - os: osx
     osx_image: xcode8.3
     env: LLVM_VERSION=3.9
