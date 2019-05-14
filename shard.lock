@@ -1,5 +1,10 @@
 version: 1.0
 shards:
+  clang:
+    github: crystal-lang/clang.cr
+    commit: a1a7a5612d9af79476d409994c529f076fca48ab
+
   crystal_lib:
     github: crystal-lang/crystal_lib
-    commit: 4f046c50ae612babd9a544486edd37d8ad16ef2d
+    commit: 300d89edda6bc000ad977cdec90b84f79a3ff2ad
+

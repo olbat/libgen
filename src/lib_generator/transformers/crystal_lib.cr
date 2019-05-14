@@ -1,5 +1,4 @@
-require "crystal_lib/clang"
-require "crystal_lib/crystal_lib"
+require "crystal_lib"
 require "compiler/crystal/syntax"
 
 class LibGenerator::CrystalLibTransformer < CrystalLib::LibTransformer
