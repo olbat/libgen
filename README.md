@@ -137,6 +137,8 @@ docker build .
 
 ## Projects using libgen
 - [icu.cr](https://github.com/olbat/icu.cr)
+- [paseto](https://github.com/paragonie/paseto)
+- [nacl](https://github.com/watzon/nacl)
 
 __Note__: you are using _libgen_ in your project and want to link it here, please [submit a PR](contributing)
 
