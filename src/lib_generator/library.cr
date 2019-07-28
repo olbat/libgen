@@ -1,3 +1,4 @@
+require "crystal_lib"
 require "yaml"
 require "json"
 
@@ -21,6 +22,7 @@ class LibGenerator::Library
     packages:    {type: String, nilable: true},
     destdir:     {type: String, nilable: true},
     rename:      {type: LibGenerator::RenameTransformer, nilable: true},
+    options:     {type: LibGenerator::Options, default: LibGenerator::Options.new},
   })
   {% end %}
 
@@ -33,7 +35,7 @@ class LibGenerator::Library
     check_attr!
   end
 
-  def initialize(@name : String, @ldflags : String, @includes = nil, @definitions = nil, @cflags = nil, @packages = nil, @destdir = nil, @rename = nil)
+  def initialize(@name : String, @ldflags : String, @includes = nil, @definitions = nil, @cflags = nil, @packages = nil, @destdir = nil, @rename = nil, @options = LibGenerator::Options.new)
     check_attr!
   end
 
@@ -75,5 +77,11 @@ class LibGenerator::Library
     else
       ldflags
     end
+  end
+
+  def generate_crystallib_parser_options : CrystalLib::Parser::Option
+    options = CrystalLib::Parser::Option::None
+    options |= @options.import_docstrings.to_crystallib_parser_option unless @options.import_docstrings.none?
+    options
   end
 end

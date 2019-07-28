@@ -14,7 +14,7 @@ class LibGenerator::Generator
     end
 
     def parse
-      @ast = @definition.parse_lib(@library.generate_cflags)
+      @ast = @definition.parse_lib(@library.generate_cflags, @library.generate_crystallib_parser_options)
       self
     end
 

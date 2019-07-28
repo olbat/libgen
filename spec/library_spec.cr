@@ -1,4 +1,5 @@
 require "./spec_helper"
+require "crystal_lib"
 
 describe "LibGenerator::Library" do
   describe "initialize" do
@@ -173,28 +174,28 @@ describe "LibGenerator::Library" do
   end
 
   describe "generate_cflags" do
-    it "it returns @cflags when no packages are specified" do
+    it "returns @cflags when no packages are specified" do
       cflags = "-D__FOO -I/usr/include/foo"
       library = LibGenerator::Library.new("LibFoo", "-lfoo", ["bar.yml"],
         cflags: cflags)
       library.generate_cflags.should eq(cflags)
     end
 
-    it "it looks for cflags using pkg-config when packages are specified" do
+    it "looks for cflags using pkg-config when packages are specified" do
       packages = "openssl"
       library = LibGenerator::Library.new("LibFoo", "-lfoo", ["bar.yml"],
         packages: packages)
       library.generate_cflags.should be_nil
     end
 
-    it "it looks for cflags using pkg-config when invalid packages are specified" do
+    it "looks for cflags using pkg-config when invalid packages are specified" do
       packages = "_invalid_"
       library = LibGenerator::Library.new("LibFoo", "-lfoo", ["bar.yml"],
         packages: packages)
       library.generate_cflags.should be_nil
     end
 
-    it "it looks for cflags using pkg-config when packages are specified and concat flags to @cflags" do
+    it "looks for cflags using pkg-config when packages are specified and concat flags to @cflags" do
       cflags = "-D__FOO -I/usr/include/foo"
       pcflags = ""
       packages = "openssl"
@@ -205,19 +206,43 @@ describe "LibGenerator::Library" do
   end
 
   describe "generate_ldflags" do
-    it "it returns @ldflags when no packages are specified" do
+    it "returns @ldflags when no packages are specified" do
       ldflags = "-lfoo -lbar"
       library = LibGenerator::Library.new("LibFoo", ldflags, ["bar.yml"])
       library.generate_ldflags.should eq(ldflags)
     end
 
-    it "it returns a command using pkg-config when packages are specified" do
+    it "returns a command using pkg-config when packages are specified" do
       ldflags = "-lfoo -lbar"
       packages = "foo bar"
       library = LibGenerator::Library.new("LibFoo", ldflags, ["bar.yml"],
         packages: packages)
       library.generate_ldflags.should match(/pkg-config\s+--libs\s+#{packages}/)
       library.generate_ldflags.should match(/#{ldflags}/)
+    end
+  end
+
+  describe "generate_crystallib_parser_options" do
+    it "sets the proper crystal_lib parser option when option ImportDocStrings is not used" do
+      li = LibGenerator::Library.new("LibFoo", "-lfoo", includes: ["bar.yml"])
+      li.generate_crystallib_parser_options.import_brief_comments?.should be_false
+      li.generate_crystallib_parser_options.import_full_comments?.should be_false
+    end
+
+    it "sets the proper crystal_lib parser option when option ImportDocStrings is used" do
+      opts = LibGenerator::Options.new(import_docstrings:
+        LibGenerator::Options::ImportDocStrings::Brief)
+      li = LibGenerator::Library.new("LibFoo", "-lfoo", includes: ["bar.yml"],
+        options: opts)
+      li.generate_crystallib_parser_options.import_brief_comments?.should be_true
+      li.generate_crystallib_parser_options.import_full_comments?.should be_false
+
+      opts = LibGenerator::Options.new(import_docstrings:
+        LibGenerator::Options::ImportDocStrings::Full)
+      li = LibGenerator::Library.new("LibFoo", "-lfoo", includes: ["bar.yml"],
+        options: opts)
+      li.generate_crystallib_parser_options.import_brief_comments?.should be_false
+      li.generate_crystallib_parser_options.import_full_comments?.should be_true
     end
   end
 end

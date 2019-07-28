@@ -29,5 +29,8 @@
         }
       ]
     }
+  },
+  "options": {
+    "import_docstrings": "full"
   }
 }
