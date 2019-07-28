@@ -28,7 +28,7 @@ class LibGenerator::Definition
   def initialize(@prefixes = [] of String, @includes = [] of String, @description = nil)
   end
 
-  def parse_lib(cflags : Array(String)? = [] of String) : Crystal::ASTNode
+  def parse_lib(cflags : Array(String)? = [] of String, options : CrystalLib::Parser::Option = CrystalLib::Parser::Option::None) : Crystal::ASTNode
     includes = @includes.not_nil!
     prefixes = @prefixes.not_nil!
     raise ArgumentError.new("@includes should not be empty") if includes.empty?
@@ -36,7 +36,7 @@ class LibGenerator::Definition
 
     c_includes = includes.map { |i| "#include <#{i}>" }.join("\n")
 
-    nodes = CrystalLib::Parser.parse(c_includes, cflags || [] of String)
+    nodes = CrystalLib::Parser.parse(c_includes, cflags || [] of String, options)
     prefix_matcher = CrystalLib::PrefixMatcher.new(prefixes, false)
 
     CrystalLib::PrefixImporter.import(nodes, prefix_matcher).tap do |ast|
@@ -47,7 +47,7 @@ class LibGenerator::Definition
     end
   end
 
-  def parse_lib(cflags : String) : Crystal::ASTNode
-    parse_lib(cflags.split(/\s+/))
+  def parse_lib(cflags : String, options : CrystalLib::Parser::Option = CrystalLib::Parser::Option::None) : Crystal::ASTNode
+    parse_lib(cflags.split(/\s+/), options)
   end
 end

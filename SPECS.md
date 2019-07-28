@@ -8,7 +8,7 @@ A lib generation config
 name: LibICU
 cflags: "U_COMMON_IMPLEMENTATION"
 ldflags: "-licuuc -licudata -licui18n -licuio"
-packages: "icu-uc icu-i18n icu-io"
+packages: icu-uc icu-i18n icu-io
 destdir: src/lib_icu/
 includes:
 - include/*.yml
@@ -24,6 +24,8 @@ rename:
     "*":
     - pattern: _\d+$
       replacement: ""
+options:
+  import_docstrings: brief
 ```
 
 A definition
@@ -74,12 +76,12 @@ The ___definitions___ configs can be saved in:
   (if there is any results, the compiler's flags are added to _cflags_
   and the linker's flags are used instead of _ldflags_)  
   _[String, optional]_
-- `destdir`: the directory to write the output files to (relative to the
-  config file)  
-  _[String, optional, default: src/@name.underscore]_
 - `includes`: a list of definition files to include for the generation
   (interpreted by [Dir.glob](https://crystal-lang.org/api/0.21.1/Dir.html))  
   _[Array(String), optional]_
+- `destdir`: the directory to write the output files to (relative to the
+  config file)  
+  _[String, optional, default: src/@name.underscore]_
 - `definitions`: a list of definitions (see __Definition__ bellow) the hash's
   is used to specify the output file name (without extension)  
   _[Hash(String, String), optional]_
@@ -90,6 +92,12 @@ The ___definitions___ configs can be saved in:
     [String#gsub](https://crystal-lang.org/api/0.21.1/Dir.html) `pattern` and
     `replacement` values  
     _[Array(NamedTuple(pattern:Regex, replacement:String)))]_
+- `options`: a list of options for code generation:
+  - `import_docstrings`: generate Crystal comments for C ... (functions, structs)
+    that have [docstrings](...); _brief_ will only generate a comment for the
+    summary of the docstring (@brief) while _full_ will generate a comment for
+    the whole docstring  
+    _[String, optional, default: none, value ~= /none|brief|full/]_
 
 ### Definition
 - `description`: a description of this part of the lib (used to generate a

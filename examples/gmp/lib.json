@@ -8,5 +8,8 @@
       "includes": [ "gmp.h" ],
       "prefixes": [ "__gmpz" ]
     }
+  },
+  "options": {
+    "import_docstrings": "brief"
   }
 }

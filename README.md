@@ -41,7 +41,7 @@ A generation config file, [examples/icu/lib.yml](https://github.com/olbat/libgen
 name: LibICU
 cflags: "-DU_COMMON_IMPLEMENTATION"
 ldflags: "-licuuc -licudata -licui18n -licuio"
-packages: "icu-uc icu-i18n icu-io"
+packages: icu-uc icu-i18n icu-io
 destdir: src/lib_icu/
 includes:
 - include/*.yml
@@ -57,6 +57,8 @@ rename:
     "*":
     - pattern: _\d+$
       replacement: ""
+options:
+  import_docstrings: brief
 ```
 
 A definition file, [examples/icu/include/ucsdet.yml](https://github.com/olbat/libgen/blob/master/examples/icu/include/ucsdet.yml):

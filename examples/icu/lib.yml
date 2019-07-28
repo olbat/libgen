@@ -18,3 +18,5 @@ rename:
     "*":
     - pattern: _\d+$
       replacement: ""
+options:
+  import_docstrings: full

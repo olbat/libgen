@@ -1,3 +1,5 @@
+require "yaml"
+require "json"
 require "compiler/crystal/syntax"
 
 # TODO: find a better way to do it
