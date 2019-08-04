@@ -1,0 +1,19 @@
+---
+name: LibYAML
+ldflags: "-lyaml"
+packages: yaml-0.1
+destdir: src/lib_yaml
+definitions:
+  lib_yaml:
+    includes:
+    # FIXME: only works with absolute path
+    - /usr/include/yaml.h
+    prefixes:
+    - yaml_
+rename:
+  rules:
+    "*":
+    - pattern: ^yaml_
+      replacement: ""
+options:
+  import_docstrings: brief
