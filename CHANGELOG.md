@@ -1,3 +1,6 @@
+# 0.2.6 (05-08-2019)
+- Fix: compilation issue that appeared with Crystal 0.30
+
 # 0.2.5 (15-05-2019)
 - Fix: compilation issue that appeared with Crystal 0.28 (see #33)
 
