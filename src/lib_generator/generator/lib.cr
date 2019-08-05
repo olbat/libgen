@@ -59,7 +59,8 @@ class LibGenerator::Generator
         rescue e : Crystal::SyntaxException
           msg = IO::Memory.new
           msg << "transformations are making the code syntaxically incorrect\n\n"
-          e.append_to_s(code, msg)
+          # FIXME: temporary fix since this code won't compile with Crystal 0.30
+          #e.append_to_s(code, msg)
           raise ArgumentError.new(msg.to_s)
         end
 
