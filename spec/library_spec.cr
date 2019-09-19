@@ -230,15 +230,13 @@ describe "LibGenerator::Library" do
     end
 
     it "sets the proper crystal_lib parser option when option ImportDocStrings is used" do
-      opts = LibGenerator::Options.new(import_docstrings:
-        LibGenerator::Options::ImportDocStrings::Brief)
+      opts = LibGenerator::Options.new(import_docstrings: LibGenerator::Options::ImportDocStrings::Brief)
       li = LibGenerator::Library.new("LibFoo", "-lfoo", includes: ["bar.yml"],
         options: opts)
       li.generate_crystallib_parser_options.import_brief_comments?.should be_true
       li.generate_crystallib_parser_options.import_full_comments?.should be_false
 
-      opts = LibGenerator::Options.new(import_docstrings:
-        LibGenerator::Options::ImportDocStrings::Full)
+      opts = LibGenerator::Options.new(import_docstrings: LibGenerator::Options::ImportDocStrings::Full)
       li = LibGenerator::Library.new("LibFoo", "-lfoo", includes: ["bar.yml"],
         options: opts)
       li.generate_crystallib_parser_options.import_brief_comments?.should be_false
