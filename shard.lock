@@ -5,6 +5,6 @@ shards:
     commit: d019b9ff105cd652f31cca73e950adbf41037d52
 
   crystal_lib:
-    github: olbat/crystal_lib
-    commit: 60cb5fe77a288a81f4cf0535caacbf5c69b8ed07
+    github: crystal-lang/crystal_lib
+    commit: 85421997dd176e289d76a369b796fa96c42a3018
 
