@@ -5,24 +5,17 @@ sudo: required
 matrix:
   include:
   # full tests (lint, spec, integration) using the Docker image
-  - services:
-    - docker
-    # install docker-compose (from https://docs.travis-ci.com/user/docker/)
-    env:
-      DOCKER_COMPOSE_VERSION: 1.11.2
-    install:
-    - sudo rm /usr/local/bin/docker-compose
-    - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
-    - chmod +x docker-compose
-    - sudo mv docker-compose /usr/local/bin
+  - os: linux
+    dist: bionic
+    install: ~  # do not run default install instructions
     script: docker-compose run --rm -u $UID devel make test
 
   # spec tests on Ubuntu and macOS
   - os: linux
-    dist: trusty
+    dist: xenial
     env: LLVM_VERSION=3.8
   - os: linux
-    dist: trusty
+    dist: xenial
     env: LLVM_VERSION=3.9
   - os: linux
     dist: xenial
@@ -33,21 +26,24 @@ matrix:
   - os: linux
     dist: xenial
     env: LLVM_VERSION=6.0
+  - os: linux
+    dist: bionic
+    env: LLVM_VERSION=6.0
   - os: osx
-    osx_image: xcode8.3
-    env: LLVM_VERSION=3.9
-  - os: osx
-    osx_image: xcode8.3
+    osx_image: xcode11.2
     env: LLVM_VERSION=4
   - os: osx
-    osx_image: xcode8.3
-    env: LLVM_VERSION=5
-  - os: osx
-    osx_image: xcode8.3
+    osx_image: xcode11.2
     env: LLVM_VERSION=6
   - os: osx
-    osx_image: xcode8.3
-    env: LLVM_VERSION=7.0
+    osx_image: xcode11.2
+    env: LLVM_VERSION=7
+  - os: osx
+    osx_image: xcode11.2
+    env: LLVM_VERSION=8
+  - os: osx
+    osx_image: xcode11.2
+    env: LLVM_VERSION=9
 
   # publish the documentation on GitHub pages
   - stage: deploy
@@ -92,20 +88,17 @@ install: |
     ;;
 
   osx)
-    LLVM_MAJOR_VERSION=${LLVM_VERSION:0:1}
-    [ $LLVM_MAJOR_VERSION -ge 4 ] && FORMULA_VERSION=$LLVM_MAJOR_VERSION || FORMULA_VERSION=$LLVM_VERSION
-
     brew update
-    brew install llvm@$FORMULA_VERSION
-    brew link --force --overwrite llvm@$FORMULA_VERSION
+    brew install llvm@$LLVM_VERSION
+    brew link --force --overwrite llvm@$LLVM_VERSION
 
     # needed by LLVM >= 7.0 formulas
     # (see https://github.com/Homebrew/homebrew-core/issues/32765)
-    PATH="$(brew --prefix llvm@$FORMULA_VERSION)/bin:$PATH"
+    PATH="$(brew --prefix llvm@$LLVM_VERSION)/bin:$PATH"
 
     # FIXME: the "libclang.dylib" shared object is manually added to the ld
     #        library path since the llvm the formula don't do it properly
-    find $(brew --prefix llvm@$FORMULA_VERSION)/lib -type f -name "libclang.dylib" -exec ln -sf {} $(brew --prefix)/lib \; -quit
+    find $(brew --prefix llvm@$LLVM_VERSION)/lib -type f -name "libclang.dylib" -exec ln -sf {} $(brew --prefix)/lib \; -quit
     ;;
 
   *)
