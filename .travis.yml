@@ -35,13 +35,7 @@ matrix:
     env: LLVM_VERSION=6.0
   - os: osx
     osx_image: xcode8.3
-    env: LLVM_VERSION=3.9
-  - os: osx
-    osx_image: xcode8.3
     env: LLVM_VERSION=4
-  - os: osx
-    osx_image: xcode8.3
-    env: LLVM_VERSION=5
   - os: osx
     osx_image: xcode8.3
     env: LLVM_VERSION=6
