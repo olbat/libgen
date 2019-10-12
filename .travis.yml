@@ -5,16 +5,9 @@ sudo: required
 matrix:
   include:
   # full tests (lint, spec, integration) using the Docker image
-  - services:
-    - docker
-    # install docker-compose (from https://docs.travis-ci.com/user/docker/)
-    env:
-      DOCKER_COMPOSE_VERSION: 1.11.2
-    install:
-    - sudo rm /usr/local/bin/docker-compose
-    - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
-    - chmod +x docker-compose
-    - sudo mv docker-compose /usr/local/bin
+  - os: linux
+    dist: bionic
+    install: ~  # do not run default install instructions
     script: docker-compose run --rm -u $UID devel make test
 
   # spec tests on Ubuntu and macOS
