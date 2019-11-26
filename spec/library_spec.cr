@@ -173,6 +173,36 @@ describe "LibGenerator::Library" do
     end
   end
 
+  describe "lib_name" do
+    it "returns the lib name when no namespace is included in library name" do
+      library = LibGenerator::Library.new("LibFoo", "-lfoo", ["bar.yml"])
+      library.lib_name.should eq "LibFoo"
+    end
+
+    it "returns the lib name when a namespace is included in library name" do
+      library = LibGenerator::Library.new("Foo::Lib", "-lfoo", ["bar.yml"])
+      library.lib_name.should eq "Lib"
+
+      library = LibGenerator::Library.new("Foo::Bar::Lib", "-lfoo", ["bar.yml"])
+      library.lib_name.should eq "Lib"
+    end
+  end
+
+  describe "module_names" do
+    it "returns no module names when no namespace is included in library name" do
+      library = LibGenerator::Library.new("LibFoo", "-lfoo", ["bar.yml"])
+      library.module_names.empty?.should be_true
+    end
+
+    it "returns the module names when a namespace is included in library name" do
+      library = LibGenerator::Library.new("Foo::Lib", "-lfoo", ["bar.yml"])
+      library.module_names.should eq ["Foo"]
+
+      library = LibGenerator::Library.new("Foo::Bar::Lib", "-lfoo", ["bar.yml"])
+      library.module_names.should eq ["Foo", "Bar"]
+    end
+  end
+
   describe "generate_cflags" do
     it "returns @cflags when no packages are specified" do
       cflags = "-D__FOO -I/usr/include/foo"

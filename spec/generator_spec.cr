@@ -163,6 +163,42 @@ describe "LibGenerator::Generator" do
       libs["lib_foo.cr"].should_not match(/^\s*require\s*"\.\/2"$/m)
       libs["lib_foo.cr"].should match(/^\s*require\s*"\.\/3"$/m)
     end
+
+    it "generates libs with a no englobing module" do
+      library = LibGenerator::Library.new("LibFoo", "-lfoo", includes: ["bar.yml"])
+      definitions = {"0" => LibGenerator::Definition.new}
+      transformers = [] of Crystal::Transformer
+      generator = LibGenerator::Generator.new(library, definitions, transformers)
+      generator.libs["0"].ast = ast_exprs("fun foo")
+      libs = generator.generate
+
+      libs["0"].should_not match(/^module /m)
+      libs["0"].should match(/^\s*lib LibFoo$/m)
+    end
+
+    it "generates libs with a single englobing module" do
+      library = LibGenerator::Library.new("Foo::Lib", "-lfoo", includes: ["bar.yml"])
+      definitions = {"0" => LibGenerator::Definition.new}
+      transformers = [] of Crystal::Transformer
+      generator = LibGenerator::Generator.new(library, definitions, transformers)
+      generator.libs["0"].ast = ast_exprs("fun foo")
+      libs = generator.generate
+
+      libs["0"].should match(/^module Foo$/m)
+      libs["0"].should match(/^\s*lib Lib$/m)
+    end
+
+    it "generates libs with a multiple englobing modules" do
+      library = LibGenerator::Library.new("Foo::Bar::Baz::Lib", "-lfoo", includes: ["bar.yml"])
+      definitions = {"0" => LibGenerator::Definition.new}
+      transformers = [] of Crystal::Transformer
+      generator = LibGenerator::Generator.new(library, definitions, transformers)
+      generator.libs["0"].ast = ast_exprs("fun foo")
+      libs = generator.generate
+
+      libs["0"].should match(/^module Foo::Bar::Baz$/m)
+      libs["0"].should match(/^\s*lib Lib$/m)
+    end
   end
 end
 

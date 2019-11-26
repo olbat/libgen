@@ -49,6 +49,14 @@ class LibGenerator::Library
     @destdir ||= File.join("src", @name.underscore)
   end
 
+  def lib_name : String
+    @name.split("::", remove_empty: true)[-1]
+  end
+
+  def module_names : Array(String)
+    @name.split("::", remove_empty: true)[0..-2]
+  end
+
   def generate_cflags : String?
     cflags = @cflags
     if (packages = @packages)
