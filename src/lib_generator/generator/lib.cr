@@ -50,6 +50,10 @@ class LibGenerator::Generator
 
         ast = Crystal::Expressions.new(expressions)
 
+        if li && !@library.module_names.empty?
+          ast = Crystal::ModuleDef.new(Crystal::Path.new(@library.module_names), ast)
+        end
+
         source = IO::Memory.new
         ast.to_s(source, emit_doc: true)
         code = source.to_s
@@ -79,7 +83,7 @@ class LibGenerator::Generator
     def generate_lib : Crystal::LibDef?
       ast = @ast
       unless ast.as(Crystal::Expressions).expressions.empty?
-        Crystal::LibDef.new(@library.name, ast).tap do |ln|
+        Crystal::LibDef.new(@library.lib_name, ast).tap do |ln|
           ln.doc = @definition.description
         end
       end

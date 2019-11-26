@@ -1,8 +1,8 @@
 ---
-name: LibOpenSSL
+name: OpenSSL::Lib
 ldflags: "-lssl -lcrypto"
 packages: openssl
-destdir: src/lib_openssl/
+destdir: src/openssl/lib
 definitions:
   sha:
     description: SHA hashing algorithms

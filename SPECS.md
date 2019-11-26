@@ -65,7 +65,7 @@ The ___definitions___ configs can be saved in:
 
 ## Configuration format
 ### Library
-- `name`: the name of the output lib  
+- `name`: the name of the output lib (can be namespaced, e.g. Foo::BarLib)  
   _[String, mandatory]_
 - `cflags`: flags to be passed to the compiler  
   _[String, optional]_
