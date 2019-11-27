@@ -1,3 +1,7 @@
+# 0.2.8 (27-11-2019)
+- Make it possible to namespace library names, e.g. _Foo::Bar::Lib_
+  (an englobing module will be added when generating the lib)
+
 # 0.2.7 (06-11-2019)
 - Add an option to import docstrings (see [options/import_docstrings](SPECS.md))
 
