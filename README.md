@@ -15,7 +15,7 @@ There is also an option to perform AST node renaming at generation time.
 __Debian/Ubuntu__
 ```bash
 # install build dependencies
-apt-get install -y build-essential llvm-4.0-dev libclang-4.0-dev
+apt-get install -y build-essential llvm-7-dev libclang-7-dev
 # then, build and install
 make && make install
 ```
@@ -23,7 +23,7 @@ make && make install
 __macOS__
 ```bash
 # if necessary, install build dependencies
-brew install llvm@4.0
+brew install llvm@7
 # then, build and install
 make && make install
 ```
