@@ -211,12 +211,16 @@ describe "LibGenerator::Library" do
       library.generate_cflags.should eq(cflags)
     end
 
-    it "looks for cflags using pkg-config when packages are specified" do
-      packages = "openssl"
-      library = LibGenerator::Library.new("LibFoo", "-lfoo", ["bar.yml"],
-        packages: packages)
-      library.generate_cflags.should be_nil
-    end
+    # Disable this test on macOS as some cflags are included by default
+    # (see https://github.com/crystal-lang/crystal/issues/8548)
+    {% if !flag?(:darwin) %}
+      it "looks for cflags using pkg-config when packages are specified" do
+        packages = "openssl"
+        library = LibGenerator::Library.new("LibFoo", "-lfoo", ["bar.yml"],
+          packages: packages)
+        library.generate_cflags.should be_nil
+      end
+    {% end %}
 
     it "looks for cflags using pkg-config when invalid packages are specified" do
       packages = "_invalid_"
@@ -231,7 +235,7 @@ describe "LibGenerator::Library" do
       packages = "openssl"
       library = LibGenerator::Library.new("LibFoo", "-lfoo", ["bar.yml"],
         cflags: cflags, packages: packages)
-      library.generate_cflags.should eq("#{pcflags} #{cflags}".strip)
+      library.generate_cflags.should match(/#{cflags}/)
     end
   end
 
