@@ -45,7 +45,7 @@ matrix:
   # publish the documentation on GitHub pages
   - stage: deploy
     os: linux
-    install:
+    install: shards install
     script: crystal docs
     deploy:
       provider: pages
