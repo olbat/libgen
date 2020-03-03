@@ -45,7 +45,7 @@ class LibGenerator::Generator
 
   def generate_libs
     @libs.each do |filename, li|
-      li.generate
+      li.generate(filename)
     end
   end
 

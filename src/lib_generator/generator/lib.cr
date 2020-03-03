@@ -35,7 +35,7 @@ class LibGenerator::Generator
       @ast = ast
     end
 
-    def generate : String?
+    def generate(filename : String = "out.cr") : String?
       li = generate_lib()
       requires = generate_requires()
 
@@ -62,9 +62,15 @@ class LibGenerator::Generator
           Crystal::Parser.parse(code)
         rescue e : Crystal::SyntaxException
           msg = IO::Memory.new
-          msg << "transformations are making the code syntaxically incorrect\n\n"
-          # FIXME: temporary fix since this code won't compile with Crystal 0.30
+          msg << "transformations are making the code syntaxically incorrect\n--\n"
+          # FIXME: temporary fix because Crystal::SyntaxException#append_to_s
+          #        is broken since Crystal 0.30, to be removed once fixed upstream
           # e.append_to_s(code, msg)
+          errmsg_lines = e.message.to_s.lines
+          msg << e.format_error(filename, code.split('\n'), e.line_number, e.column_number, e.size)
+          msg << '\n'
+          msg << e.colorize("Error: #{errmsg_lines.shift}").yellow.bold
+          msg << e.remaining errmsg_lines
           raise ArgumentError.new(msg.to_s)
         end
 
