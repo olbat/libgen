@@ -7,7 +7,6 @@ module OpenSSL
     SHA512_DIGEST_LENGTH = 64
     SHA_DIGEST_LENGTH    = 20
     SHA_LBLOCK           = 16
-    fun sha = SHA(d : UInt8*, n : LibC::SizeT, md : UInt8*) : UInt8*
     fun sha1 = SHA1(d : UInt8*, n : LibC::SizeT, md : UInt8*) : UInt8*
     fun sha1_final = SHA1_Final(md : UInt8*, c : ShaCtx*) : LibC::Int
     fun sha1_init = SHA1_Init(c : ShaCtx*) : LibC::Int
@@ -31,10 +30,6 @@ module OpenSSL
     fun sha512_init = SHA512_Init(c : Sha512Ctx*) : LibC::Int
     fun sha512_transform = SHA512_Transform(c : Sha512Ctx*, data : UInt8*)
     fun sha512_update = SHA512_Update(c : Sha512Ctx*, data : Void*, len : LibC::SizeT) : LibC::Int
-    fun sha_final = SHA_Final(md : UInt8*, c : ShaCtx*) : LibC::Int
-    fun sha_init = SHA_Init(c : ShaCtx*) : LibC::Int
-    fun sha_transform = SHA_Transform(c : ShaCtx*, data : UInt8*)
-    fun sha_update = SHA_Update(c : ShaCtx*, data : Void*, len : LibC::SizeT) : LibC::Int
 
     struct ShAstateSt
       h0 : LibC::UInt

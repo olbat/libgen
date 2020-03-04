@@ -60,7 +60,12 @@ lib LibGTK3
     GdkTouchCancel       = 40
     GdkTouchpadSwipe     = 41
     GdkTouchpadPinch     = 42
-    GdkEventLast         = 43
+    GdkPadButtonPress    = 43
+    GdkPadButtonRelease  = 44
+    GdkPadRing           = 45
+    GdkPadStrip          = 46
+    GdkPadGroupMode      = 47
+    GdkEventLast         = 48
   end
   enum GdkModifierType
     GdkShiftMask              =          1

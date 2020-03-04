@@ -39,10 +39,12 @@ lib LibGTK3
   fun gtk_application_set_app_menu(application : GtkApplication*, app_menu : GMenuModel*)
   fun gtk_application_set_menubar(application : GtkApplication*, menubar : GMenuModel*)
   fun gtk_application_uninhibit(application : GtkApplication*, cookie : Guint)
+  fun gtk_application_window_get_help_overlay(window : GtkApplicationWindow*) : GtkShortcutsWindow*
   fun gtk_application_window_get_id(window : GtkApplicationWindow*) : Guint
   fun gtk_application_window_get_show_menubar(window : GtkApplicationWindow*) : Gboolean
   fun gtk_application_window_get_type : GType
   fun gtk_application_window_new(application : GtkApplication*) : GtkWidget*
+  fun gtk_application_window_set_help_overlay(window : GtkApplicationWindow*, help_overlay : GtkShortcutsWindow*)
   fun gtk_application_window_set_show_menubar(window : GtkApplicationWindow*, show_menubar : Gboolean)
 
   struct X_GMenuModel
@@ -55,10 +57,15 @@ lib LibGTK3
     priv : GtkApplicationWindowPrivate
   end
 
+  struct X_GtkShortcutsWindow
+    window : GtkWindow
+  end
+
   type GMenu = Void*
   type GMenuModel = X_GMenuModel
   type GMenuModelPrivate = Void*
   type GVariant = Void*
   type GtkApplicationWindow = X_GtkApplicationWindow
   type GtkApplicationWindowPrivate = Void*
+  type GtkShortcutsWindow = X_GtkShortcutsWindow
 end
