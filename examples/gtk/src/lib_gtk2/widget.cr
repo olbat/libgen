@@ -141,7 +141,8 @@ lib LibGTK2
     AtkRoleMathRoot             = 119
     AtkRoleSubscript            = 120
     AtkRoleSuperscript          = 121
-    AtkRoleLastDefined          = 122
+    AtkRoleFootnote             = 122
+    AtkRoleLastDefined          = 123
   end
   enum GParamFlags
     GParamReadable       =           1

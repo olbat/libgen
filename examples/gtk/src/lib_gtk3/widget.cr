@@ -149,7 +149,8 @@ lib LibGTK3
     AtkRoleMathRoot             = 119
     AtkRoleSubscript            = 120
     AtkRoleSuperscript          = 121
-    AtkRoleLastDefined          = 122
+    AtkRoleFootnote             = 122
+    AtkRoleLastDefined          = 123
   end
   enum GConnectFlags
     GConnectAfter   = 1
@@ -205,7 +206,8 @@ lib LibGTK3
     GdkTouchMask             =  4194304
     GdkSmoothScrollMask      =  8388608
     GdkTouchpadGestureMask   = 16777216
-    GdkAllEventsMask         = 16777214
+    GdkTabletPadMask         = 33554432
+    GdkAllEventsMask         = 67108862
   end
   enum GdkModifierIntent
     GdkModifierIntentPrimaryAccelerator = 0
@@ -247,15 +249,23 @@ lib LibGTK3
     GdkVisibilityFullyObscured = 2
   end
   enum GdkWindowState
-    GdkWindowStateWithdrawn  =   1
-    GdkWindowStateIconified  =   2
-    GdkWindowStateMaximized  =   4
-    GdkWindowStateSticky     =   8
-    GdkWindowStateFullscreen =  16
-    GdkWindowStateAbove      =  32
-    GdkWindowStateBelow      =  64
-    GdkWindowStateFocused    = 128
-    GdkWindowStateTiled      = 256
+    GdkWindowStateWithdrawn       =     1
+    GdkWindowStateIconified       =     2
+    GdkWindowStateMaximized       =     4
+    GdkWindowStateSticky          =     8
+    GdkWindowStateFullscreen      =    16
+    GdkWindowStateAbove           =    32
+    GdkWindowStateBelow           =    64
+    GdkWindowStateFocused         =   128
+    GdkWindowStateTiled           =   256
+    GdkWindowStateTopTiled        =   512
+    GdkWindowStateTopResizable    =  1024
+    GdkWindowStateRightTiled      =  2048
+    GdkWindowStateRightResizable  =  4096
+    GdkWindowStateBottomTiled     =  8192
+    GdkWindowStateBottomResizable = 16384
+    GdkWindowStateLeftTiled       = 32768
+    GdkWindowStateLeftResizable   = 65536
   end
   enum GtkAccelFlags
     GtkAccelVisible = 1
@@ -331,6 +341,7 @@ lib LibGTK3
     GtkStateFlagLink         =  512
     GtkStateFlagVisited      = 1024
     GtkStateFlagChecked      = 2048
+    GtkStateFlagDropActive   = 4096
   end
   enum GtkStateType
     GtkStateNormal       = 0
@@ -362,6 +373,7 @@ lib LibGTK3
   fun gtk_widget_class_bind_template_callback_full(widget_class : GtkWidgetClass*, callback_name : Gchar*, callback_symbol : GCallback)
   fun gtk_widget_class_bind_template_child_full(widget_class : GtkWidgetClass*, name : Gchar*, internal_child : Gboolean, struct_offset : Gssize)
   fun gtk_widget_class_find_style_property(klass : GtkWidgetClass*, property_name : Gchar*) : GParamSpec*
+  fun gtk_widget_class_get_css_name(widget_class : GtkWidgetClass*) : LibC::Char*
   fun gtk_widget_class_install_style_property(klass : GtkWidgetClass*, pspec : GParamSpec*)
   fun gtk_widget_class_install_style_property_parser(klass : GtkWidgetClass*, pspec : GParamSpec*, parser : GtkRcPropertyParser)
   fun gtk_widget_class_list_style_properties(klass : GtkWidgetClass*, n_properties : Guint*) : GParamSpec**
@@ -369,6 +381,7 @@ lib LibGTK3
   fun gtk_widget_class_set_accessible_role(widget_class : GtkWidgetClass*, role : AtkRole)
   fun gtk_widget_class_set_accessible_type(widget_class : GtkWidgetClass*, type : GType)
   fun gtk_widget_class_set_connect_func(widget_class : GtkWidgetClass*, connect_func : GtkBuilderConnectFunc, connect_data : Gpointer, connect_data_destroy : GDestroyNotify)
+  fun gtk_widget_class_set_css_name(widget_class : GtkWidgetClass*, name : LibC::Char*)
   fun gtk_widget_class_set_template(widget_class : GtkWidgetClass*, template_bytes : GBytes)
   fun gtk_widget_class_set_template_from_resource(widget_class : GtkWidgetClass*, resource_name : Gchar*)
   fun gtk_widget_compute_expand(widget : GtkWidget*, orientation : GtkOrientation) : Gboolean
@@ -386,6 +399,7 @@ lib LibGTK3
   fun gtk_widget_get_action_group(widget : GtkWidget*, prefix : Gchar*) : GActionGroup
   fun gtk_widget_get_allocated_baseline(widget : GtkWidget*) : LibC::Int
   fun gtk_widget_get_allocated_height(widget : GtkWidget*) : LibC::Int
+  fun gtk_widget_get_allocated_size(widget : GtkWidget*, allocation : GtkAllocation*, baseline : LibC::Int*)
   fun gtk_widget_get_allocated_width(widget : GtkWidget*) : LibC::Int
   fun gtk_widget_get_allocation(widget : GtkWidget*, allocation : GtkAllocation*)
   fun gtk_widget_get_ancestor(widget : GtkWidget*, widget_type : GType) : GtkWidget*
@@ -405,6 +419,7 @@ lib LibGTK3
   fun gtk_widget_get_display(widget : GtkWidget*) : GdkDisplay
   fun gtk_widget_get_double_buffered(widget : GtkWidget*) : Gboolean
   fun gtk_widget_get_events(widget : GtkWidget*) : Gint
+  fun gtk_widget_get_focus_on_click(widget : GtkWidget*) : Gboolean
   fun gtk_widget_get_font_map(widget : GtkWidget*) : PangoFontMap
   fun gtk_widget_get_font_options(widget : GtkWidget*) : CairoFontOptionsT
   fun gtk_widget_get_frame_clock(widget : GtkWidget*) : GdkFrameClock
@@ -517,11 +532,11 @@ lib LibGTK3
   fun gtk_widget_path_has_parent(path : GtkWidgetPath, type : GType) : Gboolean
   fun gtk_widget_path_is_type(path : GtkWidgetPath, type : GType) : Gboolean
   fun gtk_widget_path_iter_add_class(path : GtkWidgetPath, pos : Gint, name : Gchar*)
-  fun gtk_widget_path_iter_add_qclass(path : GtkWidgetPath, pos : Gint, qname : GQuark)
   fun gtk_widget_path_iter_add_region(path : GtkWidgetPath, pos : Gint, name : Gchar*, flags : GtkRegionFlags)
   fun gtk_widget_path_iter_clear_classes(path : GtkWidgetPath, pos : Gint)
   fun gtk_widget_path_iter_clear_regions(path : GtkWidgetPath, pos : Gint)
   fun gtk_widget_path_iter_get_name(path : GtkWidgetPath, pos : Gint) : Gchar*
+  fun gtk_widget_path_iter_get_object_name(path : GtkWidgetPath, pos : Gint) : LibC::Char*
   fun gtk_widget_path_iter_get_object_type(path : GtkWidgetPath, pos : Gint) : GType
   fun gtk_widget_path_iter_get_sibling_index(path : GtkWidgetPath, pos : Gint) : Guint
   fun gtk_widget_path_iter_get_siblings(path : GtkWidgetPath, pos : Gint) : GtkWidgetPath
@@ -537,6 +552,7 @@ lib LibGTK3
   fun gtk_widget_path_iter_remove_class(path : GtkWidgetPath, pos : Gint, name : Gchar*)
   fun gtk_widget_path_iter_remove_region(path : GtkWidgetPath, pos : Gint, name : Gchar*)
   fun gtk_widget_path_iter_set_name(path : GtkWidgetPath, pos : Gint, name : Gchar*)
+  fun gtk_widget_path_iter_set_object_name(path : GtkWidgetPath, pos : Gint, name : LibC::Char*)
   fun gtk_widget_path_iter_set_object_type(path : GtkWidgetPath, pos : Gint, type : GType)
   fun gtk_widget_path_iter_set_state(path : GtkWidgetPath, pos : Gint, state : GtkStateFlags)
   fun gtk_widget_path_length(path : GtkWidgetPath) : Gint
@@ -547,6 +563,7 @@ lib LibGTK3
   fun gtk_widget_path_unref(path : GtkWidgetPath)
   fun gtk_widget_pop_composite_child
   fun gtk_widget_push_composite_child
+  fun gtk_widget_queue_allocate(widget : GtkWidget*)
   fun gtk_widget_queue_compute_expand(widget : GtkWidget*)
   fun gtk_widget_queue_draw(widget : GtkWidget*)
   fun gtk_widget_queue_draw_area(widget : GtkWidget*, x : Gint, y : Gint, width : Gint, height : Gint)
@@ -580,6 +597,7 @@ lib LibGTK3
   fun gtk_widget_set_direction(widget : GtkWidget*, dir : GtkTextDirection)
   fun gtk_widget_set_double_buffered(widget : GtkWidget*, double_buffered : Gboolean)
   fun gtk_widget_set_events(widget : GtkWidget*, events : Gint)
+  fun gtk_widget_set_focus_on_click(widget : GtkWidget*, focus_on_click : Gboolean)
   fun gtk_widget_set_font_map(widget : GtkWidget*, font_map : PangoFontMap)
   fun gtk_widget_set_font_options(widget : GtkWidget*, options : CairoFontOptionsT)
   fun gtk_widget_set_halign(widget : GtkWidget*, align : GtkAlign)
@@ -821,6 +839,36 @@ lib LibGTK3
     selection_time : Guint32
   end
 
+  struct X_GdkEventPadAxis
+    type : GdkEventType
+    window : GdkWindow
+    send_event : Gint8
+    time : Guint32
+    group : Guint
+    index : Guint
+    mode : Guint
+    value : Gdouble
+  end
+
+  struct X_GdkEventPadButton
+    type : GdkEventType
+    window : GdkWindow
+    send_event : Gint8
+    time : Guint32
+    group : Guint
+    button : Guint
+    mode : Guint
+  end
+
+  struct X_GdkEventPadGroupMode
+    type : GdkEventType
+    window : GdkWindow
+    send_event : Gint8
+    time : Guint32
+    group : Guint
+    mode : Guint
+  end
+
   struct X_GdkEventProperty
     type : GdkEventType
     window : GdkWindow
@@ -852,6 +900,7 @@ lib LibGTK3
     y_root : Gdouble
     delta_x : Gdouble
     delta_y : Gdouble
+    is_stop : Guint
   end
 
   struct X_GdkEventSelection
@@ -1133,6 +1182,9 @@ lib LibGTK3
   type GdkEventGrabBroken = X_GdkEventGrabBroken
   type GdkEventMotion = X_GdkEventMotion
   type GdkEventOwnerChange = X_GdkEventOwnerChange
+  type GdkEventPadAxis = X_GdkEventPadAxis
+  type GdkEventPadButton = X_GdkEventPadButton
+  type GdkEventPadGroupMode = X_GdkEventPadGroupMode
   type GdkEventProperty = X_GdkEventProperty
   type GdkEventProximity = X_GdkEventProximity
   type GdkEventScroll = X_GdkEventScroll
@@ -1203,5 +1255,8 @@ lib LibGTK3
     grab_broken : GdkEventGrabBroken
     touchpad_swipe : GdkEventTouchpadSwipe
     touchpad_pinch : GdkEventTouchpadPinch
+    pad_button : GdkEventPadButton
+    pad_axis : GdkEventPadAxis
+    pad_group_mode : GdkEventPadGroupMode
   end
 end

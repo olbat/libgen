@@ -34,7 +34,7 @@ lib LibICU
   enum UDateFormatBooleanAttribute
     UdatParseAllowWhitespace          = 0
     UdatParseAllowNumeric             = 1
-    UdatParsePartialMatch             = 2
+    UdatParsePartialLiteralMatch      = 2
     UdatParseMultiplePatternsForMatch = 3
     UdatBooleanAttributeCount         = 4
   end
@@ -74,8 +74,10 @@ lib LibICU
     UdatTimezoneIsoField                = 32
     UdatTimezoneIsoLocalField           = 33
     UdatRelatedYearField                = 34
-    UdatTimeSeparatorField              = 35
-    UdatFieldCount                      = 36
+    UdatAmPmMidnightNoonField           = 35
+    UdatFlexibleDayPeriodField          = 36
+    UdatTimeSeparatorField              = 37
+    UdatFieldCount                      = 38
   end
   enum UDateFormatStyle
     UdatFull           =   0
@@ -132,50 +134,53 @@ lib LibICU
     UdispctxCapitalizationForStandalone          = 260
     UdispctxLengthFull                           = 512
     UdispctxLengthShort                          = 513
+    UdispctxSubstitute                           = 768
+    UdispctxNoSubstitute                         = 769
   end
   enum UDisplayContextType
-    UdispctxTypeDialectHandling = 0
-    UdispctxTypeCapitalization  = 1
-    UdispctxTypeDisplayLength   = 2
+    UdispctxTypeDialectHandling    = 0
+    UdispctxTypeCapitalization     = 1
+    UdispctxTypeDisplayLength      = 2
+    UdispctxTypeSubstituteHandling = 3
   end
-  fun udat_adopt_number_format = udat_adoptNumberFormat_55(fmt : UDateFormat*, number_format_to_adopt : UNumberFormat*)
-  fun udat_adopt_number_format_for_fields = udat_adoptNumberFormatForFields_55(fmt : UDateFormat*, fields : UChar*, number_format_to_set : UNumberFormat*, status : UErrorCode*)
-  fun udat_apply_pattern = udat_applyPattern_55(format : UDateFormat*, localized : UBool, pattern : UChar*, pattern_length : Int32T)
-  fun udat_apply_pattern_relative = udat_applyPatternRelative_55(format : UDateFormat*, date_pattern : UChar*, date_pattern_length : Int32T, time_pattern : UChar*, time_pattern_length : Int32T, status : UErrorCode*)
-  fun udat_clone = udat_clone_55(fmt : UDateFormat*, status : UErrorCode*) : UDateFormat*
-  fun udat_close = udat_close_55(format : UDateFormat*)
-  fun udat_count_available = udat_countAvailable_55 : Int32T
-  fun udat_count_symbols = udat_countSymbols_55(fmt : UDateFormat*, type : UDateFormatSymbolType) : Int32T
-  fun udat_format = udat_format_55(format : UDateFormat*, date_to_format : UDate, result : UChar*, result_length : Int32T, position : UFieldPosition*, status : UErrorCode*) : Int32T
-  fun udat_format_calendar = udat_formatCalendar_55(format : UDateFormat*, calendar : UCalendar*, result : UChar*, capacity : Int32T, position : UFieldPosition*, status : UErrorCode*) : Int32T
-  fun udat_format_calendar_for_fields = udat_formatCalendarForFields_55(format : UDateFormat*, calendar : UCalendar*, result : UChar*, capacity : Int32T, fpositer : UFieldPositionIterator, status : UErrorCode*) : Int32T
-  fun udat_format_for_fields = udat_formatForFields_55(format : UDateFormat*, date_to_format : UDate, result : UChar*, result_length : Int32T, fpositer : UFieldPositionIterator, status : UErrorCode*) : Int32T
-  fun udat_get2_digit_year_start = udat_get2DigitYearStart_55(fmt : UDateFormat*, status : UErrorCode*) : UDate
-  fun udat_get_available = udat_getAvailable_55(locale_index : Int32T) : LibC::Char*
-  fun udat_get_boolean_attribute = udat_getBooleanAttribute_55(fmt : UDateFormat*, attr : UDateFormatBooleanAttribute, status : UErrorCode*) : UBool
-  fun udat_get_calendar = udat_getCalendar_55(fmt : UDateFormat*) : UCalendar*
-  fun udat_get_context = udat_getContext_55(fmt : UDateFormat*, type : UDisplayContextType, status : UErrorCode*) : UDisplayContext
-  fun udat_get_locale_by_type = udat_getLocaleByType_55(fmt : UDateFormat*, type : ULocDataLocaleType, status : UErrorCode*) : LibC::Char*
-  fun udat_get_number_format = udat_getNumberFormat_55(fmt : UDateFormat*) : UNumberFormat*
-  fun udat_get_number_format_for_field = udat_getNumberFormatForField_55(fmt : UDateFormat*, field : UChar) : UNumberFormat*
-  fun udat_get_symbols = udat_getSymbols_55(fmt : UDateFormat*, type : UDateFormatSymbolType, symbol_index : Int32T, result : UChar*, result_length : Int32T, status : UErrorCode*) : Int32T
-  fun udat_is_lenient = udat_isLenient_55(fmt : UDateFormat*) : UBool
-  fun udat_open = udat_open_55(time_style : UDateFormatStyle, date_style : UDateFormatStyle, locale : LibC::Char*, tz_id : UChar*, tz_id_length : Int32T, pattern : UChar*, pattern_length : Int32T, status : UErrorCode*) : UDateFormat*
-  fun udat_parse = udat_parse_55(format : UDateFormat*, text : UChar*, text_length : Int32T, parse_pos : Int32T*, status : UErrorCode*) : UDate
-  fun udat_parse_calendar = udat_parseCalendar_55(format : UDateFormat*, calendar : UCalendar*, text : UChar*, text_length : Int32T, parse_pos : Int32T*, status : UErrorCode*)
-  fun udat_register_opener = udat_registerOpener_55(opener : UDateFormatOpener, status : UErrorCode*)
-  fun udat_set2_digit_year_start = udat_set2DigitYearStart_55(fmt : UDateFormat*, d : UDate, status : UErrorCode*)
-  fun udat_set_boolean_attribute = udat_setBooleanAttribute_55(fmt : UDateFormat*, attr : UDateFormatBooleanAttribute, new_value : UBool, status : UErrorCode*)
-  fun udat_set_calendar = udat_setCalendar_55(fmt : UDateFormat*, calendar_to_set : UCalendar*)
-  fun udat_set_context = udat_setContext_55(fmt : UDateFormat*, value : UDisplayContext, status : UErrorCode*)
-  fun udat_set_lenient = udat_setLenient_55(fmt : UDateFormat*, is_lenient : UBool)
-  fun udat_set_number_format = udat_setNumberFormat_55(fmt : UDateFormat*, number_format_to_set : UNumberFormat*)
-  fun udat_set_symbols = udat_setSymbols_55(format : UDateFormat*, type : UDateFormatSymbolType, symbol_index : Int32T, value : UChar*, value_length : Int32T, status : UErrorCode*)
-  fun udat_to_calendar_date_field = udat_toCalendarDateField_55(field : UDateFormatField) : UCalendarDateFields
-  fun udat_to_pattern = udat_toPattern_55(fmt : UDateFormat*, localized : UBool, result : UChar*, result_length : Int32T, status : UErrorCode*) : Int32T
-  fun udat_to_pattern_relative_date = udat_toPatternRelativeDate_55(fmt : UDateFormat*, result : UChar*, result_length : Int32T, status : UErrorCode*) : Int32T
-  fun udat_to_pattern_relative_time = udat_toPatternRelativeTime_55(fmt : UDateFormat*, result : UChar*, result_length : Int32T, status : UErrorCode*) : Int32T
-  fun udat_unregister_opener = udat_unregisterOpener_55(opener : UDateFormatOpener, status : UErrorCode*) : UDateFormatOpener
+  fun udat_adopt_number_format = udat_adoptNumberFormat_60(fmt : UDateFormat*, number_format_to_adopt : UNumberFormat*)
+  fun udat_adopt_number_format_for_fields = udat_adoptNumberFormatForFields_60(fmt : UDateFormat*, fields : UChar*, number_format_to_set : UNumberFormat*, status : UErrorCode*)
+  fun udat_apply_pattern = udat_applyPattern_60(format : UDateFormat*, localized : UBool, pattern : UChar*, pattern_length : Int32T)
+  fun udat_apply_pattern_relative = udat_applyPatternRelative_60(format : UDateFormat*, date_pattern : UChar*, date_pattern_length : Int32T, time_pattern : UChar*, time_pattern_length : Int32T, status : UErrorCode*)
+  fun udat_clone = udat_clone_60(fmt : UDateFormat*, status : UErrorCode*) : UDateFormat*
+  fun udat_close = udat_close_60(format : UDateFormat*)
+  fun udat_count_available = udat_countAvailable_60 : Int32T
+  fun udat_count_symbols = udat_countSymbols_60(fmt : UDateFormat*, type : UDateFormatSymbolType) : Int32T
+  fun udat_format = udat_format_60(format : UDateFormat*, date_to_format : UDate, result : UChar*, result_length : Int32T, position : UFieldPosition*, status : UErrorCode*) : Int32T
+  fun udat_format_calendar = udat_formatCalendar_60(format : UDateFormat*, calendar : UCalendar*, result : UChar*, capacity : Int32T, position : UFieldPosition*, status : UErrorCode*) : Int32T
+  fun udat_format_calendar_for_fields = udat_formatCalendarForFields_60(format : UDateFormat*, calendar : UCalendar*, result : UChar*, capacity : Int32T, fpositer : UFieldPositionIterator, status : UErrorCode*) : Int32T
+  fun udat_format_for_fields = udat_formatForFields_60(format : UDateFormat*, date_to_format : UDate, result : UChar*, result_length : Int32T, fpositer : UFieldPositionIterator, status : UErrorCode*) : Int32T
+  fun udat_get2_digit_year_start = udat_get2DigitYearStart_60(fmt : UDateFormat*, status : UErrorCode*) : UDate
+  fun udat_get_available = udat_getAvailable_60(locale_index : Int32T) : LibC::Char*
+  fun udat_get_boolean_attribute = udat_getBooleanAttribute_60(fmt : UDateFormat*, attr : UDateFormatBooleanAttribute, status : UErrorCode*) : UBool
+  fun udat_get_calendar = udat_getCalendar_60(fmt : UDateFormat*) : UCalendar*
+  fun udat_get_context = udat_getContext_60(fmt : UDateFormat*, type : UDisplayContextType, status : UErrorCode*) : UDisplayContext
+  fun udat_get_locale_by_type = udat_getLocaleByType_60(fmt : UDateFormat*, type : ULocDataLocaleType, status : UErrorCode*) : LibC::Char*
+  fun udat_get_number_format = udat_getNumberFormat_60(fmt : UDateFormat*) : UNumberFormat*
+  fun udat_get_number_format_for_field = udat_getNumberFormatForField_60(fmt : UDateFormat*, field : UChar) : UNumberFormat*
+  fun udat_get_symbols = udat_getSymbols_60(fmt : UDateFormat*, type : UDateFormatSymbolType, symbol_index : Int32T, result : UChar*, result_length : Int32T, status : UErrorCode*) : Int32T
+  fun udat_is_lenient = udat_isLenient_60(fmt : UDateFormat*) : UBool
+  fun udat_open = udat_open_60(time_style : UDateFormatStyle, date_style : UDateFormatStyle, locale : LibC::Char*, tz_id : UChar*, tz_id_length : Int32T, pattern : UChar*, pattern_length : Int32T, status : UErrorCode*) : UDateFormat*
+  fun udat_parse = udat_parse_60(format : UDateFormat*, text : UChar*, text_length : Int32T, parse_pos : Int32T*, status : UErrorCode*) : UDate
+  fun udat_parse_calendar = udat_parseCalendar_60(format : UDateFormat*, calendar : UCalendar*, text : UChar*, text_length : Int32T, parse_pos : Int32T*, status : UErrorCode*)
+  fun udat_register_opener = udat_registerOpener_60(opener : UDateFormatOpener, status : UErrorCode*)
+  fun udat_set2_digit_year_start = udat_set2DigitYearStart_60(fmt : UDateFormat*, d : UDate, status : UErrorCode*)
+  fun udat_set_boolean_attribute = udat_setBooleanAttribute_60(fmt : UDateFormat*, attr : UDateFormatBooleanAttribute, new_value : UBool, status : UErrorCode*)
+  fun udat_set_calendar = udat_setCalendar_60(fmt : UDateFormat*, calendar_to_set : UCalendar*)
+  fun udat_set_context = udat_setContext_60(fmt : UDateFormat*, value : UDisplayContext, status : UErrorCode*)
+  fun udat_set_lenient = udat_setLenient_60(fmt : UDateFormat*, is_lenient : UBool)
+  fun udat_set_number_format = udat_setNumberFormat_60(fmt : UDateFormat*, number_format_to_set : UNumberFormat*)
+  fun udat_set_symbols = udat_setSymbols_60(format : UDateFormat*, type : UDateFormatSymbolType, symbol_index : Int32T, value : UChar*, value_length : Int32T, status : UErrorCode*)
+  fun udat_to_calendar_date_field = udat_toCalendarDateField_60(field : UDateFormatField) : UCalendarDateFields
+  fun udat_to_pattern = udat_toPattern_60(fmt : UDateFormat*, localized : UBool, result : UChar*, result_length : Int32T, status : UErrorCode*) : Int32T
+  fun udat_to_pattern_relative_date = udat_toPatternRelativeDate_60(fmt : UDateFormat*, result : UChar*, result_length : Int32T, status : UErrorCode*) : Int32T
+  fun udat_to_pattern_relative_time = udat_toPatternRelativeTime_60(fmt : UDateFormat*, result : UChar*, result_length : Int32T, status : UErrorCode*) : Int32T
+  fun udat_unregister_opener = udat_unregisterOpener_60(opener : UDateFormatOpener, status : UErrorCode*) : UDateFormatOpener
 
   struct UFieldPosition
     field : Int32T
