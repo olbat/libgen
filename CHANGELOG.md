@@ -1,3 +1,6 @@
+# 0.2.9 (04-03-2020)
+- Fix: "transformation to broken code" error messages are not verbose enough
+
 # 0.2.8 (27-11-2019)
 - Make it possible to namespace library names, e.g. _Foo::Bar::Lib_
   (an englobing module will be added when generating the lib)
