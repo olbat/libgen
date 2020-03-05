@@ -1,0 +1,13 @@
+---
+name: LibGit2
+ldflags: "-lgit2"
+packages: libgit2
+destdir: src/lib_git2
+definitions:
+  repository:
+    includes:
+    - /usr/include/git2/repository.h
+    prefixes:
+    - git_
+options:
+  import_docstrings: brief

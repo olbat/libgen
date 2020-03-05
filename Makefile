@@ -4,7 +4,7 @@ CRFLAGS=--release --no-debug
 TARGET=bin/libgen
 INSTALL_PATH?=/usr/local
 SOURCES=$(shell find src -type f -name '*.cr')
-LIB_EXAMPLES=$(shell find examples -type f -maxdepth 2 -name 'lib*.yml' -o -name 'lib*.json')
+LIB_EXAMPLES=$(shell find examples -maxdepth 2 -type f -name 'lib*.yml' -o -name 'lib*.json')
 
 $(TARGET): deps $(SOURCES)
 	mkdir -p bin
