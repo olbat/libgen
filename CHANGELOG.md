@@ -1,4 +1,7 @@
 # 0.2.9 (04-03-2020)
+- Fix: compilation issue with Crystal 0.36+
+
+# 0.2.9 (04-03-2020)
 - Fix: "transformation to broken code" error messages are not verbose enough
 
 # 0.2.8 (27-11-2019)
