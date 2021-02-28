@@ -4,13 +4,13 @@ MAINTAINER devel@olbat.net
 RUN apt-get update && apt-get install -y --no-install-recommends \
   build-essential \
   git \
-  llvm-4.0-dev \
-  libclang-4.0-dev \
+  llvm-10-dev \
+  libclang-10-dev \
 && apt-get clean \
 && rm -rf /var/lib/apt/lists/*
 
 RUN update-alternatives --install /usr/bin/llvm-config llvm-config \
-  $(llvm-config-4.0 --bindir)/llvm-config 1
+  $(llvm-config-10 --bindir)/llvm-config 1
 
 RUN mkdir -p /src
 WORKDIR /src
