@@ -15,6 +15,12 @@ dependencies:
   crystal_lib:
     github: crystal-lang/crystal_lib
     branch: master
+  yaml_mapping:
+    github: crystal-lang/yaml_mapping.cr
+    tag: v0.1.0
+  json_mapping:
+    github: crystal-lang/json_mapping.cr
+    tag: v0.1.0
 
 executables:
 - libgen
