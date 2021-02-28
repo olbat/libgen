@@ -73,7 +73,7 @@ describe "LibGenerator::RenameTransformer" do
         ---
         rules:
           "*":
-          - pattern: _\d+$
+          - pattern: _d+$
             replacement: ""
         EOS
       )
