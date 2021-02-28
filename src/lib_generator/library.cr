@@ -1,6 +1,6 @@
 require "crystal_lib"
-require "yaml"
-require "json"
+require "yaml_mapping"
+require "json_mapping"
 
 class LibGenerator::Library
   getter name : String

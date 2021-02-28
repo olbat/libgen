@@ -1,7 +1,7 @@
 require "crystal_lib"
 require "compiler/crystal/syntax"
-require "yaml"
-require "json"
+require "yaml_mapping"
+require "json_mapping"
 
 class LibGenerator::Definition
   # crystal_lib
