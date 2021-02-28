@@ -98,7 +98,7 @@ describe "LibGenerator::Library" do
         rename:
           rules:
             "*":
-            - pattern: _\d+$
+            - pattern: _d+$
               replacement: ""
         EOS
       )
