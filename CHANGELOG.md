@@ -1,4 +1,7 @@
-# 0.2.9 (04-03-2020)
+# 0.2.11 (17-04-2020)
+- Add support for Crystal >= 1.x
+
+# 0.2.10 (04-03-2020)
 - Fix: compilation issue with Crystal 0.36+
 
 # 0.2.9 (04-03-2020)
