@@ -2,17 +2,17 @@ version: 2.0
 shards:
   clang:
     git: https://github.com/crystal-lang/clang.cr.git
-    version: 0.3.0+git.commit.d019b9ff105cd652f31cca73e950adbf41037d52
+    version: 0.3.0+git.commit.f046ff9e56344e19a2628403eaaea0d6d25ad1d6
 
   crystal_lib:
     git: https://github.com/crystal-lang/crystal_lib.git
-    version: 0.1.0+git.commit.d686bbac0fde83c31882b66ac669b8181795ab19
+    version: 0.1.0+git.commit.c425bdd83d0c67766970f593991effa5252cca89
 
   json_mapping:
     git: https://github.com/crystal-lang/json_mapping.cr.git
-    version: 0.1.0+git.commit.128c6e1a2675a9de26d18dce29c651d0223d9565
+    version: 0.1.1+git.commit.7e063bd5af85446730d76efd337626d00ccc83e0
 
   yaml_mapping:
     git: https://github.com/crystal-lang/yaml_mapping.cr.git
-    version: 0.1.0+git.commit.732385345b0e39304542bf1b965fb084108e49ca
+    version: 0.1.1+git.commit.fc980ef51780ecd56c03f20f10066c3fa5f3f6a4
 
