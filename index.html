@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Crystal Docs 0.36.1">
+<meta name="crystal_docs.project_version" content="0.2.11">
+<meta name="crystal_docs.project_name" content="libgen">
+
+
+
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/doc.js"></script>
+
+  <meta name="repository-name" content="libgen">
+  <title>libgen 0.2.11</title>
+  <script type="text/javascript">
+  CrystalDocs.base_path = "";
+  </script>
+</head>
+<body>
+
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="project-summary">
+      <h1 class="project-name">
+        <a href="index.html">
+          libgen
+        </a>
+      </h1>
+
+      <span class="project-version">
+        0.2.11
+      </span>
+    </div>
+  </div>
+
+  <div class="search-results hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class="parent " data-id="libgen/LibGenerator" data-name="libgenerator">
+      <a href="LibGenerator.html">LibGenerator</a>
+      
+        <ul>
+  
+  <li class=" " data-id="libgen/LibGenerator/CosmeticTransformer" data-name="libgenerator::cosmetictransformer">
+      <a href="LibGenerator/CosmeticTransformer.html">CosmeticTransformer</a>
+      
+    </li>
+  
+  <li class=" " data-id="libgen/LibGenerator/CountVisitor" data-name="libgenerator::countvisitor">
+      <a href="LibGenerator/CountVisitor.html">CountVisitor</a>
+      
+    </li>
+  
+  <li class=" " data-id="libgen/LibGenerator/CrystalLibTransformer" data-name="libgenerator::crystallibtransformer">
+      <a href="LibGenerator/CrystalLibTransformer.html">CrystalLibTransformer</a>
+      
+    </li>
+  
+  <li class=" " data-id="libgen/LibGenerator/Definition" data-name="libgenerator::definition">
+      <a href="LibGenerator/Definition.html">Definition</a>
+      
+    </li>
+  
+  <li class=" " data-id="libgen/LibGenerator/DuplicatesVisitor" data-name="libgenerator::duplicatesvisitor">
+      <a href="LibGenerator/DuplicatesVisitor.html">DuplicatesVisitor</a>
+      
+    </li>
+  
+  <li class="parent " data-id="libgen/LibGenerator/Generator" data-name="libgenerator::generator">
+      <a href="LibGenerator/Generator.html">Generator</a>
+      
+        <ul>
+  
+  <li class=" " data-id="libgen/LibGenerator/Generator/Lib" data-name="libgenerator::generator::lib">
+      <a href="LibGenerator/Generator/Lib.html">Lib</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="libgen/LibGenerator/Library" data-name="libgenerator::library">
+      <a href="LibGenerator/Library.html">Library</a>
+      
+    </li>
+  
+  <li class=" " data-id="libgen/LibGenerator/NodeCounter" data-name="libgenerator::nodecounter">
+      <a href="LibGenerator/NodeCounter.html">NodeCounter</a>
+      
+    </li>
+  
+  <li class="parent " data-id="libgen/LibGenerator/Options" data-name="libgenerator::options">
+      <a href="LibGenerator/Options.html">Options</a>
+      
+        <ul>
+  
+  <li class=" " data-id="libgen/LibGenerator/Options/ImportDocStrings" data-name="libgenerator::options::importdocstrings">
+      <a href="LibGenerator/Options/ImportDocStrings.html">ImportDocStrings</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="libgen/LibGenerator/RemoveTransformer" data-name="libgenerator::removetransformer">
+      <a href="LibGenerator/RemoveTransformer.html">RemoveTransformer</a>
+      
+    </li>
+  
+  <li class=" " data-id="libgen/LibGenerator/RenameTransformer" data-name="libgenerator::renametransformer">
+      <a href="LibGenerator/RenameTransformer.html">RenameTransformer</a>
+      
+    </li>
+  
+  <li class=" " data-id="libgen/LibGenerator/SortTransformer" data-name="libgenerator::sorttransformer">
+      <a href="LibGenerator/SortTransformer.html">SortTransformer</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1><a id="crystal-lib-generator-build-statushttpssecure.travis-ci.orgolbatlibgen.pngbranchmasterhttpstravis-ci.orgolbatlibgen" class="anchor" href="#crystal-lib-generator-build-statushttpssecure.travis-ci.orgolbatlibgen.pngbranchmasterhttpstravis-ci.orgolbatlibgen">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Crystal lib generator <a href="https://travis-ci.org/olbat/libgen"><img src="https://secure.travis-ci.org/olbat/libgen.png?branch=master" alt="Build Status"/></a></h1>
+
+<p>Libgen is a small tool based on the <a href="https://github.com/crystal-lang/crystal_lib">crystal_lib</a> project that allows to generate <a href="https://crystal-lang.org/docs/syntax_and_semantics/c_bindings/lib.html">libs</a> following rules specified in config files.</p>
+
+<h2><a id="overview" class="anchor" href="#overview">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Overview</h2>
+
+<p>This project aims to ease the port of big C libraries and to provide a convinient way to define re-generable bindings.  
+Lib generation is parametrized using a YAML or JSON configuration file (_how to generate_).  
+Bindings definitions are specified in YAML, JSON or Crystal files or in the generation config file directly (_what to generate_).  
+It's possible to split lib's definitions in several files in order to make the binding more readable/easy to maintain.  
+There is also an option to perform AST node renaming at generation time.</p>
+
+<h2><a id="installation" class="anchor" href="#installation">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Installation</h2>
+
+<p><strong>Debian/Ubuntu</strong></p>
+
+<pre><code class="language-bash"># install build dependencies
+apt-get install -y build-essential llvm-7-dev libclang-7-dev
+# then, build and install
+make && make install</code></pre>
+
+<p><strong>macOS</strong></p>
+
+<pre><code class="language-bash"># if necessary, install build dependencies
+brew install llvm@7
+# then, build and install
+make && make install</code></pre>
+
+<h2><a id="usage" class="anchor" href="#usage">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Usage</h2>
+
+<pre><code class="language-bash">usage: libgen [&lt;lib_desc_file>]</code></pre>
+
+<h2><a id="example" class="anchor" href="#example">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Example</h2>
+
+<p>A generation config file, <a href="https://github.com/olbat/libgen/blob/master/examples/icu/lib.yml">examples/icu/lib.yml</a>:</p>
+
+<pre><code class="language-yaml">name: LibICU
+cflags: "-DU_COMMON_IMPLEMENTATION"
+ldflags: "-licuuc -licudata -licui18n -licuio"
+packages: icu-uc icu-i18n icu-io
+destdir: src/lib_icu/
+includes:
+- include/*.yml
+- include/*.json
+- include/*.cr
+definitions:
+  ubrk:
+    description: Text Boundary Analysis (Break Iteration)
+    includes: [ unicode/ubrk.h ]
+    prefixes: [ ubrk_ ]
+rename:
+  rules:
+    "*":
+    - pattern: _\d+$
+      replacement: ""
+options:
+  import_docstrings: brief</code></pre>
+
+<p>A definition file, <a href="https://github.com/olbat/libgen/blob/master/examples/icu/include/ucsdet.yml">examples/icu/include/ucsdet.yml</a>:</p>
+
+<pre><code class="language-yaml">description: Charset detection
+includes:
+- unicode/ucsdet.h
+prefixes:
+- ucsdet_</code></pre>
+
+<p>Generation of the lib:</p>
+
+<pre><code class="language-bash">$ libgen examples/icu/lib.yml
+loading library from examples/icu/lib.yml
+moving to examples/icu/
+loading ubrk definition from lib.yml
+loading lib_icu definition from include/lib_icu.yml
+loading ucsdet definition from include/ucsdet.yml
+loading ucurr definition from include/ucurr.json
+loading udat definition from include/udat.cr
+generate src/lib_icu/ubrk.cr
+generate src/lib_icu/lib_icu.cr
+generate src/lib_icu/ucsdet.cr
+generate src/lib_icu/ucurr.cr
+generate src/lib_icu/udat.cr
+
+# or, using docker-compose
+$ docker-compose run --rm -u $UID libgen examples/icu/lib.yml</code></pre>
+
+<p>The generated files: <a href="https://github.com/olbat/libgen/blob/master/examples/icu/src/lib_icu">examples/icu/src/lib_icu</a>.</p>
+
+<h2><a id="specifications" class="anchor" href="#specifications">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Specifications</h2>
+
+<p>See <a href="https://github.com/olbat/libgen/blob/master/SPECS.md">SPECS.md</a></p>
+
+<h2><a id="development" class="anchor" href="#development">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Development</h2>
+
+<p><strong>How does it work</strong></p>
+
+<p>To generate Crystal libs from C headers, the <code>libgen</code> tool:</p>
+
+<ol><li>loads <a href="https://github.com/olbat/libgen/blob/master/src/lib_generator/library.cr">Library</a> and <a href="https://github.com/olbat/libgen/blob/master/src/lib_generator/definition.cr">Definition</a> objects from configuration files</li><li>generates Crystal ASTs (one per Definition) from C headers using <a href="https://github.com/olbat/libgen/blob/master/https://github.com/crystal-lang/crystal_lib">crystal_lib</a>'s parser (see <a href="https://github.com/olbat/libgen/blob/master/src/lib_generator/definition.cr">Definition#parse_lib</a>)</li><li>transforms the Crystal ASTs:</li><li>applies transformers following the configuration (AST nodes renaming, sorting, ... see <a href="https://github.com/olbat/libgen/blob/master/src/lib_generator/transformers">transformers</a>)</li><li>groups AST nodes that are common to several libs into a common lib</li><li>adds requires to non-empty libs in the common lib's AST</li><li>generates and formats the libs from ASTs adding the <em>@Link/ldflags</em> attribute (see <a href="https://github.com/olbat/libgen/blob/master/src/lib_generator/generator/lib.cr">Generator::Lib#generate</a>)</li><li>saves the generated libs to their respective output files</li></ol>
+
+<p><strong>Known limitations</strong></p>
+
+<ul><li>it's only possible to filter functions to bind by prefix (and not by name, such as in <a href="https://github.com/crystal-lang/crystal_lib/blob/master/examples/lib_readline.cr">example</a>)</li><li>it's not possible to specify the <code>description</code> field in definitions written in Crystal</li><li>the <code>description</code> field specified in definitions is not used ATM (it should be added as a comment in the generated bindings)</li></ul>
+
+<p><strong>LLVM versions</strong></p>
+
+<p>Libgen is <a href=".travis.yml">tested</a> using the versions of LLVM that are <a href="https://crystal-lang.org/docs/installation/from_source_repository.html">currently supported</a> by Crystal: LLVM <code>3.8</code>→<code>6.0</code>.</p>
+
+<p>The tool is not dependent on this versions of LLVM, it may be working with other versions as well but it's not tested/guaranteed.</p>
+
+<p><strong>Launch the tests</strong></p>
+
+<pre><code class="language-crystal">make test
+
+# or, using docker-compose
+docker-compose run --rm -u $UID devel make test</code></pre>
+
+<p><strong>Build the Docker image</strong></p>
+
+<pre><code class="language-bash">make
+docker build .</code></pre>
+
+<h2><a id="projects-using-libgen" class="anchor" href="#projects-using-libgen">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Projects using libgen</h2>
+
+<ul><li><a href="https://github.com/olbat/icu.cr">icu.cr</a></li><li><a href="https://github.com/watzon/nacl">nacl</a></li></ul>
+
+<p><strong>Note</strong>: you are using <em>libgen</em> in your project and want to link it here, please <a href="contributing">submit a PR</a></p>
+
+<h2><a id="contributing" class="anchor" href="#contributing">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Contributing</h2>
+
+<ol><li>Fork it ( https://github.com/olbat/libgen/fork )</li><li>Create your feature branch (git checkout -b my-new-feature)</li><li>Commit your changes (git commit -am 'Add some feature')</li><li>Push to the branch (git push origin my-new-feature)</li><li>Create a new Pull Request</li></ol>
+
+<h2><a id="contributors" class="anchor" href="#contributors">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Contributors</h2>
+
+<ul><li><a href="https://github.com/olbat">olbat</a> - creator, maintainer</li></ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Crystal Docs 0.36.1">
+<meta name="crystal_docs.project_version" content="0.2.11">
+<meta name="crystal_docs.project_name" content="libgen">
+
+
+
+<link href="../css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="../js/doc.js"></script>
+
+  <meta name="repository-name" content="libgen">
+  <title>LibGenerator::Library - libgen 0.2.11</title>
+  <script type="text/javascript">
+    CrystalDocs.base_path = "../";
+  </script>
+</head>
+<body>
+
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="project-summary">
+      <h1 class="project-name">
+        <a href="../index.html">
+          libgen
+        </a>
+      </h1>
+
+      <span class="project-version">
+        0.2.11
+      </span>
+    </div>
+  </div>
+
+  <div class="search-results hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class="parent open current" data-id="libgen/LibGenerator" data-name="libgenerator">
+      <a href="../LibGenerator.html">LibGenerator</a>
+      
+        <ul>
+  
+  <li class=" " data-id="libgen/LibGenerator/CosmeticTransformer" data-name="libgenerator::cosmetictransformer">
+      <a href="../LibGenerator/CosmeticTransformer.html">CosmeticTransformer</a>
+      
+    </li>
+  
+  <li class=" " data-id="libgen/LibGenerator/CountVisitor" data-name="libgenerator::countvisitor">
+      <a href="../LibGenerator/CountVisitor.html">CountVisitor</a>
+      
+    </li>
+  
+  <li class=" " data-id="libgen/LibGenerator/CrystalLibTransformer" data-name="libgenerator::crystallibtransformer">
+      <a href="../LibGenerator/CrystalLibTransformer.html">CrystalLibTransformer</a>
+      
+    </li>
+  
+  <li class=" " data-id="libgen/LibGenerator/Definition" data-name="libgenerator::definition">
+      <a href="../LibGenerator/Definition.html">Definition</a>
+      
+    </li>
+  
+  <li class=" " data-id="libgen/LibGenerator/DuplicatesVisitor" data-name="libgenerator::duplicatesvisitor">
+      <a href="../LibGenerator/DuplicatesVisitor.html">DuplicatesVisitor</a>
+      
+    </li>
+  
+  <li class="parent " data-id="libgen/LibGenerator/Generator" data-name="libgenerator::generator">
+      <a href="../LibGenerator/Generator.html">Generator</a>
+      
+        <ul>
+  
+  <li class=" " data-id="libgen/LibGenerator/Generator/Lib" data-name="libgenerator::generator::lib">
+      <a href="../LibGenerator/Generator/Lib.html">Lib</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" current" data-id="libgen/LibGenerator/Library" data-name="libgenerator::library">
+      <a href="../LibGenerator/Library.html">Library</a>
+      
+    </li>
+  
+  <li class=" " data-id="libgen/LibGenerator/NodeCounter" data-name="libgenerator::nodecounter">
+      <a href="../LibGenerator/NodeCounter.html">NodeCounter</a>
+      
+    </li>
+  
+  <li class="parent " data-id="libgen/LibGenerator/Options" data-name="libgenerator::options">
+      <a href="../LibGenerator/Options.html">Options</a>
+      
+        <ul>
+  
+  <li class=" " data-id="libgen/LibGenerator/Options/ImportDocStrings" data-name="libgenerator::options::importdocstrings">
+      <a href="../LibGenerator/Options/ImportDocStrings.html">ImportDocStrings</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="libgen/LibGenerator/RemoveTransformer" data-name="libgenerator::removetransformer">
+      <a href="../LibGenerator/RemoveTransformer.html">RemoveTransformer</a>
+      
+    </li>
+  
+  <li class=" " data-id="libgen/LibGenerator/RenameTransformer" data-name="libgenerator::renametransformer">
+      <a href="../LibGenerator/RenameTransformer.html">RenameTransformer</a>
+      
+    </li>
+  
+  <li class=" " data-id="libgen/LibGenerator/SortTransformer" data-name="libgenerator::sorttransformer">
+      <a href="../LibGenerator/SortTransformer.html">SortTransformer</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1 class="type-name">
+
+  <span class="kind">class</span> LibGenerator::Library
+
+</h1>
+
+
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="../LibGenerator/Library.html">LibGenerator::Library</a></li><li class="superclass">Reference</li><li class="superclass">Object</li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="defined-in" class="anchor" href="#defined-in">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Defined in:
+  </h2>
+  
+    
+      <a href="https://github.com/olbat/libgen/blob/v0.2.11/src/lib_generator/library.cr#L5" target="_blank">
+        lib_generator/library.cr
+      </a>
+    
+    <br/>
+  
+
+
+
+
+
+  <h2>
+    <a id="constructors" class="anchor" href="#constructors">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructors
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#new(ctx:YAML::ParseContext,node:YAML::Nodes::Node,_dummy:Nil)-class-method" class="signature"><strong>.new</strong>(ctx : YAML::ParseContext, node : YAML::Nodes::Node, _dummy : Nil)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#new(pc:YAML::ParseContext,n:YAML::Nodes::Node)-class-method" class="signature"><strong>.new</strong>(pc : YAML::ParseContext, n : YAML::Nodes::Node)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#new(name:String,ldflags:String,includes=nil,definitions=nil,cflags=nil,packages=nil,destdir=nil,rename=nil,options=LibGenerator::Options.new)-class-method" class="signature"><strong>.new</strong>(name : String, ldflags : String, includes = <span class="n">nil</span>, definitions = <span class="n">nil</span>, cflags = <span class="n">nil</span>, packages = <span class="n">nil</span>, destdir = <span class="n">nil</span>, rename = <span class="n">nil</span>, options = <span class="t">LibGenerator</span><span class="t">::</span><span class="t">Options</span>.<span class="k">new</span>)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#new(pp:JSON::PullParser)-class-method" class="signature"><strong>.new</strong>(pp : JSON::PullParser)</a>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+  <h2>
+    <a id="instance-method-summary" class="anchor" href="#instance-method-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#cflags:String?-instance-method" class="signature"><strong>#cflags</strong> : String?</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#cflags=(_cflags:String?)-instance-method" class="signature"><strong>#cflags=</strong>(_cflags : String?)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#definitions:Hash(String,LibGenerator::Definition)?-instance-method" class="signature"><strong>#definitions</strong> : Hash(String, LibGenerator::Definition)?</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#definitions=(_definitions:Hash(String,LibGenerator::Definition)?)-instance-method" class="signature"><strong>#definitions=</strong>(_definitions : Hash(String, LibGenerator::Definition)?)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#destdir:String-instance-method" class="signature"><strong>#destdir</strong> : String</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#destdir=(_destdir:String?)-instance-method" class="signature"><strong>#destdir=</strong>(_destdir : String?)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#generate_cflags:String?-instance-method" class="signature"><strong>#generate_cflags</strong> : String?</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#generate_crystallib_parser_options:CrystalLib::Parser::Option-instance-method" class="signature"><strong>#generate_crystallib_parser_options</strong> : CrystalLib::Parser::Option</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#generate_ldflags:String-instance-method" class="signature"><strong>#generate_ldflags</strong> : String</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#includes:Array(String)?-instance-method" class="signature"><strong>#includes</strong> : Array(String)?</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#includes=(_includes:Array(String)?)-instance-method" class="signature"><strong>#includes=</strong>(_includes : Array(String)?)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#ldflags:String-instance-method" class="signature"><strong>#ldflags</strong> : String</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#ldflags=(_ldflags:String)-instance-method" class="signature"><strong>#ldflags=</strong>(_ldflags : String)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#lib_name:String-instance-method" class="signature"><strong>#lib_name</strong> : String</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#module_names:Array(String)-instance-method" class="signature"><strong>#module_names</strong> : Array(String)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#name:String-instance-method" class="signature"><strong>#name</strong> : String</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#name=(_name:String)-instance-method" class="signature"><strong>#name=</strong>(_name : String)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#options:LibGenerator::Options-instance-method" class="signature"><strong>#options</strong> : LibGenerator::Options</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#options=(_options:LibGenerator::Options)-instance-method" class="signature"><strong>#options=</strong>(_options : LibGenerator::Options)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#packages:String?-instance-method" class="signature"><strong>#packages</strong> : String?</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#packages=(_packages:String?)-instance-method" class="signature"><strong>#packages=</strong>(_packages : String?)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#rename:LibGenerator::RenameTransformer?-instance-method" class="signature"><strong>#rename</strong> : LibGenerator::RenameTransformer?</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#rename=(_rename:LibGenerator::RenameTransformer?)-instance-method" class="signature"><strong>#rename=</strong>(_rename : LibGenerator::RenameTransformer?)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#to_json(json:JSON::Builder)-instance-method" class="signature"><strong>#to_json</strong>(json : JSON::Builder)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#to_yaml(__temp_82:YAML::Nodes::Builder)-instance-method" class="signature"><strong>#to_yaml</strong>(__temp_82 : YAML::Nodes::Builder)</a>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+<div class="methods-inherited">
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+</div>
+
+
+  <h2>
+    <a id="constructor-detail" class="anchor" href="#constructor-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructor Detail
+  </h2>
+  
+    <div class="entry-detail" id="new(ctx:YAML::ParseContext,node:YAML::Nodes::Node,_dummy:Nil)-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong>(ctx : YAML::ParseContext, node : YAML::Nodes::Node, _dummy : Nil)
+
+        <a class="method-permalink" href="#new(ctx:YAML::ParseContext,node:YAML::Nodes::Node,_dummy:Nil)-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="new(pc:YAML::ParseContext,n:YAML::Nodes::Node)-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong>(pc : YAML::ParseContext, n : YAML::Nodes::Node)
+
+        <a class="method-permalink" href="#new(pc:YAML::ParseContext,n:YAML::Nodes::Node)-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/olbat/libgen/blob/v0.2.11/src/lib_generator/library.cr#L29" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="new(name:String,ldflags:String,includes=nil,definitions=nil,cflags=nil,packages=nil,destdir=nil,rename=nil,options=LibGenerator::Options.new)-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong>(name : String, ldflags : String, includes = <span class="n">nil</span>, definitions = <span class="n">nil</span>, cflags = <span class="n">nil</span>, packages = <span class="n">nil</span>, destdir = <span class="n">nil</span>, rename = <span class="n">nil</span>, options = <span class="t">LibGenerator</span><span class="t">::</span><span class="t">Options</span>.<span class="k">new</span>)
+
+        <a class="method-permalink" href="#new(name:String,ldflags:String,includes=nil,definitions=nil,cflags=nil,packages=nil,destdir=nil,rename=nil,options=LibGenerator::Options.new)-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/olbat/libgen/blob/v0.2.11/src/lib_generator/library.cr#L38" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="new(pp:JSON::PullParser)-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong>(pp : JSON::PullParser)
+
+        <a class="method-permalink" href="#new(pp:JSON::PullParser)-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/olbat/libgen/blob/v0.2.11/src/lib_generator/library.cr#L33" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+
+
+  <h2>
+    <a id="instance-method-detail" class="anchor" href="#instance-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Detail
+  </h2>
+  
+    <div class="entry-detail" id="cflags:String?-instance-method">
+      <div class="signature">
+        
+        def <strong>cflags</strong> : String?
+
+        <a class="method-permalink" href="#cflags:String?-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="cflags=(_cflags:String?)-instance-method">
+      <div class="signature">
+        
+        def <strong>cflags=</strong>(_cflags : String?)
+
+        <a class="method-permalink" href="#cflags=(_cflags:String?)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="definitions:Hash(String,LibGenerator::Definition)?-instance-method">
+      <div class="signature">
+        
+        def <strong>definitions</strong> : Hash(String, <a href="../LibGenerator/Definition.html">LibGenerator::Definition</a>)?
+
+        <a class="method-permalink" href="#definitions:Hash(String,LibGenerator::Definition)?-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="definitions=(_definitions:Hash(String,LibGenerator::Definition)?)-instance-method">
+      <div class="signature">
+        
+        def <strong>definitions=</strong>(_definitions : Hash(String, <a href="../LibGenerator/Definition.html">LibGenerator::Definition</a>)?)
+
+        <a class="method-permalink" href="#definitions=(_definitions:Hash(String,LibGenerator::Definition)?)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="destdir:String-instance-method">
+      <div class="signature">
+        
+        def <strong>destdir</strong> : String
+
+        <a class="method-permalink" href="#destdir:String-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/olbat/libgen/blob/v0.2.11/src/lib_generator/library.cr#L48" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="destdir=(_destdir:String?)-instance-method">
+      <div class="signature">
+        
+        def <strong>destdir=</strong>(_destdir : String?)
+
+        <a class="method-permalink" href="#destdir=(_destdir:String?)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="generate_cflags:String?-instance-method">
+      <div class="signature">
+        
+        def <strong>generate_cflags</strong> : String?
+
+        <a class="method-permalink" href="#generate_cflags:String?-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/olbat/libgen/blob/v0.2.11/src/lib_generator/library.cr#L60" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="generate_crystallib_parser_options:CrystalLib::Parser::Option-instance-method">
+      <div class="signature">
+        
+        def <strong>generate_crystallib_parser_options</strong> : CrystalLib::Parser::Option
+
+        <a class="method-permalink" href="#generate_crystallib_parser_options:CrystalLib::Parser::Option-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/olbat/libgen/blob/v0.2.11/src/lib_generator/library.cr#L90" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="generate_ldflags:String-instance-method">
+      <div class="signature">
+        
+        def <strong>generate_ldflags</strong> : String
+
+        <a class="method-permalink" href="#generate_ldflags:String-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/olbat/libgen/blob/v0.2.11/src/lib_generator/library.cr#L79" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="includes:Array(String)?-instance-method">
+      <div class="signature">
+        
+        def <strong>includes</strong> : Array(String)?
+
+        <a class="method-permalink" href="#includes:Array(String)?-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="includes=(_includes:Array(String)?)-instance-method">
+      <div class="signature">
+        
+        def <strong>includes=</strong>(_includes : Array(String)?)
+
+        <a class="method-permalink" href="#includes=(_includes:Array(String)?)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="ldflags:String-instance-method">
+      <div class="signature">
+        
+        def <strong>ldflags</strong> : String
+
+        <a class="method-permalink" href="#ldflags:String-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="ldflags=(_ldflags:String)-instance-method">
+      <div class="signature">
+        
+        def <strong>ldflags=</strong>(_ldflags : String)
+
+        <a class="method-permalink" href="#ldflags=(_ldflags:String)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="lib_name:String-instance-method">
+      <div class="signature">
+        
+        def <strong>lib_name</strong> : String
+
+        <a class="method-permalink" href="#lib_name:String-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/olbat/libgen/blob/v0.2.11/src/lib_generator/library.cr#L52" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="module_names:Array(String)-instance-method">
+      <div class="signature">
+        
+        def <strong>module_names</strong> : Array(String)
+
+        <a class="method-permalink" href="#module_names:Array(String)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/olbat/libgen/blob/v0.2.11/src/lib_generator/library.cr#L56" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="name:String-instance-method">
+      <div class="signature">
+        
+        def <strong>name</strong> : String
+
+        <a class="method-permalink" href="#name:String-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="name=(_name:String)-instance-method">
+      <div class="signature">
+        
+        def <strong>name=</strong>(_name : String)
+
+        <a class="method-permalink" href="#name=(_name:String)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="options:LibGenerator::Options-instance-method">
+      <div class="signature">
+        
+        def <strong>options</strong> : <a href="../LibGenerator/Options.html">LibGenerator::Options</a>
+
+        <a class="method-permalink" href="#options:LibGenerator::Options-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="options=(_options:LibGenerator::Options)-instance-method">
+      <div class="signature">
+        
+        def <strong>options=</strong>(_options : <a href="../LibGenerator/Options.html">LibGenerator::Options</a>)
+
+        <a class="method-permalink" href="#options=(_options:LibGenerator::Options)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="packages:String?-instance-method">
+      <div class="signature">
+        
+        def <strong>packages</strong> : String?
+
+        <a class="method-permalink" href="#packages:String?-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="packages=(_packages:String?)-instance-method">
+      <div class="signature">
+        
+        def <strong>packages=</strong>(_packages : String?)
+
+        <a class="method-permalink" href="#packages=(_packages:String?)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="rename:LibGenerator::RenameTransformer?-instance-method">
+      <div class="signature">
+        
+        def <strong>rename</strong> : <a href="../LibGenerator/RenameTransformer.html">LibGenerator::RenameTransformer</a>?
+
+        <a class="method-permalink" href="#rename:LibGenerator::RenameTransformer?-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="rename=(_rename:LibGenerator::RenameTransformer?)-instance-method">
+      <div class="signature">
+        
+        def <strong>rename=</strong>(_rename : <a href="../LibGenerator/RenameTransformer.html">LibGenerator::RenameTransformer</a>?)
+
+        <a class="method-permalink" href="#rename=(_rename:LibGenerator::RenameTransformer?)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="to_json(json:JSON::Builder)-instance-method">
+      <div class="signature">
+        
+        def <strong>to_json</strong>(json : JSON::Builder)
+
+        <a class="method-permalink" href="#to_json(json:JSON::Builder)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="to_yaml(__temp_82:YAML::Nodes::Builder)-instance-method">
+      <div class="signature">
+        
+        def <strong>to_yaml</strong>(__temp_82 : YAML::Nodes::Builder)
+
+        <a class="method-permalink" href="#to_yaml(__temp_82:YAML::Nodes::Builder)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+
+
+
+
+</div>
+
+</body>
+</html>

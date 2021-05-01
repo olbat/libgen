@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Crystal Docs 0.36.1">
+<meta name="crystal_docs.project_version" content="0.2.11">
+<meta name="crystal_docs.project_name" content="libgen">
+
+
+
+<link href="../css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="../js/doc.js"></script>
+
+  <meta name="repository-name" content="libgen">
+  <title>LibGenerator::Generator - libgen 0.2.11</title>
+  <script type="text/javascript">
+    CrystalDocs.base_path = "../";
+  </script>
+</head>
+<body>
+
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="project-summary">
+      <h1 class="project-name">
+        <a href="../index.html">
+          libgen
+        </a>
+      </h1>
+
+      <span class="project-version">
+        0.2.11
+      </span>
+    </div>
+  </div>
+
+  <div class="search-results hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class="parent open current" data-id="libgen/LibGenerator" data-name="libgenerator">
+      <a href="../LibGenerator.html">LibGenerator</a>
+      
+        <ul>
+  
+  <li class=" " data-id="libgen/LibGenerator/CosmeticTransformer" data-name="libgenerator::cosmetictransformer">
+      <a href="../LibGenerator/CosmeticTransformer.html">CosmeticTransformer</a>
+      
+    </li>
+  
+  <li class=" " data-id="libgen/LibGenerator/CountVisitor" data-name="libgenerator::countvisitor">
+      <a href="../LibGenerator/CountVisitor.html">CountVisitor</a>
+      
+    </li>
+  
+  <li class=" " data-id="libgen/LibGenerator/CrystalLibTransformer" data-name="libgenerator::crystallibtransformer">
+      <a href="../LibGenerator/CrystalLibTransformer.html">CrystalLibTransformer</a>
+      
+    </li>
+  
+  <li class=" " data-id="libgen/LibGenerator/Definition" data-name="libgenerator::definition">
+      <a href="../LibGenerator/Definition.html">Definition</a>
+      
+    </li>
+  
+  <li class=" " data-id="libgen/LibGenerator/DuplicatesVisitor" data-name="libgenerator::duplicatesvisitor">
+      <a href="../LibGenerator/DuplicatesVisitor.html">DuplicatesVisitor</a>
+      
+    </li>
+  
+  <li class="parent open current" data-id="libgen/LibGenerator/Generator" data-name="libgenerator::generator">
+      <a href="../LibGenerator/Generator.html">Generator</a>
+      
+        <ul>
+  
+  <li class=" " data-id="libgen/LibGenerator/Generator/Lib" data-name="libgenerator::generator::lib">
+      <a href="../LibGenerator/Generator/Lib.html">Lib</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="libgen/LibGenerator/Library" data-name="libgenerator::library">
+      <a href="../LibGenerator/Library.html">Library</a>
+      
+    </li>
+  
+  <li class=" " data-id="libgen/LibGenerator/NodeCounter" data-name="libgenerator::nodecounter">
+      <a href="../LibGenerator/NodeCounter.html">NodeCounter</a>
+      
+    </li>
+  
+  <li class="parent " data-id="libgen/LibGenerator/Options" data-name="libgenerator::options">
+      <a href="../LibGenerator/Options.html">Options</a>
+      
+        <ul>
+  
+  <li class=" " data-id="libgen/LibGenerator/Options/ImportDocStrings" data-name="libgenerator::options::importdocstrings">
+      <a href="../LibGenerator/Options/ImportDocStrings.html">ImportDocStrings</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="libgen/LibGenerator/RemoveTransformer" data-name="libgenerator::removetransformer">
+      <a href="../LibGenerator/RemoveTransformer.html">RemoveTransformer</a>
+      
+    </li>
+  
+  <li class=" " data-id="libgen/LibGenerator/RenameTransformer" data-name="libgenerator::renametransformer">
+      <a href="../LibGenerator/RenameTransformer.html">RenameTransformer</a>
+      
+    </li>
+  
+  <li class=" " data-id="libgen/LibGenerator/SortTransformer" data-name="libgenerator::sorttransformer">
+      <a href="../LibGenerator/SortTransformer.html">SortTransformer</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1 class="type-name">
+
+  <span class="kind">class</span> LibGenerator::Generator
+
+</h1>
+
+
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="../LibGenerator/Generator.html">LibGenerator::Generator</a></li><li class="superclass">Reference</li><li class="superclass">Object</li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="defined-in" class="anchor" href="#defined-in">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Defined in:
+  </h2>
+  
+    
+      <a href="https://github.com/olbat/libgen/blob/v0.2.11/src/lib_generator/generator.cr#L4" target="_blank">
+        lib_generator/generator.cr
+      </a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/olbat/libgen/blob/v0.2.11/src/lib_generator/generator/lib.cr#L4" target="_blank">
+        lib_generator/generator/lib.cr
+      </a>
+    
+    <br/>
+  
+
+
+
+
+
+  <h2>
+    <a id="constructors" class="anchor" href="#constructors">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructors
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#new(library:LibGenerator::Library,definitions:Hash(String,LibGenerator::Definition),transformers:Array(Crystal::Transformer)=[]ofCrystal::Transformer)-class-method" class="signature"><strong>.new</strong>(library : LibGenerator::Library, definitions : Hash(String, LibGenerator::Definition), transformers : Array(Crystal::Transformer) = <span class="o">[]</span> <span class="k">of</span> <span class="t">Crystal</span><span class="t">::</span><span class="t">Transformer</span>)</a>
+        
+      </li>
+    
+  </ul>
+
+
+
+  <h2>
+    <a id="class-method-summary" class="anchor" href="#class-method-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Class Method Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#generate(library:LibGenerator::Library,definitions:Hash(String,LibGenerator::Definition),transformers:Array(Crystal::Transformer)=[]ofCrystal::Transformer)-class-method" class="signature"><strong>.generate</strong>(library : LibGenerator::Library, definitions : Hash(String, LibGenerator::Definition), transformers : Array(Crystal::Transformer) = <span class="o">[]</span> <span class="k">of</span> <span class="t">Crystal</span><span class="t">::</span><span class="t">Transformer</span>)</a>
+        
+      </li>
+    
+  </ul>
+
+
+
+  <h2>
+    <a id="instance-method-summary" class="anchor" href="#instance-method-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#common_filename:String-instance-method" class="signature"><strong>#common_filename</strong> : String</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#extract_common_nodes:Array(Crystal::ASTNode)-instance-method" class="signature"><strong>#extract_common_nodes</strong> : Array(Crystal::ASTNode)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#generate:Hash(String,String?)-instance-method" class="signature"><strong>#generate</strong> : Hash(String, String?)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#generate_libs-instance-method" class="signature"><strong>#generate_libs</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#group_common_nodes-instance-method" class="signature"><strong>#group_common_nodes</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#library:LibGenerator::Library-instance-method" class="signature"><strong>#library</strong> : LibGenerator::Library</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#libs:Hash(String,Lib)-instance-method" class="signature"><strong>#libs</strong> : Hash(String, Lib)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#parse_libs-instance-method" class="signature"><strong>#parse_libs</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#transform_libs-instance-method" class="signature"><strong>#transform_libs</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#transformers:Array(Crystal::Transformer)-instance-method" class="signature"><strong>#transformers</strong> : Array(Crystal::Transformer)</a>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+<div class="methods-inherited">
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+</div>
+
+
+  <h2>
+    <a id="constructor-detail" class="anchor" href="#constructor-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructor Detail
+  </h2>
+  
+    <div class="entry-detail" id="new(library:LibGenerator::Library,definitions:Hash(String,LibGenerator::Definition),transformers:Array(Crystal::Transformer)=[]ofCrystal::Transformer)-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong>(library : <a href="../LibGenerator/Library.html">LibGenerator::Library</a>, definitions : Hash(String, <a href="../LibGenerator/Definition.html">LibGenerator::Definition</a>), transformers : Array(Crystal::Transformer) = <span class="o">[]</span> <span class="k">of</span> <span class="t">Crystal</span><span class="t">::</span><span class="t">Transformer</span>)
+
+        <a class="method-permalink" href="#new(library:LibGenerator::Library,definitions:Hash(String,LibGenerator::Definition),transformers:Array(Crystal::Transformer)=[]ofCrystal::Transformer)-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/olbat/libgen/blob/v0.2.11/src/lib_generator/generator.cr#L10" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+  <h2>
+    <a id="class-method-detail" class="anchor" href="#class-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Class Method Detail
+  </h2>
+  
+    <div class="entry-detail" id="generate(library:LibGenerator::Library,definitions:Hash(String,LibGenerator::Definition),transformers:Array(Crystal::Transformer)=[]ofCrystal::Transformer)-class-method">
+      <div class="signature">
+        
+        def self.<strong>generate</strong>(library : <a href="../LibGenerator/Library.html">LibGenerator::Library</a>, definitions : Hash(String, <a href="../LibGenerator/Definition.html">LibGenerator::Definition</a>), transformers : Array(Crystal::Transformer) = <span class="o">[]</span> <span class="k">of</span> <span class="t">Crystal</span><span class="t">::</span><span class="t">Transformer</span>)
+
+        <a class="method-permalink" href="#generate(library:LibGenerator::Library,definitions:Hash(String,LibGenerator::Definition),transformers:Array(Crystal::Transformer)=[]ofCrystal::Transformer)-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/olbat/libgen/blob/v0.2.11/src/lib_generator/generator.cr#L21" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+  <h2>
+    <a id="instance-method-detail" class="anchor" href="#instance-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Detail
+  </h2>
+  
+    <div class="entry-detail" id="common_filename:String-instance-method">
+      <div class="signature">
+        
+        def <strong>common_filename</strong> : String
+
+        <a class="method-permalink" href="#common_filename:String-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/olbat/libgen/blob/v0.2.11/src/lib_generator/generator.cr#L6" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="extract_common_nodes:Array(Crystal::ASTNode)-instance-method">
+      <div class="signature">
+        
+        def <strong>extract_common_nodes</strong> : Array(Crystal::ASTNode)
+
+        <a class="method-permalink" href="#extract_common_nodes:Array(Crystal::ASTNode)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/olbat/libgen/blob/v0.2.11/src/lib_generator/generator.cr#L52" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="generate:Hash(String,String?)-instance-method">
+      <div class="signature">
+        
+        def <strong>generate</strong> : Hash(String, String?)
+
+        <a class="method-permalink" href="#generate:Hash(String,String?)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/olbat/libgen/blob/v0.2.11/src/lib_generator/generator.cr#L25" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="generate_libs-instance-method">
+      <div class="signature">
+        
+        def <strong>generate_libs</strong>
+
+        <a class="method-permalink" href="#generate_libs-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/olbat/libgen/blob/v0.2.11/src/lib_generator/generator.cr#L46" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="group_common_nodes-instance-method">
+      <div class="signature">
+        
+        def <strong>group_common_nodes</strong>
+
+        <a class="method-permalink" href="#group_common_nodes-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/olbat/libgen/blob/v0.2.11/src/lib_generator/generator.cr#L61" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="library:LibGenerator::Library-instance-method">
+      <div class="signature">
+        
+        def <strong>library</strong> : <a href="../LibGenerator/Library.html">LibGenerator::Library</a>
+
+        <a class="method-permalink" href="#library:LibGenerator::Library-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/olbat/libgen/blob/v0.2.11/src/lib_generator/generator.cr#L5" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="libs:Hash(String,Lib)-instance-method">
+      <div class="signature">
+        
+        def <strong>libs</strong> : Hash(String, <a href="../LibGenerator/Generator/Lib.html">Lib</a>)
+
+        <a class="method-permalink" href="#libs:Hash(String,Lib)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/olbat/libgen/blob/v0.2.11/src/lib_generator/generator.cr#L7" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="parse_libs-instance-method">
+      <div class="signature">
+        
+        def <strong>parse_libs</strong>
+
+        <a class="method-permalink" href="#parse_libs-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/olbat/libgen/blob/v0.2.11/src/lib_generator/generator.cr#L34" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="transform_libs-instance-method">
+      <div class="signature">
+        
+        def <strong>transform_libs</strong>
+
+        <a class="method-permalink" href="#transform_libs-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/olbat/libgen/blob/v0.2.11/src/lib_generator/generator.cr#L40" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="transformers:Array(Crystal::Transformer)-instance-method">
+      <div class="signature">
+        
+        def <strong>transformers</strong> : Array(Crystal::Transformer)
+
+        <a class="method-permalink" href="#transformers:Array(Crystal::Transformer)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/olbat/libgen/blob/v0.2.11/src/lib_generator/generator.cr#L8" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+
+</div>
+
+</body>
+</html>
