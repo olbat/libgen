@@ -11,30 +11,32 @@ matrix:
     script: docker-compose run --rm -u $UID devel make test
 
   # spec tests on Ubuntu and macOS
-  - os: linux
-    dist: xenial
-    env: LLVM_VERSION=3.8
-  - os: linux
-    dist: xenial
-    env: LLVM_VERSION=3.9
-  - os: linux
-    dist: xenial
-    env: LLVM_VERSION=4.0
-  - os: linux
-    dist: xenial
-    env: LLVM_VERSION=5.0
-  - os: linux
-    dist: xenial
-    env: LLVM_VERSION=6.0
+ 
+  # Disabled to reduce Travis CI cost
+  #- os: linux
+  #  dist: xenial
+  #  env: LLVM_VERSION=3.8
+  #- os: linux
+  #  dist: xenial
+  #  env: LLVM_VERSION=3.9
+  #- os: linux
+  #  dist: xenial
+  #  env: LLVM_VERSION=4.0
+  #- os: linux
+  #  dist: xenial
+  #  env: LLVM_VERSION=5.0
+  #- os: linux
+  #  dist: xenial
+  #  env: LLVM_VERSION=6.0
   - os: linux
     dist: bionic
     env: LLVM_VERSION=6.0
-  - os: osx
-    osx_image: xcode11.2
-    env: LLVM_VERSION=7
-  - os: osx
-    osx_image: xcode11.2
-    env: LLVM_VERSION=8
+  #- os: osx
+  #  osx_image: xcode11.2
+  #  env: LLVM_VERSION=7
+  #- os: osx
+  #  osx_image: xcode11.2
+  #  env: LLVM_VERSION=8
   - os: osx
     osx_image: xcode11.2
     env: LLVM_VERSION=9
