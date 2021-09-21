@@ -1,14 +1,16 @@
 @[Link(ldflags: "`command -v pkg-config > /dev/null && pkg-config --libs gtk+-3.0 2> /dev/null|| printf %s '-lgtk-3 -lgdk-3 -lpangocairo-1.0 -lpango-1.0 -latk-1.0 -lcairo-gobject -lcairo -lgdk_pixbuf-2.0 -lgio-2.0 -lgobject-2.0 -lglib-2.0'`")]
 lib LibGTK3
   enum GApplicationFlags
-    GApplicationFlagsNone          =  0
-    GApplicationIsService          =  1
-    GApplicationIsLauncher         =  2
-    GApplicationHandlesOpen        =  4
-    GApplicationHandlesCommandLine =  8
-    GApplicationSendEnvironment    = 16
-    GApplicationNonUnique          = 32
-    GApplicationCanOverrideAppId   = 64
+    GApplicationFlagsNone          =   0
+    GApplicationIsService          =   1
+    GApplicationIsLauncher         =   2
+    GApplicationHandlesOpen        =   4
+    GApplicationHandlesCommandLine =   8
+    GApplicationSendEnvironment    =  16
+    GApplicationNonUnique          =  32
+    GApplicationCanOverrideAppId   =  64
+    GApplicationAllowReplacement   = 128
+    GApplicationReplace            = 256
   end
   enum GtkApplicationInhibitFlags
     GtkApplicationInhibitLogout  = 1

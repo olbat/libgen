@@ -10,28 +10,28 @@ lib LibICU
     UbrkTitle     = 4
     UbrkCount     = 5
   end
-  fun ubrk_close = ubrk_close_60(bi : UBreakIterator)
-  fun ubrk_count_available = ubrk_countAvailable_60 : Int32T
-  fun ubrk_current = ubrk_current_60(bi : UBreakIterator) : Int32T
-  fun ubrk_first = ubrk_first_60(bi : UBreakIterator) : Int32T
-  fun ubrk_following = ubrk_following_60(bi : UBreakIterator, offset : Int32T) : Int32T
-  fun ubrk_get_available = ubrk_getAvailable_60(index : Int32T) : LibC::Char*
-  fun ubrk_get_binary_rules = ubrk_getBinaryRules_60(bi : UBreakIterator, binary_rules : Uint8T*, rules_capacity : Int32T, status : UErrorCode*) : Int32T
-  fun ubrk_get_locale_by_type = ubrk_getLocaleByType_60(bi : UBreakIterator, type : ULocDataLocaleType, status : UErrorCode*) : LibC::Char*
-  fun ubrk_get_rule_status = ubrk_getRuleStatus_60(bi : UBreakIterator) : Int32T
-  fun ubrk_get_rule_status_vec = ubrk_getRuleStatusVec_60(bi : UBreakIterator, fill_in_vec : Int32T*, capacity : Int32T, status : UErrorCode*) : Int32T
-  fun ubrk_is_boundary = ubrk_isBoundary_60(bi : UBreakIterator, offset : Int32T) : UBool
-  fun ubrk_last = ubrk_last_60(bi : UBreakIterator) : Int32T
-  fun ubrk_next = ubrk_next_60(bi : UBreakIterator) : Int32T
-  fun ubrk_open = ubrk_open_60(type : UBreakIteratorType, locale : LibC::Char*, text : UChar*, text_length : Int32T, status : UErrorCode*) : UBreakIterator
-  fun ubrk_open_binary_rules = ubrk_openBinaryRules_60(binary_rules : Uint8T*, rules_length : Int32T, text : UChar*, text_length : Int32T, status : UErrorCode*) : UBreakIterator
-  fun ubrk_open_rules = ubrk_openRules_60(rules : UChar*, rules_length : Int32T, text : UChar*, text_length : Int32T, parse_err : UParseError*, status : UErrorCode*) : UBreakIterator
-  fun ubrk_preceding = ubrk_preceding_60(bi : UBreakIterator, offset : Int32T) : Int32T
-  fun ubrk_previous = ubrk_previous_60(bi : UBreakIterator) : Int32T
-  fun ubrk_refresh_u_text = ubrk_refreshUText_60(bi : UBreakIterator, text : UText*, status : UErrorCode*)
-  fun ubrk_safe_clone = ubrk_safeClone_60(bi : UBreakIterator, stack_buffer : Void*, p_buffer_size : Int32T*, status : UErrorCode*) : UBreakIterator
-  fun ubrk_set_text = ubrk_setText_60(bi : UBreakIterator, text : UChar*, text_length : Int32T, status : UErrorCode*)
-  fun ubrk_set_u_text = ubrk_setUText_60(bi : UBreakIterator, text : UText*, status : UErrorCode*)
+  fun ubrk_close = ubrk_close_66(bi : UBreakIterator)
+  fun ubrk_count_available = ubrk_countAvailable_66 : Int32T
+  fun ubrk_current = ubrk_current_66(bi : UBreakIterator) : Int32T
+  fun ubrk_first = ubrk_first_66(bi : UBreakIterator) : Int32T
+  fun ubrk_following = ubrk_following_66(bi : UBreakIterator, offset : Int32T) : Int32T
+  fun ubrk_get_available = ubrk_getAvailable_66(index : Int32T) : LibC::Char*
+  fun ubrk_get_binary_rules = ubrk_getBinaryRules_66(bi : UBreakIterator, binary_rules : Uint8T*, rules_capacity : Int32T, status : UErrorCode*) : Int32T
+  fun ubrk_get_locale_by_type = ubrk_getLocaleByType_66(bi : UBreakIterator, type : ULocDataLocaleType, status : UErrorCode*) : LibC::Char*
+  fun ubrk_get_rule_status = ubrk_getRuleStatus_66(bi : UBreakIterator) : Int32T
+  fun ubrk_get_rule_status_vec = ubrk_getRuleStatusVec_66(bi : UBreakIterator, fill_in_vec : Int32T*, capacity : Int32T, status : UErrorCode*) : Int32T
+  fun ubrk_is_boundary = ubrk_isBoundary_66(bi : UBreakIterator, offset : Int32T) : UBool
+  fun ubrk_last = ubrk_last_66(bi : UBreakIterator) : Int32T
+  fun ubrk_next = ubrk_next_66(bi : UBreakIterator) : Int32T
+  fun ubrk_open = ubrk_open_66(type : UBreakIteratorType, locale : LibC::Char*, text : UChar*, text_length : Int32T, status : UErrorCode*) : UBreakIterator
+  fun ubrk_open_binary_rules = ubrk_openBinaryRules_66(binary_rules : Uint8T*, rules_length : Int32T, text : UChar*, text_length : Int32T, status : UErrorCode*) : UBreakIterator
+  fun ubrk_open_rules = ubrk_openRules_66(rules : UChar*, rules_length : Int32T, text : UChar*, text_length : Int32T, parse_err : UParseError*, status : UErrorCode*) : UBreakIterator
+  fun ubrk_preceding = ubrk_preceding_66(bi : UBreakIterator, offset : Int32T) : Int32T
+  fun ubrk_previous = ubrk_previous_66(bi : UBreakIterator) : Int32T
+  fun ubrk_refresh_u_text = ubrk_refreshUText_66(bi : UBreakIterator, text : UText*, status : UErrorCode*)
+  fun ubrk_safe_clone = ubrk_safeClone_66(bi : UBreakIterator, stack_buffer : Void*, p_buffer_size : Int32T*, status : UErrorCode*) : UBreakIterator
+  fun ubrk_set_text = ubrk_setText_66(bi : UBreakIterator, text : UChar*, text_length : Int32T, status : UErrorCode*)
+  fun ubrk_set_u_text = ubrk_setUText_66(bi : UBreakIterator, text : UText*, status : UErrorCode*)
 
   struct UParseError
     line : Int32T

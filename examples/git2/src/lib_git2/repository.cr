@@ -7,7 +7,8 @@ lib LibGit2
   alias GitConfigBackend = Void
   alias GitIndex = Void
   alias GitIndexConflictIterator = Void
-  alias GitMergeResult = Void
+  alias GitIndexIterator = Void
+  alias GitMailmap = Void
   alias GitNote = Void
   alias GitObject = Void
   alias GitOdb = Void
@@ -48,27 +49,23 @@ lib LibGit2
   alias X__Int64T = LibC::Long
   alias X__Uint32T = LibC::UInt
   # Basic type (loose or packed) of any Git object.
-  enum GitOtype
+  enum GitObjectT
     # Object can be any of the following
-    GitObjAny = -2
+    GitObjectAny = -2
     # Object is invalid.
-    GitObjBad = -1
-    # Reserved for future use.
-    GitObjExt1 = 0
+    GitObjectInvalid = -1
     # A commit object.
-    GitObjCommit = 1
+    GitObjectCommit = 1
     # A tree (directory listing) object.
-    GitObjTree = 2
+    GitObjectTree = 2
     # A file revision object.
-    GitObjBlob = 3
+    GitObjectBlob = 3
     # An annotated tag object.
-    GitObjTag = 4
-    # Reserved for future use.
-    GitObjExt2 = 5
+    GitObjectTag = 4
     # A delta, base is given by an offset.
-    GitObjOfsDelta = 6
+    GitObjectOfsDelta = 6
     # A delta, base is given by object id.
-    GitObjRefDelta = 7
+    GitObjectRefDelta = 7
   end
   # List of items which belong to the git repository layout
   enum GitRepositoryItemT
@@ -90,7 +87,7 @@ lib LibGit2
   # Check quickly if buffer contains a NUL byte
   fun git_buf_contains_nul(buf : GitBuf*) : LibC::Int
   # Free the memory referred to by the git_buf.
-  fun git_buf_free(buffer : GitBuf*)
+  fun git_buf_dispose(buffer : GitBuf*)
   # Resize the buffer allocation to make more space.
   fun git_buf_grow(buffer : GitBuf*, target_size : LibC::SizeT) : LibC::Int
   # Check quickly if buffer looks like it contains binary data
@@ -158,11 +155,12 @@ lib LibGit2
   # Get the currently active namespace for this repository
   fun git_repository_get_namespace(repo : GitRepository) : LibC::Char*
   # Calculate hash of file using repository filtering rules.
-  fun git_repository_hashfile(out : GitOid*, repo : GitRepository, path : LibC::Char*, type : GitOtype, as_path : LibC::Char*) : LibC::Int
+  fun git_repository_hashfile(out : GitOid*, repo : GitRepository, path : LibC::Char*, type : GitObjectT, as_path : LibC::Char*) : LibC::Int
   # Retrieve and resolve the reference pointed at by HEAD.
   fun git_repository_head(out : GitReference*, repo : GitRepository) : LibC::Int
   # Check if a repository's HEAD is detached
   fun git_repository_head_detached(repo : GitRepository) : LibC::Int
+  # Check if a worktree's HEAD is detached
   fun git_repository_head_detached_for_worktree(repo : GitRepository, name : LibC::Char*) : LibC::Int
   # Retrieve the referenced HEAD for the worktree
   fun git_repository_head_for_worktree(out : GitReference*, repo : GitRepository, name : LibC::Char*) : LibC::Int
@@ -176,7 +174,7 @@ lib LibGit2
   fun git_repository_init(out : GitRepository*, path : LibC::Char*, is_bare : LibC::UInt) : LibC::Int
   # Create a new Git repository in the given folder with extended controls.
   fun git_repository_init_ext(out : GitRepository*, repo_path : LibC::Char*, opts : GitRepositoryInitOptions*) : LibC::Int
-  # Initializes a `git_repository_init_options` with default values. Equivalent to creating an instance with GIT_REPOSITORY_INIT_OPTIONS_INIT.
+  # Initialize git_repository_init_options structure
   fun git_repository_init_init_options(opts : GitRepositoryInitOptions*, version : LibC::UInt) : LibC::Int
   # Check if a repository is bare
   fun git_repository_is_bare(repo : GitRepository) : LibC::Int
@@ -265,6 +263,8 @@ lib LibGit2
     time : GitTimeT
     # timezone offset, in minutes
     offset : LibC::Int
+    # indicator for questionable '-0000' offsets in signature
+    sign : LibC::Char
   end
 
   struct GitTransferProgress

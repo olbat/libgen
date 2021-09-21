@@ -1,6 +1,9 @@
 @[Link(ldflags: "`command -v pkg-config > /dev/null && pkg-config --libs yaml-0.1 2> /dev/null|| printf %s '-lyaml'`")]
 lib LibYAML
+  alias X_IoCodecvt = Void
   alias X_IoLockT = Void
+  alias X_IoMarker = Void
+  alias X_IoWideData = Void
   alias X__Off64T = LibC::Long
   alias X__OffT = LibC::Long
   alias YamlCharT = UInt8
@@ -223,7 +226,7 @@ lib LibYAML
     YamlDocumentEndToken = 6
     # A BLOCK-SEQUENCE-START token.
     YamlBlockSequenceStartToken = 7
-    # A BLOCK-SEQUENCE-END token.
+    # A BLOCK-MAPPING-START token.
     YamlBlockMappingStartToken = 8
     # A BLOCK-END token.
     YamlBlockEndToken = 9
@@ -372,19 +375,13 @@ lib LibYAML
     _shortbuf : LibC::Char[1]
     _lock : X_IoLockT*
     _offset : X__Off64T
-    __pad1 : Void*
-    __pad2 : Void*
-    __pad3 : Void*
-    __pad4 : Void*
+    _codecvt : X_IoCodecvt*
+    _wide_data : X_IoWideData*
+    _freeres_list : X_IoFile*
+    _freeres_buf : Void*
     __pad5 : LibC::SizeT
     _mode : LibC::Int
     _unused2 : LibC::Char[20]
-  end
-
-  struct X_IoMarker
-    _next : X_IoMarker*
-    _sbuf : X_IoFile*
-    _pos : LibC::Int
   end
 
   struct YamlAliasDataS
@@ -394,6 +391,15 @@ lib LibYAML
     index : LibC::Int
     # The anchor mark.
     mark : YamlMarkT
+  end
+
+  struct YamlAnchorsS
+    # The number of references.
+    references : LibC::Int
+    # The anchor id.
+    anchor : LibC::Int
+    # If the node has been emitted?
+    serialized : LibC::Int
   end
 
   struct YamlDocumentS
@@ -486,7 +492,8 @@ lib LibYAML
     opened : LibC::Int
     # If the stream was already closed?
     closed : LibC::Int
-    anchors : YamlEmitterSAnchors*
+    # The information associated with the document nodes.
+    anchors : YamlAnchorsT*
     # The last assigned anchor id.
     last_anchor_id : LibC::Int
     # The currently emitted document.
@@ -500,15 +507,6 @@ lib LibYAML
     anchor_length : LibC::SizeT
     # Is it an alias?
     alias : LibC::Int
-  end
-
-  struct YamlEmitterSAnchors
-    # The number of references.
-    references : LibC::Int
-    # The anchor id.
-    anchor : LibC::Int
-    # If the node has been emitted?
-    serialized : LibC::Int
   end
 
   struct YamlEmitterSBuffer
@@ -991,6 +989,7 @@ lib LibYAML
 
   type File = X_IoFile
   type YamlAliasDataT = YamlAliasDataS
+  type YamlAnchorsT = YamlAnchorsS
   type YamlBreakT = YamlBreakE
   type YamlDocumentT = YamlDocumentS
   type YamlEmitterStateT = YamlEmitterStateE
