@@ -1,6 +1,7 @@
 module OpenSSL
   @[Link(ldflags: "`command -v pkg-config > /dev/null && pkg-config --libs openssl 2> /dev/null|| printf %s '-lssl -lcrypto'`")]
   lib Lib
+    RAND_F_DATA_COLLECT_METHOD                 =        127
     RAND_F_DRBG_BYTES                          =        101
     RAND_F_DRBG_GET_ENTROPY                    =        105
     RAND_F_DRBG_SETUP                          =        117
@@ -22,8 +23,11 @@ module OpenSSL
     RAND_F_RAND_POOL_ADD                       =        103
     RAND_F_RAND_POOL_ADD_BEGIN                 =        113
     RAND_F_RAND_POOL_ADD_END                   =        114
+    RAND_F_RAND_POOL_ATTACH                    =        124
     RAND_F_RAND_POOL_BYTES_NEEDED              =        115
+    RAND_F_RAND_POOL_GROW                      =        125
     RAND_F_RAND_POOL_NEW                       =        116
+    RAND_F_RAND_PSEUDO_BYTES                   =        126
     RAND_F_RAND_WRITE_FILE                     =        112
     RAND_MAX                                   = 2147483647
     RAND_R_ADDITIONAL_INPUT_TOO_LONG           =        102

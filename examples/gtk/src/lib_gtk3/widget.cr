@@ -150,7 +150,9 @@ lib LibGTK3
     AtkRoleSubscript            = 120
     AtkRoleSuperscript          = 121
     AtkRoleFootnote             = 122
-    AtkRoleLastDefined          = 123
+    AtkRoleContentDeletion      = 123
+    AtkRoleContentInsertion     = 124
+    AtkRoleLastDefined          = 125
   end
   enum GConnectFlags
     GConnectAfter   = 1
@@ -420,7 +422,7 @@ lib LibGTK3
   fun gtk_widget_get_double_buffered(widget : GtkWidget*) : Gboolean
   fun gtk_widget_get_events(widget : GtkWidget*) : Gint
   fun gtk_widget_get_focus_on_click(widget : GtkWidget*) : Gboolean
-  fun gtk_widget_get_font_map(widget : GtkWidget*) : PangoFontMap
+  fun gtk_widget_get_font_map(widget : GtkWidget*) : PangoFontMap*
   fun gtk_widget_get_font_options(widget : GtkWidget*) : CairoFontOptionsT
   fun gtk_widget_get_frame_clock(widget : GtkWidget*) : GdkFrameClock
   fun gtk_widget_get_halign(widget : GtkWidget*) : GtkAlign
@@ -598,7 +600,7 @@ lib LibGTK3
   fun gtk_widget_set_double_buffered(widget : GtkWidget*, double_buffered : Gboolean)
   fun gtk_widget_set_events(widget : GtkWidget*, events : Gint)
   fun gtk_widget_set_focus_on_click(widget : GtkWidget*, focus_on_click : Gboolean)
-  fun gtk_widget_set_font_map(widget : GtkWidget*, font_map : PangoFontMap)
+  fun gtk_widget_set_font_map(widget : GtkWidget*, font_map : PangoFontMap*)
   fun gtk_widget_set_font_options(widget : GtkWidget*, options : CairoFontOptionsT)
   fun gtk_widget_set_halign(widget : GtkWidget*, align : GtkAlign)
   fun gtk_widget_set_has_tooltip(widget : GtkWidget*, has_tooltip : Gboolean)
@@ -1152,6 +1154,10 @@ lib LibGTK3
     _gtk_reserved7 : (-> Void)
   end
 
+  struct X_PangoFontMap
+    parent_instance : GObject
+  end
+
   type AtkObject = X_AtkObject
   type AtkRelationSet = X_AtkRelationSet
   type CairoFontOptionsT = Void*
@@ -1217,7 +1223,7 @@ lib LibGTK3
   type GtkWidgetPath = Void*
   type PangoContext = Void*
   type PangoFontDescription = Void*
-  type PangoFontMap = Void*
+  type PangoFontMap = X_PangoFontMap
   type PangoLayout = Void*
 
   union X_GValueData
