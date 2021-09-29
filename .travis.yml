@@ -7,6 +7,7 @@ matrix:
   # full tests (lint, spec, integration) using the Docker image
   - os: linux
     dist: bionic
+    language: minimal
     install: ~  # do not run default install instructions
     script: docker-compose run --rm -u $UID devel make test
 
@@ -43,24 +44,28 @@ matrix:
     osx_image: xcode11.2
     env: LLVM_VERSION=9
 
-  # publish the documentation on GitHub pages
-  - stage: deploy
-    os: linux
-    install: shards install
-    script: crystal docs
-    deploy:
-      provider: pages
-      local_dir: docs/
-      target_branch: gh-pages
-      github_token: $GITHUB_TOKEN
-      skip_cleanup: true
-      on:
-        branch: master
+  # FIXME: disabled because Travis CI doesn't provide a working Crystal image anymore
+  #        (see https://github.com/travis-ci/travis-build/pull/1987)
+  #
+  ## publish the documentation on GitHub pages
+  #- stage: deploy
+  #  os: linux
+  #  install: shards install
+  #  script: crystal docs
+  #  deploy:
+  #    provider: pages
+  #    local_dir: docs/
+  #    target_branch: gh-pages
+  #    github_token: $GITHUB_TOKEN
+  #    skip_cleanup: true
+  #    on:
+  #      branch: master
 
   # triggers an image build (used with travis' cron jobs to build periodically)
   - stage: deploy
     os: linux
-    install:
+    language: minimal
+    install: ~ # do not run default install instructions
     script: >
       [ $TRAVIS_EVENT_TYPE != "cron" ] || curl -XPOST $DOCKER_CLOUD_TRIGGER_URL
 
