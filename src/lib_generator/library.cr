@@ -49,8 +49,8 @@ class LibGenerator::Library
     @destdir ||= File.join("src", @name.underscore)
   end
 
-  def lib_name : String
-    @name.split("::", remove_empty: true)[-1]
+  def lib_name : Crystal::Path
+    Crystal::Path.new(@name.split("::", remove_empty: true)[-1])
   end
 
   def module_names : Array(String)
