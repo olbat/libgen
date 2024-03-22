@@ -1,4 +1,4 @@
-# Crystal lib generator [![Build Status](https://secure.travis-ci.org/olbat/libgen.png?branch=master)](https://travis-ci.org/olbat/libgen)
+# Crystal lib generator
 
 Libgen is a small tool based on the [crystal_lib](https://github.com/crystal-lang/crystal_lib) project that allows to generate [libs](https://crystal-lang.org/docs/syntax_and_semantics/c_bindings/lib.html) following rules specified in config files.
 
