@@ -176,15 +176,15 @@ describe "LibGenerator::Library" do
   describe "lib_name" do
     it "returns the lib name when no namespace is included in library name" do
       library = LibGenerator::Library.new("LibFoo", "-lfoo", ["bar.yml"])
-      library.lib_name.should eq "LibFoo"
+      library.lib_name.to_s.should eq "LibFoo"
     end
 
     it "returns the lib name when a namespace is included in library name" do
       library = LibGenerator::Library.new("Foo::Lib", "-lfoo", ["bar.yml"])
-      library.lib_name.should eq "Lib"
+      library.lib_name.to_s.should eq "Lib"
 
       library = LibGenerator::Library.new("Foo::Bar::Lib", "-lfoo", ["bar.yml"])
-      library.lib_name.should eq "Lib"
+      library.lib_name.to_s.should eq "Lib"
     end
   end
 
