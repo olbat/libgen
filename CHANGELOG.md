@@ -1,3 +1,6 @@
+# 0.2.12 (25-04-2025)
+- Bump version of crystal_lib, clang.cr and test compatibility with LLVM 18
+
 # 0.2.11 (17-04-2020)
 - Add support for Crystal >= 1.x
 
